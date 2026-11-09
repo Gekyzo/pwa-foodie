@@ -6,6 +6,7 @@ const SHELL = [
   './vendor/design-system/design-system.css',
   './vendor/design-system/sheet.js',
   './vendor/design-system/geist.woff2',
+  './fonts/plus-jakarta-sans.woff2',
   './styles.css',
   './icons.svg',
   './manifest.webmanifest',

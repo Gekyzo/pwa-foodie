@@ -30,6 +30,13 @@ This document holds the rules of the app only.
   of a row of Preferences lies over the row (SET-1).
 - **DSV-4** A change of a shared part is made in `pwa-design-system`, then `npm run ds` here.
   Nothing edits `vendor/` by hand, and `npm run init` copies it as it is (ENG-17).
+- **DSV-5** The look is Warm Gourmet of `DESIGN.md`. The tokens layer of `styles.css` sets it
+  over the shared tokens, and the shared sheet does not change. Each colour has a light and a dark
+  value (`light-dark()`). Text on `--primary` and on `--done` has a contrast of 4.5:1 or more in
+  both themes, so `--primary` is a dark paprika and `--paprika` is the brand hue for art only. The
+  font is Plus Jakarta Sans, from `fonts/plus-jakarta-sans.woff2` of the app (latin, variable,
+  SIL OFL, `fonts/OFL.txt`), in `SHELL` of `sw.js` (SW-2), so it shows offline. No font comes from
+  the network.
 
 ## Parts of the app
 
@@ -37,5 +44,5 @@ The parts of `styles.css`, by layer. The shared parts are in the design system.
 
 | Layer | Parts |
 |---|---|
-| tokens | `--primary` and `--on-primary` take `--done` and `--on-done`: one green for the main action, the walkthrough art and the checked state |
+| tokens | Warm Gourmet (DSV-5): the font Plus Jakarta Sans; `--bg`, `--surface`, `--surface-2`, `--text`, `--muted`, `--line`, `--control`; `--primary` dark paprika with `--on-primary`, `--paprika` for art, `--done` basil with `--on-done` and `--done-soft`, `--ink`, `--secondary`; `--wheel-1` to `--wheel-4` (paprika, basil, saffron, cocoa); `--radius-l` 24px for cards, `--radius-card` 32px for the hero card, capsule buttons, `--radius-xl` 32px sheets; a warm `--shadow-l` |
 | screens | settings: `settings` (version of `list-group`), `about`, `version-status` · nav: `dust` · onboarding: `onboarding`, `onboarding-art` |

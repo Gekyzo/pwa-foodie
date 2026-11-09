@@ -4,7 +4,7 @@ User-visible changes, newest first.
 
 ## Unreleased
 
-No change.
+- The Warm Gourmet look of `DESIGN.md` (DSV-5): cream, paprika and basil tokens with a light and a dark value each, `--wheel-1` to `--wheel-4`, 24px cards, capsule buttons and the font Plus Jakarta Sans, self-hosted in `fonts/` (SIL OFL) and cached in `SHELL`. `--primary` is the dark paprika `#b33f00`, so white text on it reaches 5.8:1.
 
 ## 0.1.1 - 2026-11-09
 

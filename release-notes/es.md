@@ -4,7 +4,7 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
-No change.
+- La app tiene un aspecto nuevo: tonos crema, pimentón y albahaca, botones redondeados y una letra nueva. Funciona también sin conexión y en el tema oscuro.
 
 ## 0.1.1 - 2026-11-09
 

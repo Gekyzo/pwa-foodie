@@ -1,10 +1,48 @@
 @layer tokens, base, components, layouts, screens;
 
 @layer tokens {
+  /* The font of DESIGN.md: Plus Jakarta Sans, variable 200-800, latin subset, SIL OFL
+     (fonts/OFL.txt). It is in SHELL of sw.js (SW-2), so it shows offline. */
+  @font-face {
+    font-family: "Plus Jakarta Sans";
+    src: url("fonts/plus-jakarta-sans.woff2") format("woff2");
+    font-weight: 200 800;
+    font-display: swap;
+  }
+
+  /* The Warm Gourmet look of DESIGN.md: clotted cream, paprika and basil. Each colour has a
+     light and a dark value. Text on --primary and on --done is at least 4.5:1 in both themes. */
   :root {
-    /* The colour of the app: one green for the main action, the walkthrough art and the checked state. */
-    --primary: var(--done);
-    --on-primary: var(--on-done);
+    --font: "Plus Jakarta Sans", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+
+    --bg: light-dark(#faf8f5, #16120f); /* clotted cream */
+    --surface: light-dark(#ffffff, #201a16); /* cards, rows, header, sheets */
+    --surface-2: light-dark(#f3eeea, #2a231e); /* trays, fields, filter sheets */
+    --text: light-dark(#1a1a1a, #f5f0eb); /* charred truffle */
+    --muted: light-dark(#6b564c, #b9aa9f);
+    --line: light-dark(#e9e2da, #3a312a);
+    --control: light-dark(#d7ccc8, #4a4039);
+    --primary: light-dark(#b33f00, #ff8f59); /* paprika, dark enough for white text: 5.8:1 */
+    --on-primary: light-dark(#ffffff, #2a0e00); /* 5.8:1 light, 8.0:1 dark */
+    --paprika: light-dark(#e65100, #ff7a2f); /* the brand hue for art and the wheel, never under text */
+    --done: light-dark(#2e7d32, #7cc57f); /* basil */
+    --on-done: light-dark(#ffffff, #0b1f0c); /* 5.1:1 light, 8.4:1 dark */
+    --done-soft: light-dark(#e8f5e9, #1e3320);
+    --ink: light-dark(#1a1a1a, #f5f0eb);
+    --on-ink: light-dark(#ffffff, #1a1a1a);
+    --secondary: light-dark(#fbe9e7, #3d2a20); /* a paprika tint: the current nav item */
+    --wheel-1: var(--paprika); /* the segments of the roulette */
+    --wheel-2: light-dark(#2e7d32, #66bb6a); /* basil */
+    --wheel-3: light-dark(#f4511e, #ff7043); /* saffron */
+    --wheel-4: light-dark(#5d4037, #a1887f); /* cocoa */
+
+    --radius-control: 16px; /* inputs, chips */
+    --radius-m: var(--radius-pill); /* buttons are capsules */
+    --radius-l: 24px; /* cards, groups, banner */
+    --radius-card: 32px; /* the hero card */
+    --radius-xl: 32px; /* top of a sheet */
+
+    --shadow-l: 0 16px 40px -6px rgb(26 26 26 / 0.12), 0 0 0 1px var(--line); /* floating bar, sheets, toasts */
   }
 }
 
@@ -24,7 +62,9 @@
   }
 
   button,
-  input {
+  input,
+  select,
+  textarea {
     font: inherit;
     color: inherit;
   }
