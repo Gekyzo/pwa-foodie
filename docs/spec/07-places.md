@@ -4,7 +4,8 @@ The domain of the app: restaurants, the dishes of each, and where they are, and 
 section that shows them. Its files are `src/places.js`, `src/dishes.js`, `src/cuisines.js`,
 `src/geo.js`, `src/filters.js`, the views `src/ui/explore.js` and `src/ui/place.js`, their tests,
 the `cuisine.*`, `explore.*`, `place.*`, `places.count` and `tier.*` keys and the `error.*` keys of
-the places in the catalogs, the `#explore` section and the `#place-sheet` of `index.html`.
+the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` section, the
+`#place-sheet` and the `#dish-sheet` of `index.html`, and `src/ui/position.js`.
 
 ## Doc
 
@@ -93,20 +94,42 @@ the places in the catalogs, the `#explore` section and the `#place-sheet` of `in
 - **PLC-23** **+** and **Add place** open the sheet of a new place. A tap on a card opens its
   detail (LAY-3); from 840px the card of the open place is marked. A tap on the heart flips the
   favourite (PLC-9). A card slides left to show **Delete** (PLC-26).
-- **PLC-24** The detail shows the large tile, the name, `place.meta`, the tier and the rating, the
-  heart, **Edit**, **Delete**, the note, and the dishes, star dishes first (`sortDishes`), each
-  with its name and its price in EUR in the language of the screen. With no dish it shows
-  `place.noDishes`. **Back** and Escape close it.
+- **PLC-24** The detail shows the large tile, the name, `place.meta`, the tier, the rating and the
+  distance from a fresh fix (LOC-6, LOC-7), the heart, **Route**, **Edit**, **Delete**, the note,
+  and the dishes, star dishes first (`sortDishes`). A dish shows its star, its name, its rating,
+  its note on one line and its price in EUR in the language of the screen
+  (`Intl.NumberFormat`, so 1450 is `14,50 €` in Spanish and `€14.50` in English). With no dish it
+  shows `place.noDishes`. **Back** and Escape close it.
 - **PLC-25** The place sheet has a name (80 characters), a cuisine (a select of `CUISINES`;
   `other` for a new place), an area (60 characters), a tier (four segments, `€` to `€€€€`; 2 for a
   new place), a rating (five stars; a tap on the current rating clears it) and a note (280
-  characters). **Save** runs `addPlace` or `editPlace`; an error shows in the toast and the sheet
-  stays open. **Close**, a tap on the veil, a drag down of the head and Escape close it with no
-  save.
-- **PLC-26** **Delete**, in the detail or behind a card, runs `deletePlace`. The toast
-  `toast.placeDeleted` offers **Undo** for 5 seconds.
+  characters), with the location of PLC-28 before the note. **Save** runs `addPlace` or
+  `editPlace`; an error shows in the toast and the sheet stays open. **Close**, a tap on the veil,
+  a drag down of the head and Escape close it with no save. Only one sheet is open at a time
+  (`ui.sheet` is `place`, `dish` or null), and Escape closes that one.
+- **PLC-26** **Delete**, in the detail or behind a card, runs `deletePlace`. A card that shows
+  closes first (`collapse`). The toast `toast.placeDeleted` offers **Undo** for 5 seconds.
 - **PLC-27** Export writes the places doc. Import reads a file through `normalizePlaces` and asks
   `import.confirm` with the count `places.count` before it replaces the doc.
+- **PLC-28** The location field of the place sheet shows the location as `location.pair` (lat and
+  lng to 5 decimals) or `location.none`. **Use my position** reads the position once (LOC-7) and
+  puts it in the field; an error shows in the toast. **Clear** empties the field. The link field
+  and **Apply** (or Enter) read the text with `parseLocation`; an error (`error.shortLink`,
+  `error.locationInvalid`) shows in the toast and the field stays as it was. **Apply** is off
+  while the link is blank, **Clear** while there is no location. The location is stored only on
+  **Save**.
+- **PLC-29** **Route** is a link to `routeUrl` of the location, opened in a new tab with
+  `rel="noopener"`. It is hidden when the place has no location.
+- **PLC-30** **Add dish**, beside the title of the dishes, opens the dish sheet of a new dish, and
+  a tap on a dish opens it to edit. The sheet has a name (80 characters), a price (a text field
+  read by `parsePrice`; the field of a dish to edit shows the price with two decimals in the
+  language of the screen), **Star dish** (a switch), a rating (five stars; a tap on the current
+  rating clears it) and a note (280 characters). **Save** runs `addDish` or `editDish`; an error,
+  of the price too, shows in the toast and the sheet stays open. **Close**, a tap on the veil, a
+  drag down of the head and Escape close it with no save.
+- **PLC-31** **Delete dish**, in the sheet of a dish to edit, closes the sheet, closes the row of
+  the dish (`collapse`) and runs `deleteDish`. The toast `toast.dishDeleted` offers **Undo** for 5
+  seconds.
 
 ## Location
 
@@ -124,3 +147,11 @@ the places in the catalogs, the `#explore` section and the `#place-sheet` of `in
   `FIX_MS` (600000 ms, 10 minutes).
 - **LOC-6** `distanceLabel` below 1 km is `distance.m` with metres rounded to 50 and at least 50.
   From 1 km it is `distance.km` with km to one decimal.
+- **LOC-7** `readPosition` reads the Geolocation API once, with a timeout of 10000 ms and a
+  `maximumAge` of 60000 ms. A read that works gives `{ location }` and keeps the fix
+  `{ location, at }` in memory (`setFix` of `src/ui/context.js`); it is never stored. A refusal is
+  `error.positionDenied`, and any other failure, or no Geolocation API, is
+  `error.positionUnavailable`. `currentFix` gives the fix while it is fresh (LOC-5), else `null`.
+- **LOC-8** The app never asks for the position without a tap. `silentFix` reads the position
+  only when the Permissions API says `granted` for `geolocation`; any failure leaves the fix as
+  it was, with no message.

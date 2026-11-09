@@ -96,7 +96,7 @@ const cuisineNames = () => Object.fromEntries(CUISINES.map(({ id }) => [id, t(`c
 export const renderExplore = () => {
   const visible = ui.view === 'explore';
   $('explore').hidden = !visible;
-  $('fab').hidden = !visible || ui.sheetOpen;
+  $('fab').hidden = !visible || ui.sheet !== null;
   if (ui.openId && !state.places.some((place) => place.id === ui.openId)) ui.openId = null;
   // Until the filter chips come, the filters are the defaults (PLC-20).
   const rows = visiblePlaces(state, DEFAULT_FILTERS, { query: ui.query, position: null, names: cuisineNames() });

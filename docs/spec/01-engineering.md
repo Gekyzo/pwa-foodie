@@ -25,12 +25,13 @@
 | `src/onboarding.js` | The show rule and the page steps of the walkthrough (optional) | nothing |
 | `src/ui/context.js` | The values that the views share, the toast, `render`, `commit` and `apply` | `places`, `storage`, `i18n`, `onboarding` |
 | `src/ui/controls.js` | The icon builder and the side-action button | `ui/context` |
-| `src/ui/motion.js` | Row collapse, expand and slide animations | `ui/context` |
+| `src/ui/motion.js` | Row collapse and expand animations: a deleted card or dish closes before it leaves | `ui/context` |
 | `src/ui/update.js` | The version line, the check, the refresh and the update toast | `version`, `i18n`, `ui/context` |
 | `src/ui/install.js` | The Install button | `install`, `ui/context` |
 | `src/ui/nav.js` | The navigation, the change and the slide of a section | `sections`, `modules`, `ui/context`, `ui/update`, `ui/dust` |
 | `src/ui/explore.js` | The Explore section: the search, the cards, the empty state and the add button (PLC-20 to PLC-23) | `cuisines`, `dishes`, `filters`, `swipe`, `ui/context`, `ui/controls`, `ui/place` |
-| `src/ui/place.js` | The detail of a place, its place sheet, the favourite and the delete with Undo (PLC-24 to PLC-27) | `cuisines`, `places`, `dishes`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/nav` |
+| `src/ui/place.js` | The detail of a place, its place sheet with the location, the dish sheet, Route, the favourite and the delete with Undo (PLC-24 to PLC-31) | `cuisines`, `places`, `dishes`, `geo`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/motion`, `ui/nav`, `ui/position` |
+| `src/ui/position.js` | The position of the phone: one read, the fresh fix and the read with no prompt (LOC-7, LOC-8) | `geo`, `ui/context` |
 | `src/ui/settings.js` | Settings, Delete all data (SET-2), and the text of the page in its language | `places`, `storage`, `i18n`, `modules`, `ui/context`, `ui/update`, `ui/onboarding`, `ui/account` |
 | `src/ui/dust.js` | The dust of a navigation item (optional) | `particles`, `ui/context`, `ui/controls` |
 | `src/ui/onboarding.js` | The walkthrough (optional) | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |

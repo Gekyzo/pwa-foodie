@@ -51,11 +51,12 @@
               <button id="place-fav" class="button icon place-fav" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#heart"/></svg></button>
             </header>
             <div class="cluster">
+              <a id="place-route" class="button tonal" target="_blank" rel="noopener" hidden><svg class="icon small" aria-hidden="true"><use href="icons.svg#route"/></svg><span data-i18n="place.route"></span></a>
               <button id="place-edit" class="button outline" type="button" data-i18n="place.edit"></button>
               <button id="place-delete" class="button outline danger" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="place.delete"></span></button>
             </div>
             <p id="place-remark" class="place-remark"></p>
-            <h3 class="place-dishes-title" data-i18n="place.dishes"></h3>
+            <div class="place-dishes-head"><h3 class="place-dishes-title" data-i18n="place.dishes"></h3><button id="dish-add" class="button outline" type="button" data-i18n="dish.add"></button></div>
             <ul id="place-dishes" class="dish-list"></ul>
             <p id="place-no-dishes" class="empty-state inline" data-i18n="place.noDishes"></p>
           </div>
@@ -170,9 +171,34 @@
             <legend class="field-label" data-i18n="place.rating"></legend>
             <div class="rating-picker"><button class="button icon rating-star" type="button" data-rating="1"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="2"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="3"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="4"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="5"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button></div>
           </fieldset>
+          <fieldset class="place-group place-location">
+            <legend class="field-label" data-i18n="location.title"></legend>
+            <p id="place-location" class="place-location-pair"></p>
+            <div class="cluster"><button id="location-here" class="button tonal" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#pin"/></svg><span data-i18n="location.here"></span></button><button id="location-clear" class="button outline" type="button" data-i18n="location.clear"></button></div>
+            <div class="input-row"><input id="location-link" class="input" type="text" inputmode="url" data-i18n-attr="aria-label:location.paste,placeholder:location.paste"><button id="location-apply" class="button primary" type="button" data-i18n="location.apply"></button></div>
+          </fieldset>
           <label class="field"><textarea id="place-note" class="input field-input" maxlength="280" rows="3" data-i18n-attr="placeholder:place.note"></textarea><span class="field-label" data-i18n="place.note"></span></label>
         </div>
         <footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="place.save"></button></footer>
+      </form>
+    </div>
+
+    <div id="dish-sheet" class="sheet-layer" hidden>
+      <div id="dish-veil" class="sheet-veil"></div>
+      <form id="dish-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="dish-sheet-title" autocomplete="off">
+        <div class="sheet-grab"></div>
+        <header class="sheet-head"><h2 id="dish-sheet-title" class="sheet-title main"></h2><button id="dish-close" class="button tonal" type="button" data-i18n="dish.close"></button></header>
+        <div class="sheet-body">
+          <label class="field"><input id="dish-name" class="input field-input" type="text" maxlength="80" required data-i18n-attr="placeholder:dish.name"><span class="field-label" data-i18n="dish.name"></span></label>
+          <label class="field"><input id="dish-price" class="input field-input" type="text" inputmode="decimal" maxlength="12" data-i18n-attr="placeholder:dish.priceHint"><span class="field-label" data-i18n="dish.price"></span></label>
+          <label class="switch"><span data-i18n="dish.star"></span><input id="dish-star" class="switch-input" type="checkbox" role="switch"></label>
+          <fieldset class="place-group">
+            <legend class="field-label" data-i18n="dish.rating"></legend>
+            <div class="rating-picker"><button class="button icon rating-star" type="button" data-rating="1"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="2"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="3"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="4"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="5"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button></div>
+          </fieldset>
+          <label class="field"><textarea id="dish-note" class="input field-input" maxlength="280" rows="3" data-i18n-attr="placeholder:dish.note"></textarea><span class="field-label" data-i18n="dish.note"></span></label>
+        </div>
+        <footer class="sheet-foot"><button id="dish-delete" class="button outline danger" type="button" hidden><svg class="icon small" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="dish.delete"></span></button><button class="button primary wide" type="submit" data-i18n="dish.save"></button></footer>
       </form>
     </div>
 
@@ -255,6 +281,7 @@
           "#ui/nav": "./src/ui/nav.js",
           "#ui/explore": "./src/ui/explore.js",
           "#ui/place": "./src/ui/place.js",
+          "#ui/position": "./src/ui/position.js",
           "#ui/settings": "./src/ui/settings.js",
           "#swipe": "./src/swipe.js",
           "#particles": "./src/particles.js",

@@ -280,12 +280,17 @@
      @part place-title       The name of the place.
      @part place-meta        The cuisine and the area.
      @part place-remark      The note of the place. Its line breaks stay.
+     @part place-dishes-head The title above the dishes, and Add dish at its end.
      @part place-dishes-title  The title above the dishes.
-     @part dish-list         The dishes.
-     @part dish-row          One dish: a star for a star dish, the name and the price.
+     @part dish-list         The dishes. A deleted row closes before it leaves.
+     @part dish-row          One dish, a rounded row on --surface.
+     @part dish-row-open     The button that edits the dish: a star for a star dish, the text and the price.
+     @part dish-row-text     The name, then the rating and the note.
      @part dish-row-name     The name of a dish.
+     @part dish-row-meta     The rating and the note of a dish, in muted text.
+     @part dish-row-note     The note of a dish, on one line.
      @part dish-row-price    The price of a dish, in --primary.
-     @example <div class="place-view" style="width: 100%"><header class="place-head"><span class="place-tile large" data-wheel="3">🌮</span><div class="place-head-text"><h2 class="place-title">La Taquería del Sol</h2><p class="place-meta">Mexicana · Chueca</p><p class="place-facts"><span>€€</span></p></div></header><p class="place-remark">Ask for the terrace.</p><h3 class="place-dishes-title">Dishes</h3><ul class="dish-list"><li class="dish-row"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span class="dish-row-name">Tacos de birria</span><span class="dish-row-price">14,50 €</span></li></ul></div> */
+     @example <div class="place-view" style="width: 100%"><header class="place-head"><span class="place-tile large" data-wheel="3">🌮</span><div class="place-head-text"><h2 class="place-title">La Taquería del Sol</h2><p class="place-meta">Mexicana · Chueca</p><p class="place-facts"><span>€€</span></p></div></header><p class="place-remark">Ask for the terrace.</p><div class="place-dishes-head"><h3 class="place-dishes-title">Dishes</h3><button class="button outline" type="button">Add dish</button></div><ul class="dish-list"><li class="dish-row"><button class="dish-row-open" type="button"><svg class="icon small" role="img" aria-label="Star dish"><use href="icons.svg#star"/></svg><span class="dish-row-text"><span class="dish-row-name">Tacos de birria</span><span class="dish-row-meta"><span class="place-rating"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span>5</span></span><span class="dish-row-note">With extra consommé</span></span></span><span class="dish-row-price">14,50 €</span></button></li></ul></div> */
   .place-view {
     max-width: var(--content-max);
   }
@@ -321,8 +326,16 @@
     overflow-wrap: anywhere;
   }
 
-  .place-dishes-title {
+  .place-dishes-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
     margin: var(--space-5) 0 var(--space-2);
+  }
+
+  .place-dishes-title {
+    margin: 0;
     font-size: var(--text-h);
   }
 
@@ -335,29 +348,72 @@
     list-style: none;
   }
 
+  /* `collapse` in motion.js sets the height of a row that leaves. */
+  .dish-list > .leaving,
+  .place-list > .leaving {
+    overflow: hidden;
+    min-height: 0;
+    opacity: 0;
+    transition: height var(--motion) var(--ease), opacity var(--motion) var(--ease);
+  }
+
   .dish-row {
-    display: flex;
-    align-items: center;
-    gap: var(--space-2);
-    min-height: var(--tap);
-    padding: var(--space-2) var(--space-4);
     border: 1px solid var(--line);
     border-radius: var(--radius-l);
     background: var(--surface);
   }
 
-  .dish-row > .icon {
+  .dish-row-open {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    width: 100%;
+    min-height: var(--tap);
+    padding: var(--space-2) var(--space-4);
+    border: 0;
+    border-radius: inherit;
+    background: none;
+    color: inherit;
+    font: inherit;
+    text-align: start;
+  }
+
+  .dish-row-open > .icon {
+    flex: none;
     color: var(--primary);
     fill: currentColor;
   }
 
-  .dish-row-name {
+  .dish-row-text {
     flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
     min-width: 0;
+  }
+
+  .dish-row-name {
     overflow-wrap: anywhere;
   }
 
+  .dish-row-meta {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-width: 0;
+    color: var(--muted);
+    font-size: var(--text-s);
+  }
+
+  .dish-row-note {
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
   .dish-row-price {
+    flex: none;
     color: var(--primary);
     font-weight: var(--weight-strong);
   }
@@ -369,6 +425,8 @@
      @part tier-picker    The segmented of the four tiers, € to €€€€.
      @part rating-picker  Five star buttons. A tap on the current rating clears it.
      @part rating-star    One star, a button icon. The stars up to the rating have aria-pressed="true".
+     @part place-location       The location group: the pair, Use my position and Clear, then the link and Apply.
+     @part place-location-pair  The location as "lat, lng", or no location.
      @example <fieldset class="place-group" style="width: 100%"><legend class="field-label">Price per person</legend><div class="segmented tier-picker"><button class="segment" type="button" aria-pressed="false">€</button><button class="segment" type="button" aria-pressed="true">€€</button><button class="segment" type="button" aria-pressed="false">€€€</button><button class="segment" type="button" aria-pressed="false">€€€€</button></div></fieldset>
      @example <div class="rating-picker"><button class="button icon rating-star" type="button" aria-pressed="true" aria-label="1 star"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" aria-pressed="false" aria-label="2 stars"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button></div> */
   .place-group {
@@ -393,6 +451,15 @@
 
   .tier-picker:has(> .segment:nth-child(4)[aria-pressed="true"]) {
     --segment-index: 3;
+  }
+
+  .place-location-pair {
+    margin: var(--space-2) 0 0;
+    font-variant-numeric: tabular-nums;
+  }
+
+  .place-location > .cluster {
+    margin: var(--space-2) 0;
   }
 
   .rating-picker {

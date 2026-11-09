@@ -80,9 +80,12 @@ export const ui = {
   view: 'explore',
   // The place whose detail is open, or null.
   placeId: null,
-  sheetOpen: false,
-  // The place that the sheet edits, or null for a new place.
+  // The open sheet of a place: `place` or `dish`, or null.
+  sheet: null,
+  // The place that the place sheet edits, or null for a new place.
   editing: null,
+  // The dish that the dish sheet edits, or null for a new dish of the open place.
+  dishId: null,
   // The search text of Explore. It is not stored.
   query: '',
   // The place card whose side actions are open, or null.
@@ -177,6 +180,12 @@ export const setTheme = (value) => {
 export const setModules = (next) => {
   off = next;
   if (storage) saveModules(storage, off);
+};
+
+// The last position fix, `{ location, at }`, or null. It lives in memory only (LOC-7).
+export let fix = null;
+export const setFix = (value) => {
+  fix = value;
 };
 
 // Set by a switch of Modules, so that the render that follows animates the navigation (MOD-3).

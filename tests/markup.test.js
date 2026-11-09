@@ -62,6 +62,43 @@ test('the place sheet has a head with its title and Close, a body, and Save in i
   assert.match(layer, /<footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="place.save"><\/button><\/footer>\s*<\/form>/);
 });
 
+test('the place sheet has the location field: the pair, Use my position, Clear, and a link with Apply (PLC-28)', () => {
+  const layer = placeSheet();
+  const [group = ''] = layer.match(/<fieldset class="place-group place-location">[\s\S]*?<\/fieldset>/) ?? [];
+  assert.match(group, /<legend class="field-label" data-i18n="location.title"><\/legend>/);
+  assert.match(group, /<p id="place-location" class="place-location-pair"><\/p>/);
+  assert.match(group, /<div class="cluster"><button id="location-here" class="button tonal" type="button">[\s\S]*?<span data-i18n="location.here"><\/span><\/button><button id="location-clear" class="button outline" type="button" data-i18n="location.clear"><\/button><\/div>/);
+  assert.match(group, /<div class="input-row"><input id="location-link" class="input" type="text" inputmode="url" data-i18n-attr="aria-label:location.paste,placeholder:location.paste"><button id="location-apply" class="button primary" type="button" data-i18n="location.apply"><\/button><\/div>/);
+  // The location comes before the note.
+  assert.ok(layer.indexOf('place-location') < layer.indexOf('place-note'));
+});
+
+const dishSheet = () => body.match(/<div id="dish-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/)?.[0] ?? '';
+
+test('the dish sheet has a veil, a dialog and the fields with their maximum lengths (PLC-30)', () => {
+  const layer = dishSheet();
+  assert.match(layer, /<div id="dish-veil" class="sheet-veil">/);
+  assert.match(layer, /<form id="dish-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="dish-sheet-title"/);
+  assert.match(layer, /<input id="dish-name" class="input field-input" type="text" maxlength="80" required/);
+  assert.match(layer, /<input id="dish-price" class="input field-input" type="text" inputmode="decimal"/);
+  assert.match(layer, /<label class="switch"><span data-i18n="dish.star"><\/span><input id="dish-star" class="switch-input" type="checkbox" role="switch"><\/label>/);
+  assert.match(layer, /<textarea id="dish-note" class="input field-input" maxlength="280"/);
+  const stars = [...layer.matchAll(/<button class="button icon rating-star" type="button" data-rating="(\d)"/g)].map(([, n]) => n);
+  assert.deepEqual(stars, ['1', '2', '3', '4', '5']);
+});
+
+test('the dish sheet has a head with its title and Close, a body, and Delete and Save in its foot', () => {
+  const layer = dishSheet();
+  assert.match(layer, /<header class="sheet-head"><h2 id="dish-sheet-title" class="sheet-title main"><\/h2><button id="dish-close" class="button tonal" type="button" data-i18n="dish.close"><\/button><\/header>\s*<div class="sheet-body">/);
+  assert.match(layer, /<footer class="sheet-foot"><button id="dish-delete" class="button outline danger" type="button" hidden>[\s\S]*?<span data-i18n="dish.delete"><\/span><\/button><button class="button primary wide" type="submit" data-i18n="dish.save"><\/button><\/footer>\s*<\/form>/);
+});
+
+test('the detail has Route, a link that opens in a new tab, and Add dish beside the dishes (PLC-29, PLC-30)', () => {
+  const [view = ''] = body.match(/<div id="place-view" class="place-view" hidden>[\s\S]*?<\/article>/) ?? [];
+  assert.match(view, /<a id="place-route" class="button tonal" target="_blank" rel="noopener" hidden>[\s\S]*?<span data-i18n="place.route"><\/span><\/a>/);
+  assert.match(view, /<div class="place-dishes-head"><h3 class="place-dishes-title" data-i18n="place.dishes"><\/h3><button id="dish-add" class="button outline" type="button" data-i18n="dish.add"><\/button><\/div>/);
+});
+
 test('Explore is a pane: the search and the cards in the list, the place in the detail (LAY-3)', () => {
   const [section = ''] = body.match(/<section id="explore" class="pane">[\s\S]*?<\/section>/) ?? [];
   assert.match(section, /<div class="pane-list">[\s\S]*<input id="explore-query" class="input explore-search" type="search"/);

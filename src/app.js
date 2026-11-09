@@ -1,7 +1,7 @@
 import { $, ui, storage, t, setRender, render, showToast, hideToast, toastAction, clickGuardUntil } from '#ui/context';
 import { bind as bindNav, renderNav, setView } from '#ui/nav';
 import { bind as bindExplore, renderExplore } from '#ui/explore';
-import { bind as bindPlace, renderPlace, closePlaceSheet } from '#ui/place';
+import { bind as bindPlace, renderPlace, closeSheet } from '#ui/place';
 import { bind as bindSettings, applyLanguage } from '#ui/settings';
 import { bind as bindInstall, renderInstall } from '#ui/install';
 import { readVersion, renderVersion, offerUpdate } from '#ui/update';
@@ -63,7 +63,7 @@ document.addEventListener('keydown', (event) => {
     closeWhatsNew();
     return;
   }
-  if (ui.sheetOpen) closePlaceSheet();
+  if (ui.sheet !== null) closeSheet();
   else if (ui.placeId !== null) {
     ui.placeId = null;
     render();
