@@ -2,19 +2,25 @@
 
 Track the restaurants and dishes you like, filter them by price or distance, and spin a
 roulette to choose what to eat. An offline Android PWA in plain HTML, CSS and ES modules: no
-build step and no dependencies. Built from `pwa-template`, it has:
+build step and no dependencies.
 
-- an offline service worker, an update check with an update toast, and an install button;
-- an adaptive layout: a bottom bar on a phone, a rail on a tablet, list and detail side by side
-  on a wide screen;
-- a design system with a live catalogue at `/designs/`;
-- English and Spanish text, light and dark themes, a left-hand mode;
-- a release script and a GitHub Pages deploy on a version tag;
-- structural tests that keep the layers, the text, the design system and the specification in step.
+- **Explore** lists your places as cards, nearest first with your position, else newest first,
+  with a search by name, area, cuisine or dish. A place has a cuisine, an area, a price tier
+  (`€` to `€€€€`), a rating, a note, a location and its dishes. A dish has a price in EUR, a
+  rating, a note and a star mark.
+- **Location**: use your position, or paste a Google Maps link or `lat, lng`. A place with a
+  location shows its distance and a **Route** link.
+- **Filters**: price tier, maximum dish price, distance, favourites and cuisine. Explore and the
+  roulette share them.
+- **Roulette** spins among the places or the dishes that pass the filters, and opens the
+  winner.
+- **Settings**: language (English, Spanish), theme, left hand, export and import of the data,
+  Delete all data, and the introduction again.
 
-Explore lists your restaurants as cards, with a search, a detail and an add sheet. The dishes,
-the filters and the roulette come next. The target design is the Stitch project "Social Food Roulette PWA"; `DESIGN.md` holds its
-design system.
+It works offline, installs from Settings and updates itself. The layout adapts: a bottom bar on a
+phone, a rail on a tablet, list and detail side by side on a wide screen. Built from
+`pwa-template`; the design system has a live catalogue at `/designs/`. The target design is the
+Stitch project "Social Food Roulette PWA"; `DESIGN.md` holds its design system.
 
 ## Develop
 

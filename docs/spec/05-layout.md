@@ -53,7 +53,9 @@ a result shows, the wheel and the result card stand side by side (RUL-10).
 
 - **ONB-1** The walkthrough shows at the start of a new install only: no `pwa-foodie.onboarded`
   flag and no stored doc. A storage that cannot be read counts as seen.
-- **ONB-2** It has the pages of `PAGES`, each with a drawing, a title and a text. **Next** goes
-  forward, **Skip** and Escape close it, a slide or the arrow keys turn a page. The last page has
-  **Start** in place of **Next**, and no **Skip**.
+- **ONB-2** It has the pages of `PAGES`, each with a drawing, a title and a text: add your
+  places and dishes (`places`), filter by price and distance (`filters`) and spin the roulette
+  (`roulette`). A text names a control as a key, such as `+`. **Next** goes forward, **Skip**
+  and Escape close it, a slide or the arrow keys turn a page. The last page has **Start** in
+  place of **Next**, and no **Skip**.
 - **ONB-3** A close stores the flag. **Show the introduction** in Settings opens it again.

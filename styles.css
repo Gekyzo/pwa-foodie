@@ -656,6 +656,15 @@
       max-width: var(--roulette-max);
     }
 
+    /* The switch and the chips stand centred over the wheel. */
+    .roulette-mode {
+      margin-inline: auto;
+    }
+
+    .roulette .filter-bar {
+      justify-content: safe center;
+    }
+
     .roulette-stage:has(> .roulette-result:not([hidden])) {
       grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
       align-items: center;

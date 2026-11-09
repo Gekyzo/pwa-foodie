@@ -4,12 +4,11 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
-- The app has a new look: cream, paprika and basil colours, round buttons and a new font. It also works offline and in the dark theme.
-- **Explore** replaces the notes: add your restaurants with their cuisine, area, price (€ to €€€€), your rating and a note. Each place is a card with its star dishes and a heart for your favourites. Search by name, area, cuisine or dish, with or without accents. Tap a card to see the place; slide a card to the left to delete it, with **Undo**.
-- Add the dishes of each place with **Add dish**: their price, your rating, a note and whether it is a star dish. Star dishes come first. Tap a dish to change or delete it, with **Undo**.
-- Save where each place is: **Use my position**, or paste a Google Maps link or "lat, lng". **Route** opens the directions in Google Maps.
-- Filter the places with the buttons under the search: **Price** (€ to €€€€), **Distance** (less than 1, 2, 5 or 10 km from you), **Favourites** and **Cuisine**. With your position, each card shows how far it is and the nearest places come first. Your filters stay on the phone. **Can't decide?** takes you to the roulette.
-- The **Roulette** spins: choose **Places** or **Dishes**, use the same filters as in Explore and tap the centre. With **Dishes** you can set a **Max price**. The result shows the place or the dish, with **Let's go** to get there with Google Maps, **Open** to see the place and **Spin again**, which leaves out the last result when there are 3 options or more. With more than 12 options the wheel takes 12 at random. If your phone asks for less motion, the result shows at once.
+- Spinach now keeps your restaurants. In **Explore** you add each place with its cuisine, area, price (€ to €€€€), your rating, a note and where it is: **Use my position**, or paste a Google Maps link or "lat, lng". Each place is a card with its star dishes and a heart for your favourites. Search by name, area, cuisine or dish, with or without accents. Slide a card to the left to delete it, with **Undo**.
+- Open a place to see its dishes and add more with **Add dish**: their price, your rating, a note and whether it is a star dish. Star dishes come first. **Route** opens the directions in Google Maps.
+- Filter the places with the buttons under the search: **Price**, **Distance** (less than 1, 2, 5 or 10 km from you), **Favourites** and **Cuisine**. With your position, each card shows how far it is and the nearest places come first. Your filters stay on the phone.
+- The **Roulette** chooses for you among your **Places** or your **Dishes**, with the same filters as in Explore and, for dishes, a **Max price**. Tap **Spin** in the centre: the result has **Let's go** to get there with Google Maps, **Open** to see the place and **Spin again**. **Can't decide?** in Explore takes you to the roulette.
+- The app has a new look, in cream, paprika and basil, with round buttons and a new font. The introduction shows in three pages how to add, filter and spin; open it again with **Show the introduction** in Settings.
 
 ## 0.1.1 - 2026-11-09
 

@@ -38,8 +38,9 @@ The wheel that picks a place or a dish from the ones that pass the filters. Its 
 - **RUL-10** The Roulette section has, from the top: the **Places** / **Dishes** switch
   (`ui.mode`, not stored, `places` at the start), the filter chips of Explore with their shared
   filters (PLC-32), then the wheel and the result card. In Dishes mode the chips add **Max price**.
-  With no place the switch and the chips hide. The section is one centred column; from 840px,
-  while a result shows, the wheel and the result card stand side by side. At the open of the
+  With no place the switch and the chips hide. The section is one centred column; from 840px
+  the switch and the chips are centred over it, and while a result shows, the wheel and the
+  result card stand side by side. At the open of the
   section the position is read with no prompt (LOC-8).
 - **RUL-11** The wheel draws the `segments` of `drawWheel` clockwise from the pointer at the top,
   in the colours `--wheel-1` to `--wheel-4` in turn (`colourOf`). The last segment of a count of 4k + 1 takes

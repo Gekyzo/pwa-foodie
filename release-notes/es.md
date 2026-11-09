@@ -4,12 +4,11 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
-- La app tiene un aspecto nuevo: tonos crema, pimentón y albahaca, botones redondeados y una letra nueva. Funciona también sin conexión y en el tema oscuro.
-- **Explorar** sustituye a las notas: añade tus restaurantes con su cocina, zona, precio (€ a €€€€), tu valoración y una nota. Cada sitio es una tarjeta con sus platos estrella y un corazón para tus favoritos. Busca por nombre, zona, cocina o plato, con o sin acentos. Toca una tarjeta para ver el sitio; desliza una tarjeta a la izquierda para borrarla, con **Deshacer**.
-- Añade los platos de cada sitio con **Añadir plato**: su precio, tu valoración, una nota y si es un plato estrella. Los platos estrella van primero. Toca un plato para cambiarlo o borrarlo, con **Deshacer**.
-- Guarda dónde está cada sitio: **Usar mi posición**, o pega un enlace de Google Maps o «lat, lng». **Cómo llegar** abre la ruta en Google Maps.
-- Filtra los sitios con los botones bajo la búsqueda: **Precio** (de € a €€€€), **Distancia** (menos de 1, 2, 5 o 10 km de donde estás), **Favoritos** y **Cocina**. Con tu posición, cada tarjeta muestra a qué distancia está y los sitios más cerca van primero. Tus filtros se guardan en el móvil. **¿Indeciso hoy?** te lleva a la ruleta.
-- La **Ruleta** ya gira: elige entre **Sitios** o **Platos**, usa los mismos filtros que en Explorar y toca el centro. Con **Platos** puedes poner un **Precio máximo**. El resultado muestra el sitio o el plato, con **¡Vamos!** para ir con Google Maps, **Abrir** para ver el sitio y **Girar de nuevo**, que deja fuera el último resultado cuando hay 3 opciones o más. Con más de 12 opciones la ruleta toma 12 al azar. Si tu móvil pide menos movimiento, el resultado sale al momento.
+- Spinach ya guarda tus restaurantes. En **Explorar** añades cada sitio con su cocina, zona, precio (€ a €€€€), tu valoración, una nota y dónde está: **Usar mi posición**, o pega un enlace de Google Maps o «lat, lng». Cada sitio es una tarjeta con sus platos estrella y un corazón para tus favoritos. Busca por nombre, zona, cocina o plato, con o sin acentos. Desliza una tarjeta a la izquierda para borrarla, con **Deshacer**.
+- Abre un sitio para ver sus platos y añade más con **Añadir plato**: su precio, tu valoración, una nota y si es un plato estrella. Los platos estrella van primero. **Cómo llegar** abre la ruta en Google Maps.
+- Filtra los sitios con los botones bajo la búsqueda: **Precio**, **Distancia** (menos de 1, 2, 5 o 10 km de donde estás), **Favoritos** y **Cocina**. Con tu posición, cada tarjeta muestra a qué distancia está y los sitios más cerca van primero. Tus filtros se guardan en el móvil.
+- La **Ruleta** elige por ti entre tus **Sitios** o tus **Platos**, con los mismos filtros que en Explorar y, para los platos, un **Precio máximo**. Pulsa **Girar** en el centro: el resultado trae **¡Vamos!** para ir con Google Maps, **Abrir** para ver el sitio y **Girar de nuevo**. **¿Indeciso hoy?** en Explorar te lleva a la ruleta.
+- La app tiene un aspecto nuevo, en tonos crema, pimentón y albahaca, con botones redondeados y una letra nueva. La introducción muestra en tres páginas cómo añadir, filtrar y girar; ábrela de nuevo con **Ver la introducción** en Ajustes.
 
 ## 0.1.1 - 2026-11-09
 
