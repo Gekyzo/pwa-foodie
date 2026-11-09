@@ -19,6 +19,7 @@ The names of the screen are the English ones; `src/locales/es.js` is the source 
 | [07-notes.md](07-notes.md) | The notes demo: the domain that each app replaces |
 | [07-places.md](07-places.md) | The places doc: restaurants, dishes, cuisines and locations |
 | [08-account.md](08-account.md) | Google sign-in, the approval gate and the offline choice |
+| [09-roulette.md](09-roulette.md) | The roulette: the candidates, the draw, the landing and reduced motion |
 
 ## Rule identifiers
 
@@ -40,6 +41,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `NOTE` | 07-notes |
 | `PLC`, `LOC` | 07-places |
 | `ACC` | 08-account |
+| `RUL` | 09-roulette |
 
 ## Words
 

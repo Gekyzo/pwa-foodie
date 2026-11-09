@@ -36,6 +36,7 @@ const SHELL = [
   './src/places.js',
   './src/dishes.js',
   './src/filters.js',
+  './src/roulette.js',
   './src/install.js',
   './src/sections.js',
   './src/modules.js',
