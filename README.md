@@ -30,12 +30,10 @@ The app opens with **Sign in**: **Continue with Google** (an account on the Pock
 `pwa-server`, approved per app) or **Use offline** (no account). The notes stay on the device in
 both modes; nothing syncs. The rules are in [docs/spec/08-account.md](docs/spec/08-account.md).
 
-The server slug is `APP_SLUG` of `src/config.js`, which `npm run init` rewrites. Two steps happen
-outside the app, and the app works offline without them:
-
-1. A row in `apps` on the server (`/_/`): slug `APP_SLUG`, url `https://<user>.github.io/<slug>/`.
-2. The redirect URIs `https://<user>.github.io/<slug>/` and `http://localhost:8080/` on the
-   Google OAuth client.
+The app runs on `https://spinach.artisandevs.duckdns.org/`: Caddy on pwa-server proxies the Pages
+site `https://polaris-works.github.io/pwa-foodie/`. The server slug is `pwa-foodie` (`APP_SLUG`). The
+steps outside the app, which the app does not need to work offline, are in
+[docs/spec/08-account.md](docs/spec/08-account.md) ("Set-up outside the app").
 
 ## Install on Android
 

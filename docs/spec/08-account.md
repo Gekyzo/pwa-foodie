@@ -20,7 +20,7 @@ two ways in: **Continue with Google**, or **Use offline** with no account.
 - **ACC-3** "Approved" is the `app_access` row of the app `APP_SLUG` with the status
   `approved`. Each sign-in and each refresh reads it. With no row, the app creates a `pending`
   one; a duplicate row that another device made meanwhile is read again. The server URL is
-  `http://localhost:8090` on a local host, else `https://artisandevs.duckdns.org`.
+  `http://localhost:8090` on a local host, else `https://api.artisandevs.duckdns.org`.
 - **ACC-4** Google sign-in is a redirect. The app asks the server for the URL of the provider,
   keeps the state and the verifier in `sessionStorage` (`pwa-foodie.oauth`), and sends the browser
   there with the URL of the app as the return address. On return the app removes `code`, `state`
@@ -45,6 +45,9 @@ two ways in: **Continue with Google**, or **Use offline** with no account.
 
 ## Set-up outside the app
 
-- The server has a row in `apps`: slug `pwa-foodie`, url `https://polaris-works.github.io/pwa-foodie/`.
-- The Google OAuth client has the redirect URIs `https://polaris-works.github.io/pwa-foodie/` and
-  `http://localhost:8080/` (`npm run serve`).
+- The app runs on `https://spinach.artisandevs.duckdns.org/`: Caddy on pwa-server proxies the
+  Pages site `https://polaris-works.github.io/pwa-foodie/`, which serves the same files.
+- The server has a row in `apps`: slug `pwa-foodie`, url `https://spinach.artisandevs.duckdns.org/`.
+  `PB_ORIGINS` lists `https://spinach.artisandevs.duckdns.org`.
+- The Google OAuth client has the redirect URIs `https://spinach.artisandevs.duckdns.org/`,
+  `https://polaris-works.github.io/pwa-foodie/` and `http://localhost:8080/` (`npm run serve`).
