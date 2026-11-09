@@ -16,14 +16,13 @@ The names of the screen are the English ones; `src/locales/es.js` is the source 
 | [04-design-system.md](04-design-system.md) | The copy of the design system, the parts of the app and the catalogue |
 | [05-layout.md](05-layout.md) | Navigation, sections, modules, Settings and the walkthrough |
 | [06-i18n.md](06-i18n.md) | The languages and the rules of the text |
-| [07-notes.md](07-notes.md) | The notes demo: the domain that each app replaces |
-| [07-places.md](07-places.md) | The places doc: restaurants, dishes, cuisines and locations |
+| [07-places.md](07-places.md) | The places doc, Explore and the place detail: restaurants, dishes, cuisines and locations |
 | [08-account.md](08-account.md) | Google sign-in, the approval gate and the offline choice |
 | [09-roulette.md](09-roulette.md) | The roulette: the candidates, the draw, the landing and reduced motion |
 
 ## Rule identifiers
 
-Each rule has an identifier, a prefix and a number, such as `NOTE-3`. An identifier is stable: a
+Each rule has an identifier, a prefix and a number, such as `PLC-4`. An identifier is stable: a
 rule that goes away keeps its number, marked as removed, and a new rule gets the next number. Use
 the identifier in a commit body or in a test name to point at a rule.
 
@@ -38,7 +37,6 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | `DSV` | 04-design-system |
 | `NAV`, `MOD`, `SET`, `ONB` | 05-layout |
 | `I18N` | 06-i18n |
-| `NOTE` | 07-notes |
 | `PLC`, `LOC` | 07-places |
 | `ACC` | 08-account |
 | `RUL` | 09-roulette |
@@ -50,7 +48,7 @@ The rules DS-1 to DS-8 and LAY-1 to LAY-4 belong to the design system, `pwa-desi
 | Shell | The files that the service worker keeps for offline use: `SHELL` of `sw.js` |
 | Deploy | A release tag `vX.Y.Z` that GitHub Pages publishes |
 | Size class | compact (below 600px), medium (600px to 839px) or expanded (840px and up) |
-| Section | One of the screens of the navigation: Notes and Settings |
+| Section | One of the screens of the navigation: Explore, Roulette and Settings |
 | Module | A part of the app that Settings turns off, with its sections |
 | Pane | The list and the detail of one entry, side by side in the expanded class |
 | Sheet | A panel that comes up from the bottom of the screen |

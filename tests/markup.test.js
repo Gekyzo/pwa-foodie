@@ -3,6 +3,8 @@ import assert from 'node:assert/strict';
 import { readFileSync } from 'node:fs';
 import { CATALOGS } from '#i18n';
 import { PAGES } from '#onboarding';
+import { SECTIONS } from '#sections';
+import { MODULES } from '#modules';
 
 const html = readFileSync(new URL('../index.html', import.meta.url), 'utf8');
 const body = html.slice(html.indexOf('<body'), html.indexOf('<script type="importmap">'));
@@ -34,17 +36,53 @@ test('the markup has no text of its own', () => {
   assert.doesNotMatch(body, /\s(aria-label|placeholder|title)="/);
 });
 
-test('the note sheet has a veil, a dialog and a text field with the maximum length', () => {
-  const [layer = ''] = body.match(/<div id="note-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
-  assert.match(layer, /<div id="note-veil" class="sheet-veil">/);
-  assert.match(layer, /<form id="note-form" class="sheet" role="dialog"/);
-  assert.match(layer, /<textarea id="note-text"[^>]*maxlength="200"/);
+const placeSheet = () => body.match(/<div id="place-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/)?.[0] ?? '';
+
+test('the place sheet has a veil, a dialog and the fields with their maximum lengths', () => {
+  const layer = placeSheet();
+  assert.match(layer, /<div id="place-veil" class="sheet-veil">/);
+  assert.match(layer, /<form id="place-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="place-sheet-title"/);
+  assert.match(layer, /<input id="place-name" class="input field-input" type="text" maxlength="80" required/);
+  assert.match(layer, /<select id="place-cuisine" class="select field-input"/);
+  assert.match(layer, /<input id="place-area" class="input field-input" type="text" maxlength="60"/);
+  assert.match(layer, /<textarea id="place-note" class="input field-input" maxlength="280"/);
 });
 
-test('the note sheet has a head with its title and Close, a body, and Save in its foot', () => {
-  const [layer = ''] = body.match(/<div id="note-sheet" class="sheet-layer"[\s\S]*?<\/form>\s*<\/div>/) ?? [];
-  assert.match(layer, /<header class="sheet-head"><h2 id="note-sheet-title" class="sheet-title main"><\/h2><button id="note-close" class="button tonal" type="button" data-i18n="notes.close"><\/button><\/header>\s*<div class="sheet-body">/);
-  assert.match(layer, /<footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="notes.save"><\/button><\/footer>\s*<\/form>/);
+test('the place sheet has the four tiers and the five stars of the rating', () => {
+  const layer = placeSheet();
+  const tiers = [...layer.matchAll(/<button class="segment" type="button" data-tier="(\d)" data-i18n="tier\.(\d)"><\/button>/g)];
+  assert.deepEqual(tiers.map(([, tier, key]) => [tier, key]), [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']]);
+  const stars = [...layer.matchAll(/<button class="button icon rating-star" type="button" data-rating="(\d)"/g)].map(([, n]) => n);
+  assert.deepEqual(stars, ['1', '2', '3', '4', '5']);
+});
+
+test('the place sheet has a head with its title and Close, a body, and Save in its foot', () => {
+  const layer = placeSheet();
+  assert.match(layer, /<header class="sheet-head"><h2 id="place-sheet-title" class="sheet-title main"><\/h2><button id="place-close" class="button tonal" type="button" data-i18n="place.close"><\/button><\/header>\s*<div class="sheet-body">/);
+  assert.match(layer, /<footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="place.save"><\/button><\/footer>\s*<\/form>/);
+});
+
+test('Explore is a pane: the search and the cards in the list, the place in the detail (LAY-3)', () => {
+  const [section = ''] = body.match(/<section id="explore" class="pane">[\s\S]*?<\/section>/) ?? [];
+  assert.match(section, /<div class="pane-list">[\s\S]*<input id="explore-query" class="input explore-search" type="search"/);
+  assert.match(section, /<ul id="place-list" class="place-list"><\/ul>/);
+  assert.match(section, /<div id="explore-empty" class="empty-state" hidden>[\s\S]*?<button id="explore-add" class="button primary" type="button" data-i18n="explore.add"><\/button>/);
+  assert.match(section, /<article id="place-detail" class="pane-detail">\s*<button id="place-back" class="button quiet pane-back" type="button" data-i18n="place.back"><\/button>/);
+});
+
+test('the Roulette section is a stub with an empty state that goes to Explore', () => {
+  const [section = ''] = body.match(/<section id="roulette" hidden>[\s\S]*?<\/section>/) ?? [];
+  assert.match(section, /<div class="empty-state">\s*<p data-i18n="roulette.soon"><\/p>\s*<button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"><\/button>/);
+});
+
+test('the navigation has one item for each section, in the order of SECTIONS (NAV-1)', () => {
+  const items = [...body.matchAll(/<button class="nav-item" type="button" data-view="([^"]+)">/g)].map(([, view]) => view);
+  assert.deepEqual(items, SECTIONS);
+});
+
+test('Modules has one switch for each module, in the order of MODULES (MOD-1)', () => {
+  const switches = [...body.matchAll(/data-module="([^"]+)"/g)].map(([, id]) => id);
+  assert.deepEqual(switches, MODULES);
 });
 
 test('the walkthrough has one drawing for each page, in the order of the pages', () => {

@@ -44,5 +44,5 @@ The parts of `styles.css`, by layer. The shared parts are in the design system.
 
 | Layer | Parts |
 |---|---|
-| tokens | Warm Gourmet (DSV-5): the font Plus Jakarta Sans; `--bg`, `--surface`, `--surface-2`, `--text`, `--muted`, `--line`, `--control`; `--primary` dark paprika with `--on-primary`, `--paprika` for art, `--done` basil with `--on-done` and `--done-soft`, `--ink`, `--secondary`; `--wheel-1` to `--wheel-4` (paprika, basil, saffron, cocoa); `--radius-l` 24px for cards, `--radius-card` 32px for the hero card, capsule buttons, `--radius-xl` 32px sheets; a warm `--shadow-l` |
-| screens | settings: `settings` (version of `list-group`), `about`, `version-status` · nav: `dust` · onboarding: `onboarding`, `onboarding-art` |
+| tokens | Warm Gourmet (DSV-5): the font Plus Jakarta Sans; `--bg`, `--surface`, `--surface-2`, `--text`, `--muted`, `--line`, `--control`; `--primary` dark paprika with `--on-primary`, `--paprika` for art, `--done` basil with `--on-done` and `--done-soft`, `--ink`, `--secondary`; `--wheel-1` to `--wheel-4` (paprika, basil, saffron, cocoa) and `--tile-1` to `--tile-4`, their soft tints for the cuisine tiles; `--radius-l` 24px for cards, `--radius-card` 32px for the hero card, capsule buttons, `--radius-xl` 32px sheets; a warm `--shadow-l` |
+| screens | explore: `explore-search`, `place-list`, `place-tile`, `place-facts`, `place-fav`, `place-view` · place: `place-form` · settings: `settings` (version of `list-group`), `about`, `version-status` · nav: `dust` · onboarding: `onboarding`, `onboarding-art` |

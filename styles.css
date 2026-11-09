@@ -35,6 +35,12 @@
     --wheel-2: light-dark(#2e7d32, #66bb6a); /* basil */
     --wheel-3: light-dark(#f4511e, #ff7043); /* saffron */
     --wheel-4: light-dark(#5d4037, #a1887f); /* cocoa */
+    /* The grounds of a cuisine tile: a soft tint of each wheel colour. The tile holds an emoji
+       only, never text. */
+    --tile-1: color-mix(in srgb, var(--wheel-1) 18%, var(--surface));
+    --tile-2: color-mix(in srgb, var(--wheel-2) 18%, var(--surface));
+    --tile-3: color-mix(in srgb, var(--wheel-3) 18%, var(--surface));
+    --tile-4: color-mix(in srgb, var(--wheel-4) 18%, var(--surface));
 
     --radius-control: 16px; /* inputs, chips */
     --radius-m: var(--radius-pill); /* buttons are capsules */
@@ -83,6 +89,343 @@
 }
 
 @layer screens {
+  /* @component explore-search
+     @scope explore
+     @summary The search of Explore, at the top of the list: a capsule input. It matches the name, the area, the cuisine and the dishes of a place.
+     @example <input class="input explore-search" type="search" placeholder="Search places, dishes or cuisines"> */
+  .explore-search {
+    display: block;
+    width: calc(100% - 2 * var(--space-4));
+    margin: var(--space-3) var(--space-4);
+    padding-inline: var(--space-5);
+    border-radius: var(--radius-pill);
+  }
+
+  /* @component place-list
+     @scope explore
+     @summary The cards of Explore, newest first. A card slides left to show Delete (item-row-swipe).
+     @part place-card       One place: a rounded card on --surface.
+     @part place-card-body  The card itself, which slides over its actions: the open button and the heart.
+     @part place-card-open  The button that opens the detail: the tile and the text.
+     @part place-card-text  The name, the cuisine and the area, the facts and the star dishes.
+     @part place-card-name  The name of the place.
+     @part place-card-meta  The cuisine and the area, in muted text.
+     @part place-card-dishes  Up to two star dishes.
+     @part place-card-dish  One star dish: a star and its name in a capsule.
+     @state aria-current  On place-card-body: the place open in the detail, from 840px.
+     @example <ul class="place-list" style="width: 100%"><li class="place-card"><div class="item-row-swipe"><div class="place-card-body"><button class="place-card-open" type="button"><span class="place-tile" data-wheel="3">🌮</span><span class="place-card-text"><span class="place-card-name">La Taquería del Sol</span><span class="place-card-meta">Mexicana · Chueca</span><span class="place-facts"><span>€€</span><span class="place-rating"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span>4</span></span></span><span class="place-card-dishes"><span class="place-card-dish"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span>Tacos de birria</span></span></span></span></button><button class="button icon place-fav" type="button" aria-pressed="true" aria-label="Favourite"><svg class="icon" aria-hidden="true"><use href="icons.svg#heart"/></svg></button></div></div></li></ul> */
+  .place-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    margin: 0;
+    padding: 0 var(--space-4) var(--space-4);
+    list-style: none;
+  }
+
+  .place-card > .item-row-swipe {
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+  }
+
+  .place-card-body {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-1);
+    padding: var(--space-3) var(--space-1) var(--space-3) var(--space-3);
+    background: var(--surface);
+    touch-action: pan-y;
+    user-select: none;
+    transition: transform var(--motion-fast) var(--ease), background var(--motion-fast);
+  }
+
+  .place-card-body.dragging {
+    transition: none;
+  }
+
+  .place-card-body[aria-current="true"] {
+    background: var(--secondary);
+  }
+
+  .place-card-open {
+    flex: 1;
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+    min-width: 0;
+    padding: 0;
+    border-radius: 0;
+    text-align: left;
+  }
+
+  .place-card-text {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .place-card-name {
+    font-size: var(--text-h);
+    font-weight: var(--weight-strong);
+    overflow-wrap: anywhere;
+  }
+
+  .place-card-meta {
+    color: var(--muted);
+    font-size: var(--text-s);
+  }
+
+  .place-card-dishes {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-1);
+    margin-top: var(--space-1);
+  }
+
+  .place-card-dish {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    padding: var(--space-1) var(--space-2);
+    border-radius: var(--radius-pill);
+    background: var(--surface-2);
+    font-size: var(--text-xs);
+  }
+
+  .place-card-dish > .icon {
+    color: var(--primary);
+    fill: currentColor;
+  }
+
+  /* @component place-tile
+     @scope explore
+     @summary The emoji of the cuisine of a place on a soft tint of a wheel colour. The tile holds no text.
+     @variant large  The tile of the detail head.
+     @state data-wheel  1 to 4: the wheel colour, by the index of the cuisine (PLC-21).
+     @example <span class="place-tile" data-wheel="1">🥘</span><span class="place-tile" data-wheel="2">🍣</span><span class="place-tile" data-wheel="3">🌮</span><span class="place-tile" data-wheel="4">🍝</span><span class="place-tile large" data-wheel="1">🍕</span> */
+  .place-tile {
+    flex: none;
+    display: grid;
+    place-items: center;
+    width: var(--tap-l);
+    height: var(--tap-l);
+    border-radius: var(--radius-control);
+    background: var(--tile-1);
+    font-size: var(--text-l);
+    line-height: 1;
+  }
+
+  .place-tile[data-wheel="2"] {
+    background: var(--tile-2);
+  }
+
+  .place-tile[data-wheel="3"] {
+    background: var(--tile-3);
+  }
+
+  .place-tile[data-wheel="4"] {
+    background: var(--tile-4);
+  }
+
+  .place-tile.large {
+    width: calc(var(--tap-l) * 1.5);
+    height: calc(var(--tap-l) * 1.5);
+    border-radius: var(--radius-l);
+    font-size: var(--text-xl);
+  }
+
+  /* @component place-facts
+     @scope explore
+     @summary The tier of a place, then its own rating: a star and the number.
+     @part place-rating  The rating, with its star in --primary.
+     @example <p class="place-facts"><span>€€€</span><span class="place-rating"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span>5</span></span></p> */
+  .place-facts {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin: 0;
+    font-size: var(--text-s);
+    font-weight: var(--weight-medium);
+  }
+
+  .place-rating {
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+  }
+
+  .place-rating > .icon {
+    color: var(--primary);
+    fill: currentColor;
+  }
+
+  /* @component place-fav
+     @scope explore
+     @summary The heart of a place, a button icon. A favourite has aria-pressed="true": a full heart in --primary.
+     @example <button class="button icon place-fav" type="button" aria-pressed="false" aria-label="Favourite"><svg class="icon" aria-hidden="true"><use href="icons.svg#heart"/></svg></button><button class="button icon place-fav" type="button" aria-pressed="true" aria-label="Favourite"><svg class="icon" aria-hidden="true"><use href="icons.svg#heart"/></svg></button> */
+  .place-fav[aria-pressed="true"] {
+    color: var(--primary);
+  }
+
+  .place-fav[aria-pressed="true"] > .icon {
+    fill: currentColor;
+  }
+
+  /* @component place-view
+     @scope explore
+     @summary The detail of a place in the pane: the head, the actions, the note and the dishes, star dishes first.
+     @part place-head        The tile, the text and the heart.
+     @part place-head-text   The name, the cuisine and the area, the facts.
+     @part place-title       The name of the place.
+     @part place-meta        The cuisine and the area.
+     @part place-remark      The note of the place. Its line breaks stay.
+     @part place-dishes-title  The title above the dishes.
+     @part dish-list         The dishes.
+     @part dish-row          One dish: a star for a star dish, the name and the price.
+     @part dish-row-name     The name of a dish.
+     @part dish-row-price    The price of a dish, in --primary.
+     @example <div class="place-view" style="width: 100%"><header class="place-head"><span class="place-tile large" data-wheel="3">🌮</span><div class="place-head-text"><h2 class="place-title">La Taquería del Sol</h2><p class="place-meta">Mexicana · Chueca</p><p class="place-facts"><span>€€</span></p></div></header><p class="place-remark">Ask for the terrace.</p><h3 class="place-dishes-title">Dishes</h3><ul class="dish-list"><li class="dish-row"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span class="dish-row-name">Tacos de birria</span><span class="dish-row-price">14,50 €</span></li></ul></div> */
+  .place-view {
+    max-width: var(--content-max);
+  }
+
+  .place-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .place-head-text {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-1);
+    min-width: 0;
+  }
+
+  .place-title {
+    margin: 0;
+    font-size: var(--text-l);
+    overflow-wrap: anywhere;
+  }
+
+  .place-meta {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .place-remark {
+    margin: var(--space-3) 0;
+    white-space: pre-line;
+    overflow-wrap: anywhere;
+  }
+
+  .place-dishes-title {
+    margin: var(--space-5) 0 var(--space-2);
+    font-size: var(--text-h);
+  }
+
+  .dish-list {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  .dish-row {
+    display: flex;
+    align-items: center;
+    gap: var(--space-2);
+    min-height: var(--tap);
+    padding: var(--space-2) var(--space-4);
+    border: 1px solid var(--line);
+    border-radius: var(--radius-l);
+    background: var(--surface);
+  }
+
+  .dish-row > .icon {
+    color: var(--primary);
+    fill: currentColor;
+  }
+
+  .dish-row-name {
+    flex: 1;
+    min-width: 0;
+    overflow-wrap: anywhere;
+  }
+
+  .dish-row-price {
+    color: var(--primary);
+    font-weight: var(--weight-strong);
+  }
+
+  /* @component place-form
+     @scope place
+     @summary The parts of the place sheet that a field does not cover: the cuisine select, the tier and the rating.
+     @part place-group    A group of buttons with its name (a field-label legend) above it.
+     @part tier-picker    The segmented of the four tiers, € to €€€€.
+     @part rating-picker  Five star buttons. A tap on the current rating clears it.
+     @part rating-star    One star, a button icon. The stars up to the rating have aria-pressed="true".
+     @example <fieldset class="place-group" style="width: 100%"><legend class="field-label">Price per person</legend><div class="segmented tier-picker"><button class="segment" type="button" aria-pressed="false">€</button><button class="segment" type="button" aria-pressed="true">€€</button><button class="segment" type="button" aria-pressed="false">€€€</button><button class="segment" type="button" aria-pressed="false">€€€€</button></div></fieldset>
+     @example <div class="rating-picker"><button class="button icon rating-star" type="button" aria-pressed="true" aria-label="1 star"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" aria-pressed="false" aria-label="2 stars"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button></div> */
+  .place-group {
+    min-width: 0;
+    margin: var(--space-4) 0 0;
+    padding: 0;
+    border: 0;
+  }
+
+  .place-group > .field-label {
+    display: block;
+    padding: 0;
+  }
+
+  .tier-picker {
+    margin: 0;
+  }
+
+  .tier-picker:has(> .segment:nth-child(4)) {
+    --segment-count: 4;
+  }
+
+  .tier-picker:has(> .segment:nth-child(4)[aria-pressed="true"]) {
+    --segment-index: 3;
+  }
+
+  .rating-picker {
+    display: flex;
+    gap: var(--space-1);
+  }
+
+  .rating-star[aria-pressed="true"] {
+    color: var(--primary);
+  }
+
+  .rating-star[aria-pressed="true"] > .icon {
+    fill: currentColor;
+  }
+
+  /* The select of a field draws the border of an input. */
+  .select.field-input {
+    min-height: var(--tap);
+    border: 2px solid var(--control);
+    border-radius: var(--radius-control);
+  }
+
+  .select.field-input:focus {
+    border-color: var(--text);
+  }
+
+  /* A text area of a field grows with its rows. */
+  .field-input:is(textarea) {
+    height: auto;
+    padding-block: var(--space-2);
+    resize: vertical;
+  }
+
   /* @component version-status
      @scope settings
      @summary The state of the installed version: a sign, and a text for the outdated state only.

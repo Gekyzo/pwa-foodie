@@ -81,7 +81,7 @@ Legend:
 | [ ] | Click after a drag, hold or slide ignored for 350ms | ● | ● | ● | ○ | ROW-8 |
 | [ ] | No browser menu on a long press of a row | ● | ● | ● | – | ROW-10 |
 | [ ] | One-time hint: the first row slides open by itself after 600ms | ● | ● | ● | – | ROW-14 |
-| [x] | Haptic tick (`navigator.vibrate?.(10)`) on drag and on an armed action | ● | ● | ○ | – | src/ui/drag.js |
+| [ ] | Haptic tick (`navigator.vibrate?.(10)`) on drag and on an armed action | ● | ● | ○ | – | went with the drag module |
 | [~] | Back button and `Escape` close the top layer first | ● | ● | ● | ● | NAV-25 |
 | [ ] | Drag down of the grab closes a sheet at 30% | ● | ● | ○ | – | NAV-23 |
 | [x] | **Hand** setting: `left` mirrors the controls | ● | ● | ○ | – | NAV-11..14 |

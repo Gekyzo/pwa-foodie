@@ -1,10 +1,10 @@
 import { $, ui, storage, t, setRender, render, showToast, hideToast, toastAction, clickGuardUntil } from '#ui/context';
-import { bind as bindNav, renderNav } from '#ui/nav';
-import { bind as bindNotes, renderNotes, closeNoteSheet } from '#ui/notes';
+import { bind as bindNav, renderNav, setView } from '#ui/nav';
+import { bind as bindExplore, renderExplore } from '#ui/explore';
+import { bind as bindPlace, renderPlace, closePlaceSheet } from '#ui/place';
 import { bind as bindSettings, applyLanguage } from '#ui/settings';
 import { bind as bindInstall, renderInstall } from '#ui/install';
 import { readVersion, renderVersion, offerUpdate } from '#ui/update';
-import { bind as bindDrag, endReorder } from '#ui/drag';
 import { bind as bindOnboarding, closeOnboarding, turnOnboarding } from '#ui/onboarding';
 import { bind as bindWhatsNew, startWhatsNew, isWhatsNewOpen, closeWhatsNew } from '#ui/whatsnew';
 import { bind as bindAccount, renderAccount, startAccount, goOnline, isAccountOpen, closeAccount } from '#ui/account';
@@ -17,7 +17,9 @@ if (oauth) history.replaceState(history.state, '', clean);
 const renderAll = () => {
   renderNav();
   $('title').textContent = t(`nav.${ui.view}`);
-  renderNotes();
+  renderExplore();
+  renderPlace();
+  $('roulette').hidden = ui.view !== 'roulette';
   $('settings').hidden = ui.view !== 'settings';
   renderVersion();
   renderInstall();
@@ -26,10 +28,10 @@ const renderAll = () => {
 setRender(renderAll);
 
 bindNav();
-bindNotes();
+bindExplore();
+bindPlace();
 bindSettings();
 bindInstall();
-bindDrag();
 bindOnboarding();
 bindWhatsNew();
 bindAccount();
@@ -61,13 +63,15 @@ document.addEventListener('keydown', (event) => {
     closeWhatsNew();
     return;
   }
-  endReorder(false);
-  if (ui.sheetOpen) closeNoteSheet();
-  else if (ui.noteId !== null) {
-    ui.noteId = null;
+  if (ui.sheetOpen) closePlaceSheet();
+  else if (ui.placeId !== null) {
+    ui.placeId = null;
     render();
   }
 });
+
+// The Roulette section is a stub until its wheel comes: its empty state goes to Explore.
+$('roulette-explore').addEventListener('click', () => setView('explore'));
 
 $('toast-action').addEventListener('click', () => {
   const action = toastAction;

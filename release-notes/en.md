@@ -5,6 +5,7 @@ What changes for you in each version of the app. The newest version is first.
 ## Unreleased
 
 - The app has a new look: cream, paprika and basil colours, round buttons and a new font. It also works offline and in the dark theme.
+- **Explore** replaces the notes: add your restaurants with their cuisine, area, price (€ to €€€€), your rating and a note. Each place is a card with its star dishes and a heart for your favourites. Search by name, area, cuisine or dish, with or without accents. Tap a card to see the place; slide a card to the left to delete it, with **Undo**. The **Roulette** has its section already and comes soon.
 
 ## 0.1.1 - 2026-11-09
 

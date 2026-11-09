@@ -58,9 +58,9 @@ test('a blocked storage loads no session and saves none', () => {
 });
 
 test('dropSession removes the session and nothing else (ACC-8)', () => {
-  const storage = memory({ [SESSION_KEY]: JSON.stringify(SESSION), 'pwa-foodie.notes': '{}' });
+  const storage = memory({ [SESSION_KEY]: JSON.stringify(SESSION), 'pwa-foodie.places': '{}' });
   dropSession(storage);
-  assert.deepEqual([...storage.map.keys()], ['pwa-foodie.notes']);
+  assert.deepEqual([...storage.map.keys()], ['pwa-foodie.places']);
 });
 
 test('the start routes by the session (ACC-1)', () => {
@@ -77,7 +77,7 @@ test('with no session the offline flag opens the app; a session wins over it (AC
 });
 
 test('the offline flag is saved, read and removed (ACC-10)', () => {
-  const storage = memory({ 'pwa-foodie.notes': '{}' });
+  const storage = memory({ 'pwa-foodie.places': '{}' });
   assert.equal(OFFLINE_KEY, 'pwa-foodie.offline');
   assert.equal(loadOffline(storage), false);
   assert.equal(saveOffline(storage), true);
@@ -85,7 +85,7 @@ test('the offline flag is saved, read and removed (ACC-10)', () => {
   assert.equal(loadOffline(storage), true);
   dropOffline(storage);
   assert.equal(loadOffline(storage), false);
-  assert.deepEqual([...storage.map.keys()], ['pwa-foodie.notes']);
+  assert.deepEqual([...storage.map.keys()], ['pwa-foodie.places']);
 });
 
 test('only the value 1 counts as the offline flag', () => {

@@ -14,7 +14,6 @@
 | `src/modules.js` | The modules that Settings turns off, and the visible sections | `sections` |
 | `src/storage.js` | Load, save, validation hook, export, import, device preferences | `config`, `modules`, `filters` |
 | `src/install.js` | The install offer state machine | nothing |
-| `src/notes.js` | Pure note operations, the doc and its validation (demo) | `config` |
 | `src/cuisines.js` | The kinds of food of a place and their emoji (PLC-6) | nothing |
 | `src/dishes.js` | Pure dish operations and the price parse (PLC-11 to PLC-14) | `places` |
 | `src/filters.js` | The filters of places and dishes, the search and the order (PLC-15 to PLC-19) | `cuisines`, `geo`, `dishes` |
@@ -22,18 +21,17 @@
 | `src/geo.js` | The location check, the read of a map link, distances and the route link (LOC-1 to LOC-6) | nothing |
 | `src/places.js` | Pure place operations, the places doc and its validation (PLC-1 to PLC-10) | `config`, `cuisines`, `geo` |
 | `src/swipe.js` | The rule that settles the slide of a row (optional) | nothing |
-| `src/reorder.js` | The geometry of a row move (optional) | nothing |
 | `src/particles.js` | The particles of a picture and their place in time (optional) | nothing |
 | `src/onboarding.js` | The show rule and the page steps of the walkthrough (optional) | nothing |
-| `src/ui/context.js` | The values that the views share, the toast, `render`, `commit` and `apply` | `notes`, `storage`, `i18n`, `onboarding` |
+| `src/ui/context.js` | The values that the views share, the toast, `render`, `commit` and `apply` | `places`, `storage`, `i18n`, `onboarding` |
 | `src/ui/controls.js` | The icon builder and the side-action button | `ui/context` |
 | `src/ui/motion.js` | Row collapse, expand and slide animations | `ui/context` |
 | `src/ui/update.js` | The version line, the check, the refresh and the update toast | `version`, `i18n`, `ui/context` |
 | `src/ui/install.js` | The Install button | `install`, `ui/context` |
-| `src/ui/nav.js` | The navigation, the change and the slide of a section | `sections`, `modules`, `ui/context`, `ui/drag`, `ui/update`, `ui/dust` |
-| `src/ui/notes.js` | The Notes section, its rows and its sheet (demo) | `ds/sheet`, `notes`, `swipe`, `ui/context`, `ui/controls`, `ui/drag` |
-| `src/ui/settings.js` | Settings, Delete all data (SET-2), and the text of the page in its language | `notes`, `storage`, `i18n`, `modules`, `ui/context`, `ui/update`, `ui/onboarding`, `ui/account` |
-| `src/ui/drag.js` | The hold and move of a row (optional) | `notes`, `reorder`, `ui/context`, `ui/motion` |
+| `src/ui/nav.js` | The navigation, the change and the slide of a section | `sections`, `modules`, `ui/context`, `ui/update`, `ui/dust` |
+| `src/ui/explore.js` | The Explore section: the search, the cards, the empty state and the add button (PLC-20 to PLC-23) | `cuisines`, `dishes`, `filters`, `swipe`, `ui/context`, `ui/controls`, `ui/place` |
+| `src/ui/place.js` | The detail of a place, its place sheet, the favourite and the delete with Undo (PLC-24 to PLC-27) | `cuisines`, `places`, `dishes`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/nav` |
+| `src/ui/settings.js` | Settings, Delete all data (SET-2), and the text of the page in its language | `places`, `storage`, `i18n`, `modules`, `ui/context`, `ui/update`, `ui/onboarding`, `ui/account` |
 | `src/ui/dust.js` | The dust of a navigation item (optional) | `particles`, `ui/context`, `ui/controls` |
 | `src/ui/onboarding.js` | The walkthrough (optional) | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
 | `src/ui/whatsnew.js` | The release notes sheet, its Settings row and the seen version | `whatsnew`, `onboarding`, `i18n`, `storage`, `ds/sheet`, `ui/context` |
@@ -51,7 +49,7 @@
   storage object), so that a test passes a fake.
 - **ENG-5** No module imports `src/app.js`. A view of `src/ui/` renders the screen through
   `render` of `src/ui/context.js`.
-- **ENG-6** A module of `src/` is imported by its alias, `from '#notes'`, never by a relative
+- **ENG-6** A module of `src/` is imported by its alias, `from '#places'`, never by a relative
   path. Node resolves `#name` through `imports` of `package.json`; the browser resolves it through
   the import map of `index.html`. `tests/aliases.test.js` checks that the two agree. An alias
   `#ds/<name>` names the module `vendor/design-system/<name>.js` (DSV-1).
@@ -71,7 +69,7 @@
 
 ## Storage keys
 
-The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-foodie.lang`,
+The doc keys are in [07-places.md](07-places.md). The device preferences are `pwa-foodie.lang`,
 `pwa-foodie.hand`, `pwa-foodie.theme`, `pwa-foodie.modules`, `pwa-foodie.filters` and `pwa-foodie.onboarded`. The account keeps `pwa-foodie.session` (ACC-5) and
 `pwa-foodie.offline` (ACC-10), and `pwa-foodie.oauth` in `sessionStorage` for the time of a Google redirect (ACC-4).
 
@@ -94,7 +92,6 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 
 | Test file | Covers |
 |---|---|
-| `tests/notes.test.js` | The note operations and the validation of the doc (demo) |
 | `tests/cuisines.test.js` | The cuisine list and its texts (PLC-6) |
 | `tests/dishes.test.js` | The dish operations and the price parse (PLC-11 to PLC-14) |
 | `tests/filters.test.js` | The filters, the search and the order (PLC-15 to PLC-19) |
@@ -111,12 +108,11 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 | `tests/modules.test.js` | The visible sections and the switch of a module |
 | `tests/particles.test.js` | The particles of a picture and their place in time |
 | `tests/onboarding.test.js` | The show rule and the page steps of the walkthrough |
-| `tests/reorder.test.js` | The geometry of a row move |
 | `tests/version.test.js` | Version rules and the update offer rule |
 | `tests/whatsnew.test.js` | The parse of the release notes and the unseen versions |
 | `tests/release-notes-files.test.js` | One release-notes file for each language, with the same versions (VER-19) |
 | `tests/i18n.test.js` | The language choice, the translator, the parity of the catalogs |
-| `tests/markup.test.js` | `index.html` holds no text of its own; the sheet, the walkthrough and the account markup |
+| `tests/markup.test.js` | `index.html` holds no text of its own; the place sheet, Explore, the Roulette stub, the navigation and Modules, the walkthrough and the account markup |
 | `tests/aliases.test.js` | The import map against `package.json`; each `#ds/` alias names a vendored module |
 | `tests/layers.test.js` | The layer rules and `SHELL` (ENG-16) |
 | `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/`, and the parts of `styles.css` (DSV-3) |

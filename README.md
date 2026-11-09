@@ -12,8 +12,8 @@ build step and no dependencies. Built from `pwa-template`, it has:
 - a release script and a GitHub Pages deploy on a version tag;
 - structural tests that keep the layers, the text, the design system and the specification in step.
 
-The notes demo of the template is still in place. The restaurants, dishes and roulette replace
-it. The target design is the Stitch project "Social Food Roulette PWA"; `DESIGN.md` holds its
+Explore lists your restaurants as cards, with a search, a detail and an add sheet. The dishes,
+the filters and the roulette come next. The target design is the Stitch project "Social Food Roulette PWA"; `DESIGN.md` holds its
 design system.
 
 ## Develop
@@ -27,7 +27,7 @@ npm run ds      # copy the design system again from ../pwa-design-system
 ## Account and set-up outside the app
 
 The app opens with **Sign in**: **Continue with Google** (an account on the PocketBase server of
-`pwa-server`, approved per app) or **Use offline** (no account). The notes stay on the device in
+`pwa-server`, approved per app) or **Use offline** (no account). The places stay on the device in
 both modes; nothing syncs. The rules are in [docs/spec/08-account.md](docs/spec/08-account.md).
 
 The app runs on `https://spinach.artisandevs.duckdns.org/`: Caddy on pwa-server proxies the Pages

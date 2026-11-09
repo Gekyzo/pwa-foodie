@@ -1,9 +1,10 @@
 # Places
 
-The domain of the app: restaurants, the dishes of each, and where they are. Its files are
-`src/places.js`, `src/cuisines.js`, `tests/places.test.js`, `tests/cuisines.test.js`, the
-`cuisine.*` keys and the `error.*` keys of the places in the catalogs. `07-notes.md` stays until
-the notes demo goes away.
+The domain of the app: restaurants, the dishes of each, and where they are, and the Explore
+section that shows them. Its files are `src/places.js`, `src/dishes.js`, `src/cuisines.js`,
+`src/geo.js`, `src/filters.js`, the views `src/ui/explore.js` and `src/ui/place.js`, their tests,
+the `cuisine.*`, `explore.*`, `place.*`, `places.count` and `tier.*` keys and the `error.*` keys of
+the places in the catalogs, the `#explore` section and the `#place-sheet` of `index.html`.
 
 ## Doc
 
@@ -75,6 +76,37 @@ the notes demo goes away.
   With no position it is by `created`, newest first. Ties are by `id`. `candidateDishes` takes the
   visible places with no query, in that order, and lists their dishes in `sortDishes` order. While
   `maxPrice` is set, a dish with no price or a price above it drops out.
+
+## Screen
+
+- **PLC-20** Explore lists the places as cards, in the order of PLC-19, from `visiblePlaces` with
+  the text of the search and no position. Until the filter chips come, the filters are the
+  defaults of PLC-15.
+- **PLC-21** A card shows the cuisine tile, the name, `place.meta` (the cuisine and the area, or the
+  cuisine alone), the tier as `tier.<n>` (`€` to `€€€€`), the own rating with a star, up to two
+  star dishes in `sortDishes` order, and the heart. The tile shows the emoji of the cuisine on
+  `--tile-<n>`, a soft tint of `--wheel-<n>`: n is the index of the cuisine in `CUISINES`, modulo
+  4, plus 1. The tile holds no text.
+- **PLC-22** The search above the cards filters them at each key, as PLC-17 says. It is not
+  stored. With no place, the search hides and Explore shows `explore.emptyTitle`,
+  `explore.empty` and **Add place**. With places and no match, it shows `explore.noMatch`.
+- **PLC-23** **+** and **Add place** open the sheet of a new place. A tap on a card opens its
+  detail (LAY-3); from 840px the card of the open place is marked. A tap on the heart flips the
+  favourite (PLC-9). A card slides left to show **Delete** (PLC-26).
+- **PLC-24** The detail shows the large tile, the name, `place.meta`, the tier and the rating, the
+  heart, **Edit**, **Delete**, the note, and the dishes, star dishes first (`sortDishes`), each
+  with its name and its price in EUR in the language of the screen. With no dish it shows
+  `place.noDishes`. **Back** and Escape close it.
+- **PLC-25** The place sheet has a name (80 characters), a cuisine (a select of `CUISINES`;
+  `other` for a new place), an area (60 characters), a tier (four segments, `€` to `€€€€`; 2 for a
+  new place), a rating (five stars; a tap on the current rating clears it) and a note (280
+  characters). **Save** runs `addPlace` or `editPlace`; an error shows in the toast and the sheet
+  stays open. **Close**, a tap on the veil, a drag down of the head and Escape close it with no
+  save.
+- **PLC-26** **Delete**, in the detail or behind a card, runs `deletePlace`. The toast
+  `toast.placeDeleted` offers **Undo** for 5 seconds.
+- **PLC-27** Export writes the places doc. Import reads a file through `normalizePlaces` and asks
+  `import.confirm` with the count `places.count` before it replaces the doc.
 
 ## Location
 

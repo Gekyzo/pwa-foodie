@@ -26,23 +26,47 @@
     </div>
 
     <main>
-      <section id="notes" class="pane">
+      <section id="explore" class="pane">
         <div class="pane-list">
-          <ul id="note-list" class="item-list"></ul>
-          <div id="notes-empty" class="empty-state" hidden>
-            <p data-i18n="notes.empty"></p>
-            <button id="notes-add" class="button primary" type="button" data-i18n="notes.add"></button>
+          <input id="explore-query" class="input explore-search" type="search" autocomplete="off" data-i18n-attr="aria-label:explore.search,placeholder:explore.search">
+          <ul id="place-list" class="place-list"></ul>
+          <p id="explore-none" class="empty-state inline" data-i18n="explore.noMatch" hidden></p>
+          <div id="explore-empty" class="empty-state" hidden>
+            <h2 class="empty-state-title" data-i18n="explore.emptyTitle"></h2>
+            <p data-i18n="explore.empty"></p>
+            <button id="explore-add" class="button primary" type="button" data-i18n="explore.add"></button>
           </div>
         </div>
-        <article id="note-detail" class="pane-detail">
-          <button id="note-back" class="button quiet pane-back" type="button" data-i18n="notes.back"></button>
-          <p id="note-detail-empty" class="empty-state inline" data-i18n="notes.pick"></p>
-          <p id="note-detail-text"></p>
-          <div id="note-actions" class="cluster">
-            <button id="note-edit" class="button outline" type="button" data-i18n="notes.edit"></button>
-            <button id="note-delete" class="button danger" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="notes.delete"></span></button>
+        <article id="place-detail" class="pane-detail">
+          <button id="place-back" class="button quiet pane-back" type="button" data-i18n="place.back"></button>
+          <p id="place-pick" class="empty-state inline" data-i18n="place.pick"></p>
+          <div id="place-view" class="place-view" hidden>
+            <header class="place-head">
+              <span id="place-tile" class="place-tile large"></span>
+              <div class="place-head-text">
+                <h2 id="place-title" class="place-title"></h2>
+                <p id="place-meta" class="place-meta"></p>
+                <p id="place-facts" class="place-facts"></p>
+              </div>
+              <button id="place-fav" class="button icon place-fav" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#heart"/></svg></button>
+            </header>
+            <div class="cluster">
+              <button id="place-edit" class="button outline" type="button" data-i18n="place.edit"></button>
+              <button id="place-delete" class="button outline danger" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#trash"/></svg><span data-i18n="place.delete"></span></button>
+            </div>
+            <p id="place-remark" class="place-remark"></p>
+            <h3 class="place-dishes-title" data-i18n="place.dishes"></h3>
+            <ul id="place-dishes" class="dish-list"></ul>
+            <p id="place-no-dishes" class="empty-state inline" data-i18n="place.noDishes"></p>
           </div>
         </article>
+      </section>
+
+      <section id="roulette" hidden>
+        <div class="empty-state">
+          <p data-i18n="roulette.soon"></p>
+          <button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"></button>
+        </div>
       </section>
 
       <section id="settings" class="settings" hidden>
@@ -83,7 +107,7 @@
         </div>
         <h2 class="list-group-head" data-i18n="settings.modules"></h2>
         <div class="list-group">
-          <label class="switch"><span data-i18n="nav.notes"></span><input class="switch-input" type="checkbox" role="switch" data-module="notes"></label>
+          <label class="switch"><span data-i18n="nav.roulette"></span><input class="switch-input" type="checkbox" role="switch" data-module="roulette"></label>
         </div>
         <div id="install-group" hidden>
           <h2 class="list-group-head" data-i18n="settings.app"></h2>
@@ -103,12 +127,16 @@
       </section>
     </main>
 
-    <button id="fab" class="fab" type="button" data-i18n-attr="aria-label:notes.add">+</button>
+    <button id="fab" class="fab" type="button" data-i18n-attr="aria-label:explore.add">+</button>
 
     <nav class="nav-bar" data-i18n-attr="aria-label:nav.label">
-      <button class="nav-item" type="button" data-view="notes">
-        <svg class="icon" aria-hidden="true"><use href="icons.svg#note"/></svg>
-        <span data-i18n="nav.notes"></span>
+      <button class="nav-item" type="button" data-view="explore">
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#compass"/></svg>
+        <span data-i18n="nav.explore"></span>
+      </button>
+      <button class="nav-item" type="button" data-view="roulette">
+        <svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"/></svg>
+        <span data-i18n="nav.roulette"></span>
       </button>
       <button class="nav-item" type="button" data-view="settings">
         <svg class="icon" aria-hidden="true"><use href="icons.svg#settings"/></svg>
@@ -125,15 +153,26 @@
       </section>
     </div>
 
-    <div id="note-sheet" class="sheet-layer" hidden>
-      <div id="note-veil" class="sheet-veil"></div>
-      <form id="note-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="note-sheet-title" autocomplete="off">
+    <div id="place-sheet" class="sheet-layer" hidden>
+      <div id="place-veil" class="sheet-veil"></div>
+      <form id="place-form" class="sheet" role="dialog" aria-modal="true" aria-labelledby="place-sheet-title" autocomplete="off">
         <div class="sheet-grab"></div>
-        <header class="sheet-head"><h2 id="note-sheet-title" class="sheet-title main"></h2><button id="note-close" class="button tonal" type="button" data-i18n="notes.close"></button></header>
+        <header class="sheet-head"><h2 id="place-sheet-title" class="sheet-title main"></h2><button id="place-close" class="button tonal" type="button" data-i18n="place.close"></button></header>
         <div class="sheet-body">
-          <label class="field"><textarea id="note-text" class="input field-input" maxlength="200" rows="3" required data-i18n-attr="placeholder:notes.text"></textarea><span class="field-label" data-i18n="notes.text"></span></label>
+          <label class="field"><input id="place-name" class="input field-input" type="text" maxlength="80" required data-i18n-attr="placeholder:place.name"><span class="field-label" data-i18n="place.name"></span></label>
+          <label class="field"><select id="place-cuisine" class="select field-input"></select><span class="field-label" data-i18n="place.cuisine"></span></label>
+          <label class="field"><input id="place-area" class="input field-input" type="text" maxlength="60" data-i18n-attr="placeholder:place.area"><span class="field-label" data-i18n="place.area"></span></label>
+          <fieldset class="place-group">
+            <legend class="field-label" data-i18n="place.tier"></legend>
+            <div class="segmented tier-picker"><button class="segment" type="button" data-tier="1" data-i18n="tier.1"></button><button class="segment" type="button" data-tier="2" data-i18n="tier.2"></button><button class="segment" type="button" data-tier="3" data-i18n="tier.3"></button><button class="segment" type="button" data-tier="4" data-i18n="tier.4"></button></div>
+          </fieldset>
+          <fieldset class="place-group">
+            <legend class="field-label" data-i18n="place.rating"></legend>
+            <div class="rating-picker"><button class="button icon rating-star" type="button" data-rating="1"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="2"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="3"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="4"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button><button class="button icon rating-star" type="button" data-rating="5"><svg class="icon" aria-hidden="true"><use href="icons.svg#star"/></svg></button></div>
+          </fieldset>
+          <label class="field"><textarea id="place-note" class="input field-input" maxlength="280" rows="3" data-i18n-attr="placeholder:place.note"></textarea><span class="field-label" data-i18n="place.note"></span></label>
         </div>
-        <footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="notes.save"></button></footer>
+        <footer class="sheet-foot"><button class="button primary wide" type="submit" data-i18n="place.save"></button></footer>
       </form>
     </div>
 
@@ -194,7 +233,6 @@
           "#config": "./src/config.js",
           "#pocketbase": "./src/pocketbase.js",
           "#session": "./src/session.js",
-          "#notes": "./src/notes.js",
           "#cuisines": "./src/cuisines.js",
           "#geo": "./src/geo.js",
           "#places": "./src/places.js",
@@ -215,13 +253,12 @@
           "#ui/install": "./src/ui/install.js",
           "#ui/motion": "./src/ui/motion.js",
           "#ui/nav": "./src/ui/nav.js",
-          "#ui/notes": "./src/ui/notes.js",
+          "#ui/explore": "./src/ui/explore.js",
+          "#ui/place": "./src/ui/place.js",
           "#ui/settings": "./src/ui/settings.js",
           "#swipe": "./src/swipe.js",
-          "#reorder": "./src/reorder.js",
           "#particles": "./src/particles.js",
           "#onboarding": "./src/onboarding.js",
-          "#ui/drag": "./src/ui/drag.js",
           "#ui/dust": "./src/ui/dust.js",
           "#ui/onboarding": "./src/ui/onboarding.js",
           "#ui/whatsnew": "./src/ui/whatsnew.js",
