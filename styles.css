@@ -35,6 +35,14 @@
     --wheel-2: light-dark(#2e7d32, #66bb6a); /* basil */
     --wheel-3: light-dark(#f4511e, #ff7043); /* saffron */
     --wheel-4: light-dark(#5d4037, #a1887f); /* cocoa */
+    /* The text on each segment of the wheel: 4.5:1 or more in both themes. */
+    --on-wheel-1: light-dark(#000000, #1a1a1a); /* 5.5:1 light, 6.7:1 dark */
+    --on-wheel-2: light-dark(#ffffff, #1a1a1a); /* 5.1:1 light, 7.4:1 dark */
+    --on-wheel-3: light-dark(#000000, #1a1a1a); /* 6.0:1 light, 6.3:1 dark */
+    --on-wheel-4: light-dark(#ffffff, #1a1a1a); /* 9.3:1 light, 5.3:1 dark */
+    --wheel-size: 400px; /* the most that the wheel grows */
+    --roulette-max: 1040px; /* the Roulette from 840px: the wheel and the result side by side */
+    --spin-ease: cubic-bezier(0.15, 0.85, 0.2, 1); /* the ease-out of a spin */
     /* The grounds of a cuisine tile: a soft tint of each wheel colour. The tile holds an emoji
        only, never text. */
     --tile-1: color-mix(in srgb, var(--wheel-1) 18%, var(--surface));
@@ -586,6 +594,258 @@
     height: auto;
     padding-block: var(--space-2);
     resize: vertical;
+  }
+
+  /* @component roulette
+     @scope roulette
+     @summary The Roulette section: the Places and Dishes switch, the filter row, then the stage with the wheel and the result card. One centred column; from 840px the wheel and the result stand side by side.
+     @part roulette-mode   The Places and Dishes switch (segmented), at most --content-max wide.
+     @part roulette-stage  The wheel and the result card. Hidden with no candidate, where the empty state shows.
+     @part roulette-board  The title, the "N of M" count, the wheel and the hint. Hidden with one candidate.
+     @part roulette-title  The question above the wheel.
+     @part roulette-count  "12 of N": the count of the wheel when it shows a sample of the candidates.
+     @part roulette-hint   The muted line under the wheel.
+     @example <section class="roulette" style="width: 100%"><div class="segmented roulette-mode"><button class="segment" type="button" aria-pressed="true">Places</button><button class="segment" type="button" aria-pressed="false">Dishes</button></div><div class="roulette-stage"><div class="roulette-board"><h2 class="roulette-title">Where do we eat today?</h2><p class="roulette-count">12 of 15</p><p class="roulette-hint">Tap the centre to decide</p></div></div></section> */
+  .roulette {
+    width: 100%;
+    max-width: var(--content-max);
+    margin-inline: auto;
+  }
+
+  .roulette-mode {
+    max-width: var(--content-max);
+    margin: var(--space-3) var(--space-4);
+  }
+
+  .roulette-stage {
+    display: grid;
+    gap: var(--space-6);
+    padding: 0 var(--space-4) var(--space-4);
+  }
+
+  .roulette-board {
+    display: grid;
+    justify-items: center;
+    gap: var(--space-2);
+    text-align: center;
+  }
+
+  .roulette-title {
+    margin: 0;
+    font-size: var(--text-h);
+    font-weight: var(--weight-strong);
+  }
+
+  .roulette-count {
+    margin: 0;
+    padding: var(--space-1) var(--space-3);
+    border-radius: var(--radius-pill);
+    background: var(--surface-2);
+    font-size: var(--text-s);
+    font-weight: var(--weight-medium);
+  }
+
+  .roulette-hint {
+    margin: 0;
+    color: var(--muted);
+    font-size: var(--text-s);
+  }
+
+  @media (min-width: 840px) {
+    .roulette {
+      max-width: var(--roulette-max);
+    }
+
+    .roulette-stage:has(> .roulette-result:not([hidden])) {
+      grid-template-columns: minmax(0, 1fr) minmax(0, 1fr);
+      align-items: center;
+    }
+  }
+
+  /* @component wheel
+     @scope roulette
+     @summary The wheel of the roulette: a disc of up to 12 segments in the four wheel colours, the pointer at the top and the centre button that spins. It is at most --wheel-size wide.
+     @part wheel-pointer    The arrow at the top, in --ink. The winner stops under it.
+     @part wheel-disc       The disc that turns. Its segments are a conic gradient that the view writes, and it turns over SPIN_MS with an ease-out.
+     @part wheel-label      The text of one segment, from the hub out to the rim, in the --on-wheel colour of its segment (4.5:1 or more).
+     @part wheel-label-name The short name, cut with an ellipsis.
+     @part wheel-label-emoji The emoji of the cuisine, at the rim.
+     @part wheel-hub        The centre button, Spin: a round --primary button over the disc.
+     @state data-wheel      On wheel-label: 1 to 4, the colour of its segment.
+     @example <div class="wheel" style="width: 280px"><span class="wheel-pointer"></span><div class="wheel-disc" style="background-image: conic-gradient(var(--wheel-1) 0deg 90deg, var(--wheel-2) 90deg 180deg, var(--wheel-3) 180deg 270deg, var(--wheel-4) 270deg 360deg)"><span class="wheel-label" data-wheel="1" style="--at: 45deg"><span class="wheel-label-name">Casa Lucio</span><span class="wheel-label-emoji">🥘</span></span><span class="wheel-label" data-wheel="2" style="--at: 135deg"><span class="wheel-label-name">Sora Nikkei</span><span class="wheel-label-emoji">🍣</span></span><span class="wheel-label" data-wheel="3" style="--at: 225deg"><span class="wheel-label-name">Taquería</span><span class="wheel-label-emoji">🌮</span></span><span class="wheel-label" data-wheel="4" style="--at: 315deg"><span class="wheel-label-name">Trattoria</span><span class="wheel-label-emoji">🍝</span></span></div><button class="button wheel-hub" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"/></svg><span>Spin</span></button></div> */
+  .wheel {
+    position: relative;
+    width: min(100%, var(--wheel-size));
+    aspect-ratio: 1;
+    margin-top: var(--space-3);
+  }
+
+  .wheel-pointer {
+    position: absolute;
+    top: calc(-1 * var(--space-3));
+    left: 50%;
+    z-index: 1;
+    width: var(--space-6);
+    height: var(--space-7);
+    background: var(--ink);
+    clip-path: polygon(0 0, 100% 0, 50% 100%);
+    transform: translateX(-50%);
+  }
+
+  .wheel-disc {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    border: var(--space-2) solid var(--surface);
+    border-radius: var(--radius-round);
+    box-shadow: var(--shadow-l);
+    transition-property: transform;
+    transition-timing-function: var(--spin-ease);
+  }
+
+  .wheel-label {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    display: flex;
+    align-items: center;
+    gap: var(--space-1);
+    width: 50%;
+    /* The text starts out of the hub and ends short of the rim. */
+    padding: 0 3% 0 17%;
+    color: var(--on-wheel-1);
+    font-size: var(--text-s);
+    font-weight: var(--weight-strong);
+    line-height: 1.2;
+    transform-origin: 0 50%;
+    transform: translateY(-50%) rotate(calc(var(--at) - 90deg));
+  }
+
+  .wheel-label[data-wheel="2"] {
+    color: var(--on-wheel-2);
+  }
+
+  .wheel-label[data-wheel="3"] {
+    color: var(--on-wheel-3);
+  }
+
+  .wheel-label[data-wheel="4"] {
+    color: var(--on-wheel-4);
+  }
+
+  .wheel-label-name {
+    flex: 1;
+    min-width: 0;
+    overflow: hidden;
+    text-align: end;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .wheel-label-emoji {
+    flex: none;
+  }
+
+  .wheel-hub {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    z-index: 1;
+    flex-direction: column;
+    gap: 0;
+    width: 30%;
+    min-width: var(--tap-l);
+    aspect-ratio: 1;
+    padding: 0;
+    border: var(--space-1) solid var(--surface);
+    border-radius: var(--radius-round);
+    background: var(--primary);
+    color: var(--on-primary);
+    box-shadow: var(--shadow-l);
+    font-weight: var(--weight-strong);
+    transform: translate(-50%, -50%);
+  }
+
+  /* The hub stays solid while the wheel turns, so that the disc does not show through it. */
+  .wheel-hub:disabled {
+    opacity: 1;
+  }
+
+  /* @component roulette-result
+     @scope roulette
+     @summary The result card of the roulette: the cuisine tile, the name, for a dish its place and price, the cuisine and the area, the facts, then Let's go, Open and Spin again.
+     @part roulette-result-kicker  The line above the result, in --primary.
+     @part roulette-result-head    The tile, the texts and the price.
+     @part roulette-result-text    The name, the place of a dish, the cuisine and the area, the facts.
+     @part roulette-result-name    The name of the place or of the dish. It takes the focus after a spin.
+     @part roulette-result-place   For a dish: the place where it is.
+     @part roulette-result-meta    The cuisine and the area.
+     @part roulette-result-price   For a dish with a price: the price, in --primary.
+     @part roulette-result-more    Open and Spin again, side by side.
+     @state aria-disabled  On Let's go: the place has no location, so there is no route.
+     @example <article class="roulette-result" style="width: 100%"><p class="roulette-result-kicker">Decided!</p><div class="roulette-result-head"><span class="place-tile large" data-wheel="3">🌮</span><div class="roulette-result-text"><h3 class="roulette-result-name">Tacos de birria</h3><p class="roulette-result-place">At La Taquería del Sol</p><p class="roulette-result-meta">Mexican · Chueca</p><p class="place-facts"><span>€€</span><span>650 m</span></p></div><span class="roulette-result-price">€14.50</span></div><a class="button primary wide"><svg class="icon small" aria-hidden="true"><use href="icons.svg#route"/></svg><span>Let's go</span></a><div class="roulette-result-more"><button class="button tonal" type="button">Open</button><button class="button tonal" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#refresh"/></svg><span>Spin again</span></button></div></article> */
+  .roulette-result {
+    display: grid;
+    gap: var(--space-4);
+    padding: var(--space-5);
+    border-radius: var(--radius-card);
+    background: var(--surface);
+    box-shadow: var(--shadow-l);
+  }
+
+  .roulette-result-kicker {
+    margin: 0;
+    color: var(--primary);
+    font-weight: var(--weight-strong);
+  }
+
+  .roulette-result-head {
+    display: flex;
+    align-items: flex-start;
+    gap: var(--space-3);
+  }
+
+  .roulette-result-text {
+    flex: 1;
+    min-width: 0;
+    display: grid;
+    gap: var(--space-1);
+  }
+
+  .roulette-result-name {
+    margin: 0;
+    font-size: var(--text-h);
+    font-weight: var(--weight-strong);
+    overflow-wrap: anywhere;
+  }
+
+  .roulette-result-place,
+  .roulette-result-meta {
+    margin: 0;
+    color: var(--muted);
+  }
+
+  .roulette-result-price {
+    flex: none;
+    color: var(--primary);
+    font-weight: var(--weight-strong);
+  }
+
+  .roulette-result > .button[aria-disabled="true"] {
+    opacity: 0.4;
+    cursor: default;
+    pointer-events: none;
+  }
+
+  .roulette-result-more {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+  }
+
+  .roulette-result-more > .button {
+    flex: 1 1 auto;
+    white-space: nowrap;
   }
 
   /* @component version-status

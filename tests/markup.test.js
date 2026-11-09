@@ -135,9 +135,36 @@ test('the price part of the filter sheet has From and To, four tiers each (PLC-3
   assert.deepEqual(ends('to'), tiers);
 });
 
-test('the Roulette section is a stub with an empty state that goes to Explore', () => {
-  const [section = ''] = body.match(/<section id="roulette" hidden>[\s\S]*?<\/section>/) ?? [];
-  assert.match(section, /<div class="empty-state">\s*<p data-i18n="roulette.soon"><\/p>\s*<button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"><\/button>/);
+const roulette = () => body.match(/<section id="roulette" class="roulette" hidden>[\s\S]*?<\/section>/)?.[0] ?? '';
+
+test('the Roulette section has the Places and Dishes switch, then the filter row (RUL-10)', () => {
+  const section = roulette();
+  assert.match(section, /<div id="roulette-mode" class="segmented roulette-mode" role="group" data-i18n-attr="aria-label:roulette.mode"><button class="segment" type="button" data-mode="places" data-i18n="roulette.places"><\/button><button class="segment" type="button" data-mode="dishes" data-i18n="roulette.dishes"><\/button><\/div>/);
+  assert.match(section, /<div id="roulette-filters" class="cluster scroll filter-bar" role="group" data-i18n-attr="aria-label:filter.label"><\/div>/);
+  assert.ok(section.indexOf('roulette-mode') < section.indexOf('roulette-filters'));
+});
+
+test('the Roulette section has the wheel with its pointer, its disc and the centre button (RUL-11, RUL-12)', () => {
+  const [board = ''] = roulette().match(/<div id="roulette-board" class="roulette-board">[\s\S]*?<p class="roulette-hint"/) ?? [];
+  assert.match(board, /<h2 id="roulette-title" class="roulette-title"><\/h2>/);
+  assert.match(board, /<p id="roulette-count" class="roulette-count" hidden><\/p>/);
+  assert.match(board, /<div id="wheel" class="wheel" role="img">\s*<span class="wheel-pointer"><\/span>\s*<div id="wheel-disc" class="wheel-disc"><\/div>\s*<button id="roulette-spin" class="button wheel-hub" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"\/><\/svg><span data-i18n="roulette.spin"><\/span><\/button>\s*<\/div>/);
+});
+
+test('the result card has the tile, the texts, and Let\'s go, Open and Spin again (RUL-14)', () => {
+  const [card = ''] = roulette().match(/<article id="roulette-result" class="roulette-result" aria-labelledby="roulette-result-name" hidden>[\s\S]*?<\/article>/) ?? [];
+  assert.match(card, /<p class="roulette-result-kicker" data-i18n="roulette.winner"><\/p>/);
+  assert.match(card, /<span id="roulette-result-tile" class="place-tile large"><\/span>/);
+  assert.match(card, /<h3 id="roulette-result-name" class="roulette-result-name" tabindex="-1"><\/h3>/);
+  for (const id of ['roulette-result-place', 'roulette-result-meta']) assert.match(card, new RegExp(`<p id="${id}" class="[^"]+"( hidden)?><\\/p>`), id);
+  assert.match(card, /<p id="roulette-result-facts" class="place-facts"><\/p>/);
+  assert.match(card, /<a id="roulette-go" class="button primary wide" target="_blank" rel="noopener">[\s\S]*?<span data-i18n="roulette.go"><\/span><\/a>/);
+  assert.match(card, /<button id="roulette-open" class="button tonal" type="button" data-i18n="roulette.open"><\/button>/);
+  assert.match(card, /<button id="roulette-again" class="button tonal" type="button">[\s\S]*?<span data-i18n="roulette.again"><\/span><\/button>/);
+});
+
+test('the Roulette section has an empty state that goes to Explore (RUL-13)', () => {
+  assert.match(roulette(), /<div id="roulette-empty" class="empty-state" hidden>\s*<h2 class="empty-state-title" data-i18n="roulette.emptyTitle"><\/h2>\s*<p id="roulette-empty-text"><\/p>\s*<button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"><\/button>/);
 });
 
 test('the navigation has one item for each section, in the order of SECTIONS (NAV-1)', () => {

@@ -68,9 +68,42 @@
         </article>
       </section>
 
-      <section id="roulette" hidden>
-        <div class="empty-state">
-          <p data-i18n="roulette.soon"></p>
+      <section id="roulette" class="roulette" hidden>
+        <div id="roulette-mode" class="segmented roulette-mode" role="group" data-i18n-attr="aria-label:roulette.mode"><button class="segment" type="button" data-mode="places" data-i18n="roulette.places"></button><button class="segment" type="button" data-mode="dishes" data-i18n="roulette.dishes"></button></div>
+        <div id="roulette-filters" class="cluster scroll filter-bar" role="group" data-i18n-attr="aria-label:filter.label"></div>
+        <div id="roulette-stage" class="roulette-stage">
+          <div id="roulette-board" class="roulette-board">
+            <h2 id="roulette-title" class="roulette-title"></h2>
+            <p id="roulette-count" class="roulette-count" hidden></p>
+            <div id="wheel" class="wheel" role="img">
+              <span class="wheel-pointer"></span>
+              <div id="wheel-disc" class="wheel-disc"></div>
+              <button id="roulette-spin" class="button wheel-hub" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"/></svg><span data-i18n="roulette.spin"></span></button>
+            </div>
+            <p class="roulette-hint" data-i18n="roulette.hint"></p>
+          </div>
+          <article id="roulette-result" class="roulette-result" aria-labelledby="roulette-result-name" hidden>
+            <p class="roulette-result-kicker" data-i18n="roulette.winner"></p>
+            <div class="roulette-result-head">
+              <span id="roulette-result-tile" class="place-tile large"></span>
+              <div class="roulette-result-text">
+                <h3 id="roulette-result-name" class="roulette-result-name" tabindex="-1"></h3>
+                <p id="roulette-result-place" class="roulette-result-place" hidden></p>
+                <p id="roulette-result-meta" class="roulette-result-meta"></p>
+                <p id="roulette-result-facts" class="place-facts"></p>
+              </div>
+              <span id="roulette-result-price" class="roulette-result-price" hidden></span>
+            </div>
+            <a id="roulette-go" class="button primary wide" target="_blank" rel="noopener"><svg class="icon small" aria-hidden="true"><use href="icons.svg#route"/></svg><span data-i18n="roulette.go"></span></a>
+            <div class="roulette-result-more">
+              <button id="roulette-open" class="button tonal" type="button" data-i18n="roulette.open"></button>
+              <button id="roulette-again" class="button tonal" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#refresh"/></svg><span data-i18n="roulette.again"></span></button>
+            </div>
+          </article>
+        </div>
+        <div id="roulette-empty" class="empty-state" hidden>
+          <h2 class="empty-state-title" data-i18n="roulette.emptyTitle"></h2>
+          <p id="roulette-empty-text"></p>
           <button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"></button>
         </div>
       </section>
@@ -315,6 +348,7 @@
           "#ui/place": "./src/ui/place.js",
           "#ui/position": "./src/ui/position.js",
           "#ui/filters": "./src/ui/filters.js",
+          "#ui/roulette": "./src/ui/roulette.js",
           "#ui/settings": "./src/ui/settings.js",
           "#swipe": "./src/swipe.js",
           "#particles": "./src/particles.js",

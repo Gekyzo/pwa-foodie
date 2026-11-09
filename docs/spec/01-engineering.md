@@ -33,6 +33,7 @@
 | `src/ui/filters.js` | The filter chips of Explore and the roulette and the filter sheet: price, max price, distance, favourites and cuisine (PLC-32 to PLC-35, LOC-9) | `cuisines`, `filters`, `dishes`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/place`, `ui/position` |
 | `src/ui/place.js` | The detail of a place, its place sheet with the location, the dish sheet, Route, the favourite and the delete with Undo (PLC-24 to PLC-31) | `cuisines`, `places`, `dishes`, `geo`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/motion`, `ui/nav`, `ui/position` |
 | `src/ui/position.js` | The position of the phone: one read, the fresh fix and the read with no prompt (LOC-7, LOC-8) | `geo`, `ui/context` |
+| `src/ui/roulette.js` | The Roulette section: the Places and Dishes switch, the chips, the wheel and its spin, the result card and the empty state (RUL-10 to RUL-15) | `roulette`, `places`, `geo`, `ui/context`, `ui/place`, `ui/filters`, `ui/nav`, `ui/position` |
 | `src/ui/settings.js` | Settings, Delete all data (SET-2), and the text of the page in its language | `places`, `storage`, `i18n`, `modules`, `ui/context`, `ui/update`, `ui/onboarding`, `ui/account` |
 | `src/ui/dust.js` | The dust of a navigation item (optional) | `particles`, `ui/context`, `ui/controls` |
 | `src/ui/onboarding.js` | The walkthrough (optional) | `onboarding`, `sections`, `storage`, `ui/context`, `ui/controls` |
@@ -114,7 +115,7 @@ The doc keys are in [07-places.md](07-places.md). The device preferences are `pw
 | `tests/whatsnew.test.js` | The parse of the release notes and the unseen versions |
 | `tests/release-notes-files.test.js` | One release-notes file for each language, with the same versions (VER-19) |
 | `tests/i18n.test.js` | The language choice, the translator, the parity of the catalogs |
-| `tests/markup.test.js` | `index.html` holds no text of its own; the place sheet, the filter sheet, Explore, the Roulette stub, the navigation and Modules, the walkthrough and the account markup |
+| `tests/markup.test.js` | `index.html` holds no text of its own; the place sheet, the filter sheet, Explore, the Roulette section, the navigation and Modules, the walkthrough and the account markup |
 | `tests/aliases.test.js` | The import map against `package.json`; each `#ds/` alias names a vendored module |
 | `tests/layers.test.js` | The layer rules and `SHELL` (ENG-16) |
 | `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/`, and the parts of `styles.css` (DSV-3) |

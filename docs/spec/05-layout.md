@@ -8,7 +8,8 @@ Rules of `src/sections.js`, `src/modules.js`, `src/onboarding.js`, the views `na
 The size classes, the navigation element, the `pane` layout and the safe areas are the rules
 LAY-1 to LAY-4 of the design system (04-design-system). In this app the Explore section uses the
 `pane` layout (LAY-3): the cards in the list, the place in the detail. From 840px, with no place
-open, the detail says `place.pick`.
+open, the detail says `place.pick`. The Roulette section is one centred column; from 840px, while
+a result shows, the wheel and the result card stand side by side (RUL-10).
 
 ## Navigation
 
@@ -23,9 +24,9 @@ open, the detail says `place.pick`.
 ## Modules
 
 - **MOD-1** `MODULES` lists the parts that Settings turns off: `roulette`, which shows the
-  Roulette section. Until the wheel comes, the section shows `roulette.soon` and a button that goes
-  to Explore. With a module off, its sections leave the navigation, and a view of one of them goes
-  to the first section that is on.
+  Roulette section (09-roulette) and the "Can't decide?" card of Explore (PLC-36). With a module
+  off, its sections leave the navigation, and a view of one of them goes to the first section that
+  is on.
 - **MOD-2** The modules that are off are a preference of the device under `pwa-foodie.modules`,
   not part of the doc. No module off removes the key.
 - **MOD-3** A switch of Modules animates the item of its section: it breaks into dust and its

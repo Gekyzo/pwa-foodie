@@ -23,6 +23,7 @@ const SHELL = [
   './src/ui/place.js',
   './src/ui/position.js',
   './src/ui/filters.js',
+  './src/ui/roulette.js',
   './src/ui/settings.js',
   './src/ui/update.js',
   './src/ui/dust.js',

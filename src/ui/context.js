@@ -93,6 +93,12 @@ export const ui = {
   dishId: null,
   // The search text of Explore. It is not stored.
   query: '',
+  // What the roulette spins: `places` or `dishes` (RUL-1). It is not stored.
+  mode: 'places',
+  // The id of the last winner of the roulette, left out of the next spin (RUL-5), or null.
+  lastWinner: null,
+  // True while the wheel turns: the controls of the roulette are disabled.
+  spinning: false,
   // The place card whose side actions are open, or null.
   openId: null,
   // Where the last swipe left its row, so that the next render moves the row from there.

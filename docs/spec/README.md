@@ -18,7 +18,7 @@ The names of the screen are the English ones; `src/locales/es.js` is the source 
 | [06-i18n.md](06-i18n.md) | The languages and the rules of the text |
 | [07-places.md](07-places.md) | The places doc, Explore and the place detail: restaurants, dishes, cuisines and locations |
 | [08-account.md](08-account.md) | Google sign-in, the approval gate and the offline choice |
-| [09-roulette.md](09-roulette.md) | The roulette: the candidates, the draw, the landing and reduced motion |
+| [09-roulette.md](09-roulette.md) | The roulette: the candidates, the draw, the landing, reduced motion and the screen |
 
 ## Rule identifiers
 

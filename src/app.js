@@ -1,8 +1,9 @@
 import { $, ui, storage, t, setRender, render, showToast, hideToast, toastAction, clickGuardUntil } from '#ui/context';
-import { bind as bindNav, renderNav, setView } from '#ui/nav';
+import { bind as bindNav, renderNav } from '#ui/nav';
 import { bind as bindExplore, renderExplore } from '#ui/explore';
 import { bind as bindPlace, renderPlace, closeSheet } from '#ui/place';
 import { bind as bindFilters, renderFilterSheet, closeFilterSheet } from '#ui/filters';
+import { bind as bindRoulette, renderRoulette } from '#ui/roulette';
 import { bind as bindSettings, applyLanguage } from '#ui/settings';
 import { bind as bindInstall, renderInstall } from '#ui/install';
 import { readVersion, renderVersion, offerUpdate } from '#ui/update';
@@ -21,7 +22,7 @@ const renderAll = () => {
   renderExplore();
   renderPlace();
   renderFilterSheet();
-  $('roulette').hidden = ui.view !== 'roulette';
+  renderRoulette();
   $('settings').hidden = ui.view !== 'settings';
   renderVersion();
   renderInstall();
@@ -33,6 +34,7 @@ bindNav();
 bindExplore();
 bindPlace();
 bindFilters();
+bindRoulette();
 bindSettings();
 bindInstall();
 bindOnboarding();
@@ -73,9 +75,6 @@ document.addEventListener('keydown', (event) => {
     render();
   }
 });
-
-// The Roulette section is a stub until its wheel comes: its empty state goes to Explore.
-$('roulette-explore').addEventListener('click', () => setView('explore'));
 
 $('toast-action').addEventListener('click', () => {
   const action = toastAction;
