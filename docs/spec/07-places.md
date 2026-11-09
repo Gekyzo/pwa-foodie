@@ -63,3 +63,15 @@ the notes demo goes away.
 
 - **LOC-1** A location is valid when `lat` is a finite number from -90 to 90 and `lng` is a
   finite number from -180 to 180. Any other value is not a location.
+- **LOC-2** `parseLocation` reads a pasted text. A short link (`maps.app.goo.gl` or `goo.gl/maps`)
+  is `error.shortLink`. Other text that is not a location is `error.locationInvalid`.
+- **LOC-3** A bare pair is `lat, lng` with optional spaces around the comma, and nothing else in
+  the text. A Google Maps URL (a `google.*` host with a `maps.` host or a `/maps` path) is decoded
+  first. The pair comes from, in order: `!3d<lat>!4d<lng>`, then `q=`, `query=` or `ll=`, then
+  `@<lat>,<lng>`. A pair out of range is `error.locationInvalid`.
+- **LOC-4** `distanceKm` is the haversine distance in km, with an earth radius of 6371 km.
+  `routeUrl` is `https://www.google.com/maps/dir/?api=1&destination=<lat>,<lng>`.
+- **LOC-5** A position fix is `{ location, at }`. It is fresh when `now - at` is less than
+  `FIX_MS` (600000 ms, 10 minutes).
+- **LOC-6** `distanceLabel` below 1 km is `distance.m` with metres rounded to 50 and at least 50.
+  From 1 km it is `distance.km` with km to one decimal.

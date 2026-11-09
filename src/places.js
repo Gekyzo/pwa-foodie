@@ -1,5 +1,6 @@
 import { APP_SLUG } from '#config';
 import { cuisineOf } from '#cuisines';
+import { isLocation } from '#geo';
 
 // The places doc: restaurants and their dishes, newest place first.
 export const PLACES_KEY = `${APP_SLUG}.places`;
@@ -14,13 +15,7 @@ const isObject = (value) => typeof value === 'object' && value !== null;
 const isText = (value) => typeof value === 'string' && value.trim() !== '';
 const inRange = (value, min, max) => Number.isInteger(value) && value >= min && value <= max;
 
-// Local check until #geo is written (Task 3 replaces it with its `isLocation`).
-const validLocation = (value) =>
-  isObject(value) &&
-  Number.isFinite(value.lat) && value.lat >= -90 && value.lat <= 90 &&
-  Number.isFinite(value.lng) && value.lng >= -180 && value.lng <= 180;
-
-const cleanLocation = (value) => (validLocation(value) ? { lat: value.lat, lng: value.lng } : null);
+const cleanLocation = (value) => (isLocation(value) ? { lat: value.lat, lng: value.lng } : null);
 const cleanTier = (value) => (inRange(value, 1, 4) ? value : DEFAULT_TIER);
 const cleanRating = (value) => (inRange(value, 1, 5) ? value : null);
 const text = (value) => String(value ?? '').trim();

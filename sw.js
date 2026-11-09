@@ -32,6 +32,7 @@ const SHELL = [
   './src/onboarding.js',
   './src/notes.js',
   './src/cuisines.js',
+  './src/geo.js',
   './src/places.js',
   './src/dishes.js',
   './src/install.js',

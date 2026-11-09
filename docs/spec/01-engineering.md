@@ -17,7 +17,8 @@
 | `src/notes.js` | Pure note operations, the doc and its validation (demo) | `config` |
 | `src/cuisines.js` | The kinds of food of a place and their emoji (PLC-6) | nothing |
 | `src/dishes.js` | Pure dish operations and the price parse (PLC-11 to PLC-14) | `places` |
-| `src/places.js` | Pure place operations, the places doc and its validation (PLC-1 to PLC-10) | `config`, `cuisines` |
+| `src/geo.js` | The location check, the read of a map link, distances and the route link (LOC-1 to LOC-6) | nothing |
+| `src/places.js` | Pure place operations, the places doc and its validation (PLC-1 to PLC-10) | `config`, `cuisines`, `geo` |
 | `src/swipe.js` | The rule that settles the slide of a row (optional) | nothing |
 | `src/reorder.js` | The geometry of a row move (optional) | nothing |
 | `src/particles.js` | The particles of a picture and their place in time (optional) | nothing |
@@ -94,6 +95,7 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 | `tests/notes.test.js` | The note operations and the validation of the doc (demo) |
 | `tests/cuisines.test.js` | The cuisine list and its texts (PLC-6) |
 | `tests/dishes.test.js` | The dish operations and the price parse (PLC-11 to PLC-14) |
+| `tests/geo.test.js` | The location check, the map link read, distances and fixes (LOC-1 to LOC-6) |
 | `tests/places.test.js` | The place operations and the validation of the doc (PLC-1 to PLC-10) |
 | `tests/pocketbase.test.js` | The client of the account server and its URL (ACC-3, ACC-4, ACC-6) |
 | `tests/session.test.js` | The session, the start route, the offline flag, the pending sign-in and the return URL (ACC-1, ACC-4, ACC-5, ACC-10) |

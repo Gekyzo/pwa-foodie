@@ -110,4 +110,8 @@ export default {
   'error.priceInvalid': 'Write a price from 0 to 999.99.',
   'error.dishNameRequired': 'Write the dish name.',
   'error.dishNameTooLong': 'At most {max} characters.',
+  'error.shortLink': 'The short link cannot be read. Open it in the map and copy the long address.',
+  'error.locationInvalid': 'No coordinates found. Paste a Google Maps link or "lat, lng".',
+  'distance.m': '{m} m',
+  'distance.km': '{km} km',
 };

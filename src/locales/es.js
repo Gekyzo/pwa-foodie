@@ -110,4 +110,8 @@ export default {
   'error.priceInvalid': 'Escribe un precio entre 0 y 999,99.',
   'error.dishNameRequired': 'Escribe el nombre del plato.',
   'error.dishNameTooLong': 'Máximo {max} caracteres.',
+  'error.shortLink': 'No se pudo leer el enlace corto. Abre el enlace en el mapa y copia la dirección larga.',
+  'error.locationInvalid': 'No se encontraron coordenadas. Pega un enlace de Google Maps o «lat, lng».',
+  'distance.m': '{m} m',
+  'distance.km': '{km} km',
 };
