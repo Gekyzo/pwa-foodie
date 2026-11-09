@@ -41,6 +41,24 @@ the notes demo goes away.
 - **PLC-10** An id that is not in the doc is `error.placeMissing`, and the state is the same
   object.
 
+## Dishes
+
+- **PLC-11** `parsePrice` reads the text of a price field. It removes `€` and spaces. An empty text
+  is `{ cents: null }`. A text of digits with up to two decimals, after `.` or `,`, is whole cents
+  with integer math, so `14,50` is 1450. Any other text, and a price over `MAX_PRICE` (99999
+  cents), is `error.priceInvalid`.
+- **PLC-12** `addDish` appends a dish to the end of one place. The name is trimmed. A blank name,
+  or a name that is not text, is `error.dishNameRequired`. A name of more than 80 characters is
+  `error.dishNameTooLong`. A note of more than 280 characters is `error.noteTooLong`. A price that
+  is not `null` or an integer from 0 to `MAX_PRICE` is `error.priceInvalid`.
+- **PLC-13** The defaults of a dish: `price` and `rating` are `null`, `star` is off, `note` is
+  empty. A rating that is not an integer from 1 to 5 is `null`. `star` is on only for `true`.
+  `editDish` keeps a field that is not given and checks the others as PLC-12 says. `deleteDish`
+  removes one dish.
+- **PLC-14** An unknown place is `error.placeMissing`, as PLC-10 says. A dish id that is not in
+  its place is `error.dishMissing`. In both cases the state is the same object. `sortDishes`
+  returns the star dishes first and keeps the order inside each group.
+
 ## Location
 
 - **LOC-1** A location is valid when `lat` is a finite number from -90 to 90 and `lng` is a

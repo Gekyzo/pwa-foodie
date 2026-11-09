@@ -106,4 +106,8 @@ export default {
   'error.areaTooLong': 'Máximo {max} caracteres.',
   'error.noteTooLong': 'Máximo {max} caracteres.',
   'error.placeMissing': 'El sitio ya no existe.',
+  'error.dishMissing': 'El plato ya no existe.',
+  'error.priceInvalid': 'Escribe un precio entre 0 y 999,99.',
+  'error.dishNameRequired': 'Escribe el nombre del plato.',
+  'error.dishNameTooLong': 'Máximo {max} caracteres.',
 };

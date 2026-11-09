@@ -106,4 +106,8 @@ export default {
   'error.areaTooLong': 'At most {max} characters.',
   'error.noteTooLong': 'At most {max} characters.',
   'error.placeMissing': 'The place no longer exists.',
+  'error.dishMissing': 'The dish no longer exists.',
+  'error.priceInvalid': 'Write a price from 0 to 999.99.',
+  'error.dishNameRequired': 'Write the dish name.',
+  'error.dishNameTooLong': 'At most {max} characters.',
 };
