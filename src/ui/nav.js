@@ -43,12 +43,13 @@ export const bind = () => {
     button.addEventListener('click', () => setView(button.dataset.view));
   });
   // A horizontal slide that starts out of the rows changes the section (NAV-2). A row keeps its
-  // drag for its side actions, and a text field keeps its drag for the selection.
+  // drag for its side actions, the filter chips keep theirs to scroll, and a text field keeps its
+  // drag for the selection.
   let sectionSlide = null;
   document.addEventListener('pointerdown', (event) => {
     sectionSlide = null;
     if (!event.isPrimary || event.button !== 0 || ui.sheet !== null || ui.onboarding !== null) return;
-    if (!event.target.closest('.app-header, main') || event.target.closest('.item-row-swipe, input, textarea, select')) return;
+    if (!event.target.closest('.app-header, main') || event.target.closest('.item-row-swipe, .filter-bar, input, textarea, select')) return;
     sectionSlide = { pointerId: event.pointerId, x: event.clientX, y: event.clientY };
   });
   document.addEventListener('pointerup', (event) => {

@@ -34,9 +34,17 @@ export const metaOf = (place) => {
   return place.area ? t('place.meta', { cuisine, area: place.area }) : cuisine;
 };
 
-// The tier, then the own rating when there is one.
-export const facts = (place) => [
+// The distance as text, `1,5 km` in Spanish (LOC-6).
+const distanceText = (km) => {
+  const { key, params } = distanceLabel(km);
+  const number = new Intl.NumberFormat(lang);
+  return t(key, Object.fromEntries(Object.entries(params).map(([name, value]) => [name, number.format(value)])));
+};
+
+// The tier, the distance in km when it is known, then the own rating when there is one.
+export const facts = (place, km = null) => [
   el('span', { textContent: t(`tier.${place.tier}`) }),
+  ...(km === null ? [] : [el('span', { textContent: distanceText(km) })]),
   ...(place.rating === null
     ? []
     : [el('span', { className: 'place-rating', title: t('place.rated', { rating: place.rating }) }, [icon('star', 'small'), el('span', { textContent: String(place.rating) })])]),
@@ -68,10 +76,10 @@ export const removePlace = (id) => {
   });
 };
 
-const price = (cents) => new Intl.NumberFormat(lang, { style: 'currency', currency: 'EUR' }).format(cents / 100);
+export const price = (cents) => new Intl.NumberFormat(lang, { style: 'currency', currency: 'EUR' }).format(cents / 100);
 
 // A price as the field shows it to edit: 14,50 in Spanish, 14.50 in English.
-const priceInput = (cents) =>
+export const priceInput = (cents) =>
   new Intl.NumberFormat(lang, { minimumFractionDigits: 2, maximumFractionDigits: 2, useGrouping: false }).format(cents / 100);
 
 const rated = (rating) =>
@@ -98,14 +106,10 @@ const dishRow = (dish) => {
   return node;
 };
 
-// The distance to a place from a fresh fix, or nothing.
-const distanceFact = (place) => {
+// The km to a place from a fresh fix, or null.
+const kmTo = (place) => {
   const fix = currentFix();
-  if (!fix || !place.location) return [];
-  const { key, params } = distanceLabel(distanceKm(fix.location, place.location));
-  const number = new Intl.NumberFormat(lang);
-  const text = t(key, Object.fromEntries(Object.entries(params).map(([name, value]) => [name, number.format(value)])));
-  return [el('span', { textContent: text })];
+  return fix && place.location ? distanceKm(fix.location, place.location) : null;
 };
 
 const pairText = (location) =>
@@ -168,7 +172,7 @@ export const closeDishSheet = () => {
   render();
 };
 
-// Closes the open sheet with no save: Escape.
+// Closes the open sheet of a place or a dish with no save: Escape.
 export const closeSheet = () => {
   if (ui.sheet === 'dish') closeDishSheet();
   else if (ui.sheet === 'place') closePlaceSheet();
@@ -261,7 +265,7 @@ export const renderPlace = () => {
     tile(place, $('place-tile'));
     $('place-title').textContent = place.name;
     $('place-meta').textContent = metaOf(place);
-    $('place-facts').replaceChildren(...facts(place), ...distanceFact(place));
+    $('place-facts').replaceChildren(...facts(place, kmTo(place)));
     markFavorite($('place-fav'), place);
     $('place-remark').textContent = place.note;
     $('place-remark').hidden = !place.note;

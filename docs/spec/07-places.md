@@ -4,8 +4,9 @@ The domain of the app: restaurants, the dishes of each, and where they are, and 
 section that shows them. Its files are `src/places.js`, `src/dishes.js`, `src/cuisines.js`,
 `src/geo.js`, `src/filters.js`, the views `src/ui/explore.js` and `src/ui/place.js`, their tests,
 the `cuisine.*`, `explore.*`, `place.*`, `places.count` and `tier.*` keys and the `error.*` keys of
-the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` section, the
-`#place-sheet` and the `#dish-sheet` of `index.html`, and `src/ui/position.js`.
+the places in the catalogs, the `dish.*`, `location.*` and `filter.*` keys, the `#explore`
+section, the `#place-sheet`, the `#dish-sheet` and the `#filter-sheet` of `index.html`,
+`src/ui/position.js` and `src/ui/filters.js`.
 
 ## Doc
 
@@ -81,10 +82,11 @@ the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` s
 ## Screen
 
 - **PLC-20** Explore lists the places as cards, in the order of PLC-19, from `visiblePlaces` with
-  the text of the search and no position. Until the filter chips come, the filters are the
-  defaults of PLC-15.
+  the text of the search, the filters of the device (PLC-32) and the location of the fresh fix
+  (`currentFix`, LOC-7), or no position when there is none.
 - **PLC-21** A card shows the cuisine tile, the name, `place.meta` (the cuisine and the area, or the
-  cuisine alone), the tier as `tier.<n>` (`€` to `€€€€`), the own rating with a star, up to two
+  cuisine alone), the tier as `tier.<n>` (`€` to `€€€€`), the distance of LOC-6 when a fresh fix
+  and a location of the place are known, the own rating with a star, up to two
   star dishes in `sortDishes` order, and the heart. The tile shows the emoji of the cuisine on
   `--tile-<n>`, a soft tint of `--wheel-<n>`: n is the index of the cuisine in `CUISINES`, modulo
   4, plus 1. The tile holds no text.
@@ -94,8 +96,8 @@ the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` s
 - **PLC-23** **+** and **Add place** open the sheet of a new place. A tap on a card opens its
   detail (LAY-3); from 840px the card of the open place is marked. A tap on the heart flips the
   favourite (PLC-9). A card slides left to show **Delete** (PLC-26).
-- **PLC-24** The detail shows the large tile, the name, `place.meta`, the tier, the rating and the
-  distance from a fresh fix (LOC-6, LOC-7), the heart, **Route**, **Edit**, **Delete**, the note,
+- **PLC-24** The detail shows the large tile, the name, `place.meta`, the tier, the distance from a
+  fresh fix (LOC-6, LOC-7) and the rating, the heart, **Route**, **Edit**, **Delete**, the note,
   and the dishes, star dishes first (`sortDishes`). A dish shows its star, its name, its rating,
   its note on one line and its price in EUR in the language of the screen
   (`Intl.NumberFormat`, so 1450 is `14,50 €` in Spanish and `€14.50` in English). With no dish it
@@ -106,7 +108,7 @@ the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` s
   characters), with the location of PLC-28 before the note. **Save** runs `addPlace` or
   `editPlace`; an error shows in the toast and the sheet stays open. **Close**, a tap on the veil,
   a drag down of the head and Escape close it with no save. Only one sheet is open at a time
-  (`ui.sheet` is `place`, `dish` or null), and Escape closes that one.
+  (`ui.sheet` is `place`, `dish`, `filter` or null), and Escape closes that one.
 - **PLC-26** **Delete**, in the detail or behind a card, runs `deletePlace`. A card that shows
   closes first (`collapse`). The toast `toast.placeDeleted` offers **Undo** for 5 seconds.
 - **PLC-27** Export writes the places doc. Import reads a file through `normalizePlaces` and asks
@@ -130,6 +132,29 @@ the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` s
 - **PLC-31** **Delete dish**, in the sheet of a dish to edit, closes the sheet, closes the row of
   the dish (`collapse`) and runs `deleteDish`. The toast `toast.dishDeleted` offers **Undo** for 5
   seconds.
+- **PLC-32** The filter chips stand under the search, in one row that scrolls sideways; a
+  horizontal drag on the row scrolls it and does not change the section. The chips are
+  **Price**, **Distance**, **Favourites** and **Cuisine**; the roulette in Dishes mode adds
+  **Max price** after **Price** (`renderChips` with the mode `dishes`). A chip with a value is
+  pressed (`aria-pressed`, the `--ink` fill). The row hides with the search when there is no place.
+  Each change applies at once and is saved under `pwa-foodie.filters` (`saveFilters`); Explore
+  and the roulette share it.
+- **PLC-33** **Favourites** flips `favorites`. Each other chip opens `#filter-sheet` at its part,
+  with the chip name as the title. **Done**, a tap on the veil, a drag down of the head and
+  Escape close it. **Clear filter**, in the foot of every part but Distance, sets the default of
+  PLC-15 for that part.
+- **PLC-34** **Price** shows `filter.price` for `[1, 4]`, one `tier.<n>` for one tier, else
+  `filter.tiers`. Its part has **From** and **To**, four tier segments each; a pick of one end
+  moves the other end to it when they would cross. **Cuisine** shows `filter.cuisine` with none,
+  the emoji and name of one, else `filter.cuisines` with the count. Its part is one chip for each
+  cuisine of `CUISINES`; a tap adds or removes it.
+- **PLC-35** **Max price** shows `filter.maxPrice` or `filter.upTo` with the price in EUR. Its
+  part is a price field, read by `parsePrice` on **Apply** or Enter; an empty field clears the
+  filter. An error shows in the toast and the sheet stays open. The field shows the current
+  price with two decimals in the language of the screen.
+- **PLC-36** The card `explore.decideTitle` stands under the chips, with **Go to the roulette**,
+  which opens the Roulette section with the same filters. It hides with no place and while the
+  `roulette` module is off.
 
 ## Location
 
@@ -155,3 +180,11 @@ the places in the catalogs, the `dish.*` and `location.*` keys, the `#explore` s
 - **LOC-8** The app never asks for the position without a tap. `silentFix` reads the position
   only when the Permissions API says `granted` for `geolocation`; any failure leaves the fix as
   it was, with no message.
+- **LOC-9** A pick of a distance in the filter sheet closes it and reads the position (LOC-7);
+  the chip shows `filter.locating` meanwhile. A read that works sets `km`. A read that fails
+  shows its error in the toast and `filter.noPosition` (`data-state="error"`) on the chip until
+  the next pick, and `km` does not change. **Any** sets `km` to `null` with no read. A saved `km`
+  with no fresh fix shows `filter.waiting` (`data-state="waiting"`) and filters nothing (PLC-18).
+- **LOC-10** Each time Explore comes into view, also at the start, it calls `silentFix` (LOC-8). A
+  read that gives a new fix renders the screen again, so the distances, the order of PLC-19 and
+  the distance filter use it.

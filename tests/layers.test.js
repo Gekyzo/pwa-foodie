@@ -14,7 +14,7 @@ const importsOf = (name) => [...read(`src/${name}.js`).matchAll(/from '#([\w/]+)
 
 // The values that a module shares through a live binding. Only their owner assigns them.
 const OWNED = {
-  'ui/context': ['chosen', 'lang', 't', 'hand', 'theme', 'off', 'navMotion', 'state', 'toastAction', 'clickGuardUntil', 'fix'],
+  'ui/context': ['chosen', 'lang', 't', 'hand', 'theme', 'off', 'navMotion', 'state', 'toastAction', 'clickGuardUntil', 'fix', 'filters'],
 };
 
 test('the views exist', () => {

@@ -23,13 +23,14 @@
 | `src/swipe.js` | The rule that settles the slide of a row (optional) | nothing |
 | `src/particles.js` | The particles of a picture and their place in time (optional) | nothing |
 | `src/onboarding.js` | The show rule and the page steps of the walkthrough (optional) | nothing |
-| `src/ui/context.js` | The values that the views share, the toast, `render`, `commit` and `apply` | `places`, `storage`, `i18n`, `onboarding` |
+| `src/ui/context.js` | The values that the views share, the filters, the toast, `render`, `commit` and `apply` | `places`, `filters`, `storage`, `i18n`, `onboarding` |
 | `src/ui/controls.js` | The icon builder and the side-action button | `ui/context` |
 | `src/ui/motion.js` | Row collapse and expand animations: a deleted card or dish closes before it leaves | `ui/context` |
 | `src/ui/update.js` | The version line, the check, the refresh and the update toast | `version`, `i18n`, `ui/context` |
 | `src/ui/install.js` | The Install button | `install`, `ui/context` |
 | `src/ui/nav.js` | The navigation, the change and the slide of a section | `sections`, `modules`, `ui/context`, `ui/update`, `ui/dust` |
-| `src/ui/explore.js` | The Explore section: the search, the cards, the empty state and the add button (PLC-20 to PLC-23) | `cuisines`, `dishes`, `filters`, `swipe`, `ui/context`, `ui/controls`, `ui/place` |
+| `src/ui/explore.js` | The Explore section: the search, the filter chips, the "Can't decide?" card, the cards, the empty state and the add button (PLC-20 to PLC-23, PLC-32, PLC-36, LOC-10) | `cuisines`, `dishes`, `filters`, `swipe`, `ui/context`, `ui/controls`, `ui/place`, `ui/filters`, `ui/nav`, `ui/position` |
+| `src/ui/filters.js` | The filter chips of Explore and the roulette and the filter sheet: price, max price, distance, favourites and cuisine (PLC-32 to PLC-35, LOC-9) | `cuisines`, `filters`, `dishes`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/place`, `ui/position` |
 | `src/ui/place.js` | The detail of a place, its place sheet with the location, the dish sheet, Route, the favourite and the delete with Undo (PLC-24 to PLC-31) | `cuisines`, `places`, `dishes`, `geo`, `ds/sheet`, `ui/context`, `ui/controls`, `ui/motion`, `ui/nav`, `ui/position` |
 | `src/ui/position.js` | The position of the phone: one read, the fresh fix and the read with no prompt (LOC-7, LOC-8) | `geo`, `ui/context` |
 | `src/ui/settings.js` | Settings, Delete all data (SET-2), and the text of the page in its language | `places`, `storage`, `i18n`, `modules`, `ui/context`, `ui/update`, `ui/onboarding`, `ui/account` |
@@ -113,7 +114,7 @@ The doc keys are in [07-places.md](07-places.md). The device preferences are `pw
 | `tests/whatsnew.test.js` | The parse of the release notes and the unseen versions |
 | `tests/release-notes-files.test.js` | One release-notes file for each language, with the same versions (VER-19) |
 | `tests/i18n.test.js` | The language choice, the translator, the parity of the catalogs |
-| `tests/markup.test.js` | `index.html` holds no text of its own; the place sheet, Explore, the Roulette stub, the navigation and Modules, the walkthrough and the account markup |
+| `tests/markup.test.js` | `index.html` holds no text of its own; the place sheet, the filter sheet, Explore, the Roulette stub, the navigation and Modules, the walkthrough and the account markup |
 | `tests/aliases.test.js` | The import map against `package.json`; each `#ds/` alias names a vendored module |
 | `tests/layers.test.js` | The layer rules and `SHELL` (ENG-16) |
 | `tests/design.test.js` | Each rule of `vendor/design-system/rules.js` over the two stylesheets, `index.html`, `icons.svg`, `src/ui/` and `designs/`, and the parts of `styles.css` (DSV-3) |

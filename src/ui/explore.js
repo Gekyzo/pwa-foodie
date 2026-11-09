@@ -1,10 +1,13 @@
 import { CUISINES } from '#cuisines';
 import { sortDishes } from '#dishes';
-import { DEFAULT_FILTERS, visiblePlaces } from '#filters';
+import { visiblePlaces } from '#filters';
 import { settle } from '#swipe';
-import { SIDE_BUTTON, DRAG_START, $, el, ui, state, t, render, guardClick } from '#ui/context';
+import { SIDE_BUTTON, DRAG_START, $, el, ui, state, filters, t, render, guardClick, isOn } from '#ui/context';
 import { icon, iconButton } from '#ui/controls';
 import { tile, metaOf, facts, markFavorite, flipFavorite, removePlace, openPlaceSheet } from '#ui/place';
+import { renderChips, refreshFix } from '#ui/filters';
+import { setView } from '#ui/nav';
+import { currentFix } from '#ui/position';
 
 // The star dishes that a card names.
 const CARD_DISHES = 2;
@@ -55,9 +58,9 @@ const bindSwipe = (body, width, id) => {
   body.addEventListener('pointercancel', finish);
 };
 
-// A card: the cuisine tile, the name, the cuisine and the area, the tier and the rating, up to two
-// star dishes and the heart. It slides left to show Delete.
-const card = ({ place }) => {
+// A card: the cuisine tile, the name, the cuisine and the area, the tier, the distance and the
+// rating, up to two star dishes and the heart. It slides left to show Delete.
+const card = ({ place, km }) => {
   const open = ui.openId === place.id;
   const actions = [iconButton('trash', t('place.deleteNamed', { name: place.name }), () => removePlace(place.id), { variant: 'danger' })];
   const width = actions.length * SIDE_BUTTON;
@@ -65,7 +68,7 @@ const card = ({ place }) => {
   const text = el('span', { className: 'place-card-text' }, [
     el('span', { className: 'place-card-name', textContent: place.name }),
     el('span', { className: 'place-card-meta', textContent: metaOf(place) }),
-    el('span', { className: 'place-facts' }, facts(place)),
+    el('span', { className: 'place-facts' }, facts(place, km)),
     ...(stars.length
       ? [el('span', { className: 'place-card-dishes' }, stars.map((dish) => el('span', { className: 'place-card-dish' }, [icon('star', 'small'), el('span', { textContent: dish.name })])))]
       : []),
@@ -93,13 +96,18 @@ const card = ({ place }) => {
 // The cuisine names in the current language, for the search (PLC-17).
 const cuisineNames = () => Object.fromEntries(CUISINES.map(({ id }) => [id, t(`cuisine.${id}`)]));
 
+// True while Explore is in view, so that its open reads the position once (LOC-8).
+let shown = false;
+
 export const renderExplore = () => {
   const visible = ui.view === 'explore';
+  if (visible && !shown) refreshFix();
+  shown = visible;
   $('explore').hidden = !visible;
   $('fab').hidden = !visible || ui.sheet !== null;
   if (ui.openId && !state.places.some((place) => place.id === ui.openId)) ui.openId = null;
-  // Until the filter chips come, the filters are the defaults (PLC-20).
-  const rows = visiblePlaces(state, DEFAULT_FILTERS, { query: ui.query, position: null, names: cuisineNames() });
+  // With no fresh fix a distance filter keeps every place (PLC-18).
+  const rows = visiblePlaces(state, filters, { query: ui.query, position: currentFix()?.location ?? null, names: cuisineNames() });
   $('place-list').replaceChildren(...rows.map(card));
   ui.settleFrom = null;
   const none = state.places.length === 0;
@@ -110,12 +118,16 @@ export const renderExplore = () => {
   }
   $('explore-empty').hidden = !none;
   $('explore-query').hidden = none;
+  $('explore-filters').hidden = none;
+  if (!none) renderChips($('explore-filters'), { mode: 'places' });
+  $('explore-decide').hidden = none || !isOn('roulette');
   $('explore-none').hidden = none || rows.length > 0;
 };
 
 export const bind = () => {
   $('fab').addEventListener('click', () => openPlaceSheet());
   $('explore-add').addEventListener('click', () => openPlaceSheet());
+  $('explore-spin').addEventListener('click', () => setView('roulette'));
   $('explore-query').addEventListener('input', (event) => {
     ui.query = event.target.value;
     render();

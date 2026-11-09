@@ -2,6 +2,7 @@ import { $, ui, storage, t, setRender, render, showToast, hideToast, toastAction
 import { bind as bindNav, renderNav, setView } from '#ui/nav';
 import { bind as bindExplore, renderExplore } from '#ui/explore';
 import { bind as bindPlace, renderPlace, closeSheet } from '#ui/place';
+import { bind as bindFilters, renderFilterSheet, closeFilterSheet } from '#ui/filters';
 import { bind as bindSettings, applyLanguage } from '#ui/settings';
 import { bind as bindInstall, renderInstall } from '#ui/install';
 import { readVersion, renderVersion, offerUpdate } from '#ui/update';
@@ -19,6 +20,7 @@ const renderAll = () => {
   $('title').textContent = t(`nav.${ui.view}`);
   renderExplore();
   renderPlace();
+  renderFilterSheet();
   $('roulette').hidden = ui.view !== 'roulette';
   $('settings').hidden = ui.view !== 'settings';
   renderVersion();
@@ -30,6 +32,7 @@ setRender(renderAll);
 bindNav();
 bindExplore();
 bindPlace();
+bindFilters();
 bindSettings();
 bindInstall();
 bindOnboarding();
@@ -63,7 +66,8 @@ document.addEventListener('keydown', (event) => {
     closeWhatsNew();
     return;
   }
-  if (ui.sheet !== null) closeSheet();
+  if (ui.sheet === 'filter') closeFilterSheet();
+  else if (ui.sheet !== null) closeSheet();
   else if (ui.placeId !== null) {
     ui.placeId = null;
     render();

@@ -11,8 +11,11 @@ import {
   loadModules,
   saveModules,
   loadOnboarded,
+  loadFilters,
+  saveFilters,
   hasStoredDoc,
 } from '#storage';
+import { normalizeFilters } from '#filters';
 import { LANGUAGES, resolveLanguage, translator } from '#i18n';
 import { shouldShow } from '#onboarding';
 
@@ -80,8 +83,10 @@ export const ui = {
   view: 'explore',
   // The place whose detail is open, or null.
   placeId: null,
-  // The open sheet of a place: `place` or `dish`, or null.
+  // The open sheet: `place`, `dish` or `filter`, or null.
   sheet: null,
+  // The part of the filter sheet in view: `price`, `distance`, `cuisine` or `maxPrice`.
+  filter: null,
   // The place that the place sheet edits, or null for a new place.
   editing: null,
   // The dish that the dish sheet edits, or null for a new dish of the open place.
@@ -180,6 +185,13 @@ export const setTheme = (value) => {
 export const setModules = (next) => {
   off = next;
   if (storage) saveModules(storage, off);
+};
+
+// The filters of Explore and the roulette, a preference of the device (PLC-15).
+export let filters = storage ? loadFilters(storage) : normalizeFilters(null);
+export const setFilters = (next) => {
+  filters = normalizeFilters(next);
+  if (storage) saveFilters(storage, filters);
 };
 
 // The last position fix, `{ location, at }`, or null. It lives in memory only (LOC-7).

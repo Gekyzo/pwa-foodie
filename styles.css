@@ -101,6 +101,92 @@
     border-radius: var(--radius-pill);
   }
 
+  /* @component filter-bar
+     @scope explore
+     @summary The filter chips under the search of Explore and of the roulette: one row (cluster scroll) that scrolls sideways. A chip with a value is pressed, in --ink.
+     @part filter-chip  One chip: Price, Max price, Distance, Favourites or Cuisine. A chip that opens the filter sheet has aria-haspopup="dialog".
+     @state data-state  On filter-chip: `waiting` (a dashed border) while the distance has no fix, `error` (a --danger border) after a read that failed.
+     @example <div class="cluster scroll filter-bar" style="width: 100%"><button class="chip filter-chip" type="button" aria-pressed="true"><span>€ – €€</span></button><button class="chip filter-chip" type="button" aria-pressed="false" data-state="waiting"><svg class="icon small" aria-hidden="true"><use href="icons.svg#pin"/></svg><span>&lt; 2 km · no position</span></button><button class="chip filter-chip" type="button" aria-pressed="false" data-state="error"><svg class="icon small" aria-hidden="true"><use href="icons.svg#pin"/></svg><span>No position</span></button><button class="chip filter-chip" type="button" aria-pressed="false"><svg class="icon small" aria-hidden="true"><use href="icons.svg#heart"/></svg><span>Favourites</span></button></div> */
+  .filter-bar {
+    margin: 0 0 var(--space-3);
+    padding-inline-start: var(--space-4);
+  }
+
+  .filter-chip {
+    flex: none;
+    display: inline-flex;
+    align-items: center;
+    gap: var(--space-1);
+    white-space: nowrap;
+  }
+
+  .filter-chip[data-state="waiting"] {
+    border-style: dashed;
+    color: var(--muted);
+  }
+
+  .filter-chip[data-state="error"] {
+    border-color: var(--danger);
+    color: var(--danger);
+  }
+
+  /* @component decide
+     @scope explore
+     @summary The "Can't decide?" card of Explore, in --primary: a title, a line and the button that goes to the roulette. It hides while the roulette module is off.
+     @part decide-text   The title and the line.
+     @part decide-title  The title.
+     @part decide-lead   The line below the title.
+     @example <div class="decide" style="width: 100%"><div class="decide-text"><h2 class="decide-title">Can't decide?</h2><p class="decide-lead">Spin the roulette over the places of these filters.</p></div><button class="button tonal" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#wheel"/></svg><span>Go to the roulette</span></button></div> */
+  .decide {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-3);
+    margin: 0 var(--space-4) var(--space-4);
+    padding: var(--space-4) var(--space-5);
+    border-radius: var(--radius-l);
+    background: var(--primary);
+    color: var(--on-primary);
+  }
+
+  .decide-text {
+    min-width: 0;
+  }
+
+  .decide-title {
+    margin: 0;
+    font-size: var(--text-h);
+    font-weight: var(--weight-strong);
+  }
+
+  .decide-lead {
+    margin: var(--space-1) 0 0;
+    font-size: var(--text-s);
+  }
+
+  /* The --secondary fill of a tonal button is close to --primary, so the button stands on --surface. */
+  .decide > .button.tonal {
+    background: var(--surface);
+    color: var(--text);
+  }
+
+  /* @component filter-sheet
+     @scope explore
+     @summary The parts of the filter sheet: one shows at a time, by the chip that opened it. Price is two tier-pickers (From and To); Distance and Cuisine are clusters of chips; Max price is a price field with Apply.
+     @part filter-part  One part of the sheet.
+     @part filter-hint  A line of help above a field, in muted text.
+     @example <div class="filter-part"><p class="filter-hint">Dishes with no price or a higher price drop out.</p><div class="input-row"><input class="input" type="text" inputmode="decimal" aria-label="Max price"><button class="button primary" type="button">Apply</button></div></div> */
+  .filter-part {
+    min-width: 0;
+  }
+
+  .filter-hint {
+    margin: var(--space-2) 0;
+    color: var(--muted);
+    font-size: var(--text-s);
+  }
+
   /* @component place-list
      @scope explore
      @summary The cards of Explore, newest first. A card slides left to show Delete (item-row-swipe).
@@ -237,7 +323,7 @@
 
   /* @component place-facts
      @scope explore
-     @summary The tier of a place, then its own rating: a star and the number.
+     @summary The tier of a place, its distance from a fresh fix when it has a location, then its own rating: a star and the number.
      @part place-rating  The rating, with its star in --primary.
      @example <p class="place-facts"><span>€€€</span><span class="place-rating"><svg class="icon small" aria-hidden="true"><use href="icons.svg#star"/></svg><span>5</span></span></p> */
   .place-facts {

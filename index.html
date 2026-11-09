@@ -29,6 +29,11 @@
       <section id="explore" class="pane">
         <div class="pane-list">
           <input id="explore-query" class="input explore-search" type="search" autocomplete="off" data-i18n-attr="aria-label:explore.search,placeholder:explore.search">
+          <div id="explore-filters" class="cluster scroll filter-bar" role="group" data-i18n-attr="aria-label:filter.label"></div>
+          <div id="explore-decide" class="decide" role="region" aria-labelledby="explore-decide-title">
+            <div class="decide-text"><h2 id="explore-decide-title" class="decide-title" data-i18n="explore.decideTitle"></h2><p class="decide-lead" data-i18n="explore.decideText"></p></div>
+            <button id="explore-spin" class="button tonal" type="button"><svg class="icon small" aria-hidden="true"><use href="icons.svg#wheel"/></svg><span data-i18n="explore.decideSpin"></span></button>
+          </div>
           <ul id="place-list" class="place-list"></ul>
           <p id="explore-none" class="empty-state inline" data-i18n="explore.noMatch" hidden></p>
           <div id="explore-empty" class="empty-state" hidden>
@@ -202,6 +207,33 @@
       </form>
     </div>
 
+    <div id="filter-sheet" class="sheet-layer" hidden>
+      <div id="filter-veil" class="sheet-veil"></div>
+      <section id="filter-dialog" class="sheet" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title">
+        <div class="sheet-grab"></div>
+        <header class="sheet-head"><h2 id="filter-sheet-title" class="sheet-title main"></h2><button id="filter-close" class="button tonal" type="button" data-i18n="filter.done"></button></header>
+        <div class="sheet-body">
+          <div id="filter-price" class="filter-part" hidden>
+            <fieldset class="place-group">
+              <legend class="field-label" data-i18n="filter.from"></legend>
+              <div class="segmented tier-picker"><button class="segment" type="button" data-from="1" data-i18n="tier.1"></button><button class="segment" type="button" data-from="2" data-i18n="tier.2"></button><button class="segment" type="button" data-from="3" data-i18n="tier.3"></button><button class="segment" type="button" data-from="4" data-i18n="tier.4"></button></div>
+            </fieldset>
+            <fieldset class="place-group">
+              <legend class="field-label" data-i18n="filter.to"></legend>
+              <div class="segmented tier-picker"><button class="segment" type="button" data-to="1" data-i18n="tier.1"></button><button class="segment" type="button" data-to="2" data-i18n="tier.2"></button><button class="segment" type="button" data-to="3" data-i18n="tier.3"></button><button class="segment" type="button" data-to="4" data-i18n="tier.4"></button></div>
+            </fieldset>
+          </div>
+          <div id="filter-distance" class="filter-part cluster" hidden></div>
+          <div id="filter-cuisine" class="filter-part cluster" hidden></div>
+          <form id="filter-max" class="filter-part" autocomplete="off" hidden>
+            <p class="filter-hint" data-i18n="filter.maxPriceHint"></p>
+            <div class="input-row"><input id="filter-max-input" class="input" type="text" inputmode="decimal" maxlength="12" data-i18n-attr="aria-label:filter.maxPrice,placeholder:dish.priceHint"><button class="button primary" type="submit" data-i18n="filter.apply"></button></div>
+          </form>
+        </div>
+        <footer class="sheet-foot"><button id="filter-clear" class="button outline wide" type="button" data-i18n="filter.clear"></button></footer>
+      </section>
+    </div>
+
     <div id="onboarding" class="onboarding" role="dialog" aria-modal="true" data-i18n-attr="aria-label:onboarding.label" hidden>
       <img class="onboarding-logo" src="./icons/logo.png" alt="">
       <div id="onboarding-page" class="onboarding-page">
@@ -282,6 +314,7 @@
           "#ui/explore": "./src/ui/explore.js",
           "#ui/place": "./src/ui/place.js",
           "#ui/position": "./src/ui/position.js",
+          "#ui/filters": "./src/ui/filters.js",
           "#ui/settings": "./src/ui/settings.js",
           "#swipe": "./src/swipe.js",
           "#particles": "./src/particles.js",

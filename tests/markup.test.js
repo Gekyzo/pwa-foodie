@@ -107,6 +107,34 @@ test('Explore is a pane: the search and the cards in the list, the place in the 
   assert.match(section, /<article id="place-detail" class="pane-detail">\s*<button id="place-back" class="button quiet pane-back" type="button" data-i18n="place.back"><\/button>/);
 });
 
+test('Explore has the filter row and the "Can\'t decide?" card under the search (PLC-32, PLC-36)', () => {
+  const [list = ''] = body.match(/<div class="pane-list">[\s\S]*?<ul id="place-list"/) ?? [];
+  assert.match(list, /<div id="explore-filters" class="cluster scroll filter-bar" role="group" data-i18n-attr="aria-label:filter.label"><\/div>/);
+  assert.match(list, /<div id="explore-decide" class="decide"[\s\S]*?<button id="explore-spin" class="button tonal" type="button">[\s\S]*?<span data-i18n="explore.decideSpin"><\/span><\/button>/);
+  assert.ok(list.indexOf('explore-query') < list.indexOf('explore-filters'));
+  assert.ok(list.indexOf('explore-filters') < list.indexOf('explore-decide'));
+});
+
+const filterSheet = () => body.match(/<div id="filter-sheet" class="sheet-layer"[\s\S]*?<\/section>\s*<\/div>/)?.[0] ?? '';
+
+test('the filter sheet has a veil, a dialog with Done, the four parts and Clear filter in its foot (PLC-33)', () => {
+  const layer = filterSheet();
+  assert.match(layer, /<div id="filter-veil" class="sheet-veil">/);
+  assert.match(layer, /<section id="filter-dialog" class="sheet" role="dialog" aria-modal="true" aria-labelledby="filter-sheet-title">/);
+  assert.match(layer, /<header class="sheet-head"><h2 id="filter-sheet-title" class="sheet-title main"><\/h2><button id="filter-close" class="button tonal" type="button" data-i18n="filter.done"><\/button><\/header>/);
+  for (const part of ['price', 'distance', 'cuisine']) assert.match(layer, new RegExp(`<div id="filter-${part}" class="filter-part[^"]*" hidden>`), part);
+  assert.match(layer, /<form id="filter-max" class="filter-part" autocomplete="off" hidden>[\s\S]*?<input id="filter-max-input" class="input" type="text" inputmode="decimal"[\s\S]*?<button class="button primary" type="submit" data-i18n="filter.apply"><\/button>/);
+  assert.match(layer, /<footer class="sheet-foot"><button id="filter-clear" class="button outline wide" type="button" data-i18n="filter.clear"><\/button><\/footer>/);
+});
+
+test('the price part of the filter sheet has From and To, four tiers each (PLC-34)', () => {
+  const [part = ''] = filterSheet().match(/<div id="filter-price"[\s\S]*?<\/div>\s*<\/fieldset>\s*<\/div>/) ?? [];
+  const ends = (name) => [...part.matchAll(new RegExp(`<button class="segment" type="button" data-${name}="(\\d)" data-i18n="tier\\.(\\d)"><\/button>`, 'g'))].map(([, tier, key]) => [tier, key]);
+  const tiers = [['1', '1'], ['2', '2'], ['3', '3'], ['4', '4']];
+  assert.deepEqual(ends('from'), tiers);
+  assert.deepEqual(ends('to'), tiers);
+});
+
 test('the Roulette section is a stub with an empty state that goes to Explore', () => {
   const [section = ''] = body.match(/<section id="roulette" hidden>[\s\S]*?<\/section>/) ?? [];
   assert.match(section, /<div class="empty-state">\s*<p data-i18n="roulette.soon"><\/p>\s*<button id="roulette-explore" class="button primary" type="button" data-i18n="roulette.explore"><\/button>/);
