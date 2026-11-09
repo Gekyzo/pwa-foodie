@@ -165,13 +165,17 @@ section, the `#place-sheet`, the `#dish-sheet` and the `#filter-sheet` of `index
 - **LOC-3** A bare pair is `lat, lng` with optional spaces around the comma, and nothing else in
   the text. A Google Maps URL (a `google.*` host with a `maps.` host or a `/maps` path) is decoded
   first. The pair comes from, in order: `!3d<lat>!4d<lng>`, then `q=`, `query=` or `ll=`, then
-  `@<lat>,<lng>`. A pair out of range is `error.locationInvalid`.
+  `@<lat>,<lng>`. The `q=`, `query=` or `ll=` pair has a decimal point in both numbers and ends
+  the value (end of text, `&` or `#`). The `@` pair counts only on a `/maps/place/` or a bare
+  `/maps/@` path: the centre of a `/maps/dir/` or `/maps/search/` view is not a place. A link with
+  no pair, or a pair out of range, is `error.locationInvalid`.
 - **LOC-4** `distanceKm` is the haversine distance in km, with an earth radius of 6371 km.
   `routeUrl` is `https://www.google.com/maps/dir/?api=1&destination=<lat>,<lng>`.
 - **LOC-5** A position fix is `{ location, at }`. It is fresh when `now - at` is less than
   `FIX_MS` (600000 ms, 10 minutes).
-- **LOC-6** `distanceLabel` below 1 km is `distance.m` with metres rounded to 50 and at least 50.
-  From 1 km it is `distance.km` with km to one decimal.
+- **LOC-6** `distanceLabel` is `distance.m` with metres rounded to 50 and at least 50, while the
+  rounded metres are below 1000. Otherwise it is `distance.km` with km to one decimal, so 0.98 km
+  is 1 km, never 1000 m.
 - **LOC-7** `readPosition` reads the Geolocation API once, with a timeout of 10000 ms and a
   `maximumAge` of 60000 ms. A read that works gives `{ location }` and keeps the fix
   `{ location, at }` in memory (`setFix` of `src/ui/context.js`); it is never stored. A refusal is

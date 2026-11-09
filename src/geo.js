@@ -11,11 +11,11 @@ export const isLocation = (value) =>
 const INVALID = { error: { key: 'error.locationInvalid' } };
 const SHORT_LINK = /(?:^|[/.])maps\.app\.goo\.gl\/|(?:^|[/.])goo\.gl\/maps/i;
 const MAP_HOST = /(?:^|\.)google\.[a-z.]+$/i;
-const PATTERNS = [
-  new RegExp(`!3d${NUM}!4d${NUM}`),
-  new RegExp(`[?&](?:q|query|ll)=${NUM}\\s*,\\s*${NUM}`),
-  new RegExp(`@${NUM},${NUM}`),
-];
+const DEC = '(-?\\d+\\.\\d+)';
+const DATA = new RegExp(`!3d${NUM}!4d${NUM}`);
+const QUERY = new RegExp(`[?&](?:q|query|ll)=${DEC}\\s*,\\s*${DEC}(?:$|[&#])`);
+const AT = new RegExp(`@${NUM},${NUM}`);
+const PLACE_PATH = /^\/maps\/(?:place\/|@)/;
 const BARE_PAIR = new RegExp(`^${NUM}\\s*,\\s*${NUM}$`);
 
 const decode = (text) => {
@@ -40,7 +40,7 @@ const result = (lat, lng) => {
   return isLocation(location) ? { location } : INVALID;
 };
 
-// `{ location }` for a Google Maps URL or a bare "lat, lng" pair, else `{ error }`.
+// `{ location }` for a Google Maps place URL or a bare "lat, lng" pair, else `{ error }`.
 export const parseLocation = (text) => {
   if (typeof text !== 'string') return INVALID;
   const trimmed = text.trim();
@@ -49,11 +49,9 @@ export const parseLocation = (text) => {
   if (bare) return result(bare[1], bare[2]);
   if (!isMapUrl(trimmed)) return INVALID;
   const decoded = decode(trimmed);
-  for (const pattern of PATTERNS) {
-    const match = pattern.exec(decoded);
-    if (match) return result(match[1], match[2]);
-  }
-  return INVALID;
+  const match = DATA.exec(decoded) ?? QUERY.exec(decoded) ??
+    (PLACE_PATH.test(new URL(trimmed).pathname) ? AT.exec(decoded) : null);
+  return match ? result(match[1], match[2]) : INVALID;
 };
 
 const radians = (degrees) => (degrees * Math.PI) / 180;
@@ -73,8 +71,9 @@ export const routeUrl = ({ lat, lng }) =>
 // A fix is `{ location, at }` with `at` in ms.
 export const freshFix = (fix, now) => Boolean(fix) && now - fix.at < FIX_MS;
 
-// Below 1 km: metres rounded to 50, at least 50. Else km with one decimal.
+// Metres rounded to 50, at least 50, while they stay under 1000. Else km with one decimal.
 export const distanceLabel = (km) => {
-  if (km < 1) return { key: 'distance.m', params: { m: Math.max(50, Math.round((km * 1000) / 50) * 50) } };
+  const metres = Math.max(50, Math.round((km * 1000) / 50) * 50);
+  if (metres < 1000) return { key: 'distance.m', params: { m: metres } };
   return { key: 'distance.km', params: { km: Math.round(km * 10) / 10 } };
 };

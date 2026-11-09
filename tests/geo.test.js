@@ -55,6 +55,31 @@ test('distanceKm from Puerta del Sol to Retiro is about 1.64 km', () => {
   assert.equal(distanceKm(sol, sol), 0);
 });
 
+test('a route or a search with text is not a place: error.locationInvalid', () => {
+  for (const text of [
+    'https://www.google.com/maps/dir/40.1,-3.1/41.2,-2.2/@40.5,-3.0,9z',
+    'https://www.google.com/maps/search/Taquer%C3%ADa+del+Sol/@40.41,-3.70,14z',
+  ])
+    assert.deepEqual(parseLocation(text), { error: { key: 'error.locationInvalid' } });
+});
+
+test('a search link with a coordinate query and a bare /maps/@ link still read', () => {
+  assert.deepEqual(parseLocation('https://www.google.com/maps/search/?api=1&query=40.4168,-3.7038'), { location: sol });
+  assert.deepEqual(parseLocation('https://www.google.com/maps/@40.4168,-3.7038,17z'), { location: sol });
+});
+
+test('a q pair needs decimals and must end the value', () => {
+  assert.deepEqual(parseLocation('https://www.google.com/maps?q=12,5+Calle+X'), { error: { key: 'error.locationInvalid' } });
+  assert.deepEqual(parseLocation('https://www.google.com/maps?q=12.1,5.2+Calle+X'), { error: { key: 'error.locationInvalid' } });
+  assert.deepEqual(parseLocation('https://maps.google.com/?q=40.4168,-3.7038&z=15'), { location: sol });
+  assert.deepEqual(parseLocation('https://maps.google.com/?q=40.4168,-3.7038#x'), { location: sol });
+});
+
+test('distanceLabel: 0.98 km rounds to 1.0 km, not 1000 m', () => {
+  assert.deepEqual(distanceLabel(0.98), { key: 'distance.km', params: { km: 1 } });
+  assert.deepEqual(distanceLabel(0.97), { key: 'distance.m', params: { m: 950 } });
+});
+
 test('distanceLabel: metres rounded to 50, minimum 50, else km with one decimal', () => {
   assert.deepEqual(distanceLabel(0.43), { key: 'distance.m', params: { m: 450 } });
   assert.deepEqual(distanceLabel(0.01), { key: 'distance.m', params: { m: 50 } });
