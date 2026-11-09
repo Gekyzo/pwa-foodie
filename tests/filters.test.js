@@ -7,6 +7,7 @@ import {
   fold,
   visiblePlaces,
   candidateDishes,
+  distanceChip,
 } from '#filters';
 
 const here = { lat: 40.4168, lng: -3.7038 };
@@ -180,4 +181,30 @@ test('normalizeFilters keeps good values and sorts tiers', () => {
   assert.equal(normalizeFilters({ favorites: 'yes' }).favorites, false);
   assert.equal(normalizeFilters({ maxPrice: 1.5 }).maxPrice, null);
   assert.deepEqual(normalizeFilters({ tiers: [2] }).tiers, [1, 4]);
+});
+
+test('distanceChip is off with no km and no read (LOC-9)', () => {
+  assert.deepEqual(distanceChip({ km: null, fresh: false, reading: null }), { key: 'filter.distance', params: {}, pressed: false, state: null });
+});
+
+test('distanceChip is pressed while a km filters with a fresh fix', () => {
+  assert.deepEqual(distanceChip({ km: 2, fresh: true, reading: null }), { key: 'filter.within', params: { km: 2 }, pressed: true, state: null });
+});
+
+test('distanceChip waits while a saved km has no fresh fix', () => {
+  assert.deepEqual(distanceChip({ km: 2, fresh: false, reading: null }), { key: 'filter.waiting', params: { km: 2 }, pressed: false, state: 'waiting' });
+});
+
+test('distanceChip shows the read in progress', () => {
+  assert.deepEqual(distanceChip({ km: 2, fresh: true, reading: 'reading' }), { key: 'filter.locating', params: {}, pressed: false, state: 'waiting' });
+});
+
+test('distanceChip shows No position after a failed read when nothing filters', () => {
+  const off = { key: 'filter.noPosition', params: {}, pressed: false, state: 'error' };
+  assert.deepEqual(distanceChip({ km: null, fresh: true, reading: 'error' }), off);
+  assert.deepEqual(distanceChip({ km: 2, fresh: false, reading: 'error' }), off);
+});
+
+test('distanceChip stays pressed with the error mark when the old km still filters', () => {
+  assert.deepEqual(distanceChip({ km: 2, fresh: true, reading: 'error' }), { key: 'filter.within', params: { km: 2 }, pressed: true, state: 'error' });
 });

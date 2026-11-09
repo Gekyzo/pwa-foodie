@@ -16,7 +16,7 @@
 | `src/install.js` | The install offer state machine | nothing |
 | `src/cuisines.js` | The kinds of food of a place and their emoji (PLC-6) | nothing |
 | `src/dishes.js` | Pure dish operations and the price parse (PLC-11 to PLC-14) | `places` |
-| `src/filters.js` | The filters of places and dishes, the search and the order (PLC-15 to PLC-19) | `cuisines`, `geo`, `dishes` |
+| `src/filters.js` | The filters of places and dishes, the search, the order and the distance chip (PLC-15 to PLC-19, LOC-9) | `cuisines`, `geo`, `dishes` |
 | `src/roulette.js` | The candidates of the wheel, the draw and the landing angle (RUL-1 to RUL-9) | `filters`, `cuisines` |
 | `src/geo.js` | The location check, the read of a map link, distances and the route link (LOC-1 to LOC-6) | nothing |
 | `src/places.js` | Pure place operations, the places doc and its validation (PLC-1 to PLC-10) | `config`, `cuisines`, `geo` |
@@ -96,7 +96,7 @@ The doc keys are in [07-places.md](07-places.md). The device preferences are `pw
 |---|---|
 | `tests/cuisines.test.js` | The cuisine list and its texts (PLC-6) |
 | `tests/dishes.test.js` | The dish operations and the price parse (PLC-11 to PLC-14) |
-| `tests/filters.test.js` | The filters, the search and the order (PLC-15 to PLC-19) |
+| `tests/filters.test.js` | The filters, the search, the order and the distance chip (PLC-15 to PLC-19, LOC-9) |
 | `tests/roulette.test.js` | The candidates, the draw and the landing angle (RUL-1 to RUL-9) |
 | `tests/geo.test.js` | The location check, the map link read, distances and fixes (LOC-1 to LOC-6) |
 | `tests/places.test.js` | The place operations and the validation of the doc (PLC-1 to PLC-10) |

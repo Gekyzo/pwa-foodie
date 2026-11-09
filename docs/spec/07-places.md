@@ -182,9 +182,13 @@ section, the `#place-sheet`, the `#dish-sheet` and the `#filter-sheet` of `index
   it was, with no message.
 - **LOC-9** A pick of a distance in the filter sheet closes it and reads the position (LOC-7);
   the chip shows `filter.locating` meanwhile. A read that works sets `km`. A read that fails
-  shows its error in the toast and `filter.noPosition` (`data-state="error"`) on the chip until
-  the next pick, and `km` does not change. **Any** sets `km` to `null` with no read. A saved `km`
-  with no fresh fix shows `filter.waiting` (`data-state="waiting"`) and filters nothing (PLC-18).
+  shows its error in the toast and leaves `km` as it was; the answer of a read that a newer pick
+  followed is ignored. **Any** sets `km` to `null` with no read. `distanceChip` of
+  `src/filters.js` gives the chip, which is pressed exactly when the distance filters: with `km`
+  and a fresh fix it is `filter.within`, pressed, with `data-state="error"` after a failed read;
+  after a failed read with nothing to filter it is `filter.noPosition` (`data-state="error"`); a
+  saved `km` with no fresh fix is `filter.waiting` (`data-state="waiting"`) and filters nothing
+  (PLC-18). The failure mark stays until the next pick or a new fix (LOC-10).
 - **LOC-10** Each time Explore comes into view, also at the start, it calls `silentFix` (LOC-8). A
-  read that gives a new fix renders the screen again, so the distances, the order of PLC-19 and
-  the distance filter use it.
+  read that gives a new fix clears the failure mark of LOC-9 and renders the screen again, so the
+  distances, the order of PLC-19 and the distance filter use it.

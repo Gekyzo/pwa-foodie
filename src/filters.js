@@ -73,3 +73,15 @@ export const candidateDishes = (state, filters, { position = null } = {}) =>
       .filter((dish) => filters.maxPrice === null || (dish.price !== null && dish.price <= filters.maxPrice))
       .map((dish) => ({ place, dish, km })),
   );
+
+// The distance chip, as a message and its marks (LOC-9). `fresh` is true with a fresh fix, and
+// `reading` is `reading` during a read, `error` after a read that failed, else null. The chip is
+// pressed exactly when the distance filters (PLC-18).
+export const distanceChip = ({ km, fresh, reading }) => {
+  if (reading === 'reading') return { key: 'filter.locating', params: {}, pressed: false, state: 'waiting' };
+  const error = reading === 'error';
+  if (km !== null && fresh) return { key: 'filter.within', params: { km }, pressed: true, state: error ? 'error' : null };
+  if (error) return { key: 'filter.noPosition', params: {}, pressed: false, state: 'error' };
+  if (km === null) return { key: 'filter.distance', params: {}, pressed: false, state: null };
+  return { key: 'filter.waiting', params: { km }, pressed: false, state: 'waiting' };
+};

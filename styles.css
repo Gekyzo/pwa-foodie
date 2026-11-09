@@ -105,11 +105,14 @@
      @scope explore
      @summary The filter chips under the search of Explore and of the roulette: one row (cluster scroll) that scrolls sideways. A chip with a value is pressed, in --ink.
      @part filter-chip  One chip: Price, Max price, Distance, Favourites or Cuisine. A chip that opens the filter sheet has aria-haspopup="dialog".
-     @state data-state  On filter-chip: `waiting` (a dashed border) while the distance has no fix, `error` (a --danger border) after a read that failed.
+     @state data-state  On filter-chip: `waiting` (a dashed border) while the distance has no fix or a read runs, `error` (a --danger border) after a read that failed, also on a pressed chip whose older fix still filters.
      @example <div class="cluster scroll filter-bar" style="width: 100%"><button class="chip filter-chip" type="button" aria-pressed="true"><span>€ – €€</span></button><button class="chip filter-chip" type="button" aria-pressed="false" data-state="waiting"><svg class="icon small" aria-hidden="true"><use href="icons.svg#pin"/></svg><span>&lt; 2 km · no position</span></button><button class="chip filter-chip" type="button" aria-pressed="false" data-state="error"><svg class="icon small" aria-hidden="true"><use href="icons.svg#pin"/></svg><span>No position</span></button><button class="chip filter-chip" type="button" aria-pressed="false"><svg class="icon small" aria-hidden="true"><use href="icons.svg#heart"/></svg><span>Favourites</span></button></div> */
   .filter-bar {
     margin: 0 0 var(--space-3);
     padding-inline-start: var(--space-4);
+    /* The last chip clears the fade at the end of the row. */
+    padding-inline-end: var(--space-7);
+    scroll-padding-inline: var(--space-4);
   }
 
   .filter-chip {
@@ -128,6 +131,12 @@
   .filter-chip[data-state="error"] {
     border-color: var(--danger);
     color: var(--danger);
+  }
+
+  /* A pressed chip keeps its --on-ink text for contrast; a --danger ring marks the failed read. */
+  .filter-chip[aria-pressed="true"][data-state="error"] {
+    color: var(--on-ink);
+    box-shadow: 0 0 0 2px var(--danger);
   }
 
   /* @component decide

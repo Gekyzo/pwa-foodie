@@ -1,5 +1,5 @@
 import { CUISINES } from '#cuisines';
-import { DISTANCES, DEFAULT_FILTERS } from '#filters';
+import { DISTANCES, DEFAULT_FILTERS, distanceChip } from '#filters';
 import { parsePrice } from '#dishes';
 import { bindSheetDrag } from '#ds/sheet';
 import { $, el, ui, t, filters, setFilters, apply, render } from '#ui/context';
@@ -12,6 +12,8 @@ import { readPosition, currentFix, silentFix } from '#ui/position';
 
 // The read of the distance chip: `reading` during a read, `error` after a read that failed, else null.
 let reading = null;
+// The number of the last distance pick, so that the answer of an older read is ignored.
+let lastPick = 0;
 
 const sameTiers = (tiers) => tiers[0] === DEFAULT_FILTERS.tiers[0] && tiers[1] === DEFAULT_FILTERS.tiers[1];
 
@@ -28,13 +30,10 @@ const cuisineLabel = (ids) => {
   return t('place.cuisineOption', { emoji: cuisine.emoji, name: t(`cuisine.${cuisine.id}`) });
 };
 
-// The distance chip: off, on, waiting for a fix (PLC-18 filters nothing then), reading, or failed.
-const distanceChip = () => {
-  if (reading === 'reading') return { text: t('filter.locating'), pressed: false, state: 'waiting' };
-  if (reading === 'error') return { text: t('filter.noPosition'), pressed: false, state: 'error' };
-  if (filters.km === null) return { text: t('filter.distance'), pressed: false, state: null };
-  if (!currentFix()) return { text: t('filter.waiting', { km: filters.km }), pressed: false, state: 'waiting' };
-  return { text: t('filter.within', { km: filters.km }), pressed: true, state: null };
+// The distance chip: pressed exactly when the distance filters (LOC-9).
+const distanceMarks = () => {
+  const { key, params, pressed, state } = distanceChip({ km: filters.km, fresh: currentFix() !== null, reading });
+  return { text: t(key, params), pressed, state };
 };
 
 const chip = (name, { text, pressed, state = null, sheet = true, glyph = null }) => {
@@ -55,7 +54,7 @@ export const renderChips = (container, { mode = 'places' } = {}) => {
     ...(mode === 'dishes'
       ? [chip('maxPrice', { text: filters.maxPrice === null ? t('filter.maxPrice') : t('filter.upTo', { price: price(filters.maxPrice) }), pressed: filters.maxPrice !== null })]
       : []),
-    chip('distance', { ...distanceChip(), glyph: 'pin' }),
+    chip('distance', { ...distanceMarks(), glyph: 'pin' }),
     chip('favorites', { text: t('filter.favorites'), pressed: filters.favorites, sheet: false, glyph: 'heart' }),
     chip('cuisine', { text: cuisineLabel(filters.cuisines), pressed: filters.cuisines.length > 0 }),
   ];
@@ -71,6 +70,8 @@ const flipFavorites = () => {
 
 // A read of the position after a tap (LOC-9); its failure shows on the chip and in the toast.
 const pickDistance = async (km) => {
+  lastPick += 1;
+  const pick = lastPick;
   closeFilterSheet();
   if (km === null) {
     reading = null;
@@ -81,6 +82,8 @@ const pickDistance = async (km) => {
   reading = 'reading';
   render();
   const result = await readPosition();
+  // A newer pick owns the chip now.
+  if (pick !== lastPick) return;
   if (result.error) {
     reading = 'error';
     render();
@@ -96,7 +99,10 @@ const pickDistance = async (km) => {
 export const refreshFix = async () => {
   const before = currentFix();
   await silentFix();
-  if (currentFix() !== before) render();
+  if (currentFix() === before) return;
+  // A new fix answers an old failure; a read in progress keeps its state.
+  if (reading === 'error') reading = null;
+  render();
 };
 
 export const openFilterSheet = (name) => {
