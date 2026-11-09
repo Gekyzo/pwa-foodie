@@ -58,6 +58,23 @@ the notes demo goes away.
 - **PLC-14** An unknown place is `error.placeMissing`, as PLC-10 says. A dish id that is not in
   its place is `error.dishMissing`. In both cases the state is the same object. `sortDishes`
   returns the star dishes first and keeps the order inside each group.
+- **PLC-15** The filters are `{ tiers, km, favorites, cuisines, maxPrice }`. The defaults are
+  `tiers` `[1, 4]`, `km` `null`, `favorites` off, `cuisines` empty and `maxPrice` `null`.
+  `normalizeFilters` gives each bad field its default. `tiers` is two integers from 1 to 4, sorted.
+  `km` is 1, 2, 5, 10 or `null`. `cuisines` keeps the known ids. `maxPrice` is an integer number
+  of cents or `null`. The query is not a filter and is not stored.
+- **PLC-16** `visiblePlaces` keeps a place when its tier is inside `tiers`, it is a favourite
+  when `favorites` is on, and its cuisine is in `cuisines` when that list is not empty.
+- **PLC-17** The query is folded: accents removed, lower case, outer spaces trimmed. It matches
+  the name, the area, the cuisine name and the dish names. `names` gives the cuisine text in the
+  current language; with no entry the cuisine id is used. A blank query matches every place.
+- **PLC-18** `km` filters only when a position is given. A place with no location, or farther
+  than `km`, then drops out. With no position the distance filter keeps every place. The `km` of a
+  row is `null` with no position or no location.
+- **PLC-19** The order is by `km` ascending with a position, and places with no location last.
+  With no position it is by `created`, newest first. Ties are by `id`. `candidateDishes` takes the
+  visible places with no query, in that order, and lists their dishes in `sortDishes` order. While
+  `maxPrice` is set, a dish with no price or a price above it drops out.
 
 ## Location
 

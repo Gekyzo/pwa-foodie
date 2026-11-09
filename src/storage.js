@@ -1,5 +1,6 @@
 import { APP_SLUG } from '#config';
 import { MODULES } from '#modules';
+import { DEFAULT_FILTERS, normalizeFilters } from '#filters';
 
 // Every key of this app: `<slug>.<name>`, so two apps of one origin do not share data.
 export const keyOf = (name) => `${APP_SLUG}.${name}`;
@@ -169,6 +170,29 @@ export const saveModules = (storage, off) => {
     const ids = knownModules(off);
     if (ids.length) storage.setItem(MODULES_KEY, JSON.stringify(ids));
     else storage.removeItem(MODULES_KEY);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+// The filters of Explore and the roulette. A preference of the device.
+export const FILTERS_KEY = keyOf('filters');
+
+export const loadFilters = (storage) => {
+  try {
+    return normalizeFilters(JSON.parse(storage.getItem(FILTERS_KEY)));
+  } catch {
+    return normalizeFilters(null);
+  }
+};
+
+// The default filters are the app with no choice: it removes the key.
+export const saveFilters = (storage, filters) => {
+  try {
+    const clean = normalizeFilters(filters);
+    if (JSON.stringify(clean) === JSON.stringify(DEFAULT_FILTERS)) storage.removeItem(FILTERS_KEY);
+    else storage.setItem(FILTERS_KEY, JSON.stringify(clean));
     return true;
   } catch {
     return false;

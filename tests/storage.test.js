@@ -22,10 +22,14 @@ import {
   loadModules,
   saveModules,
   ONBOARDED_KEY, SEEN_VERSION_KEY, loadSeen, saveSeen,
+  FILTERS_KEY,
+  loadFilters,
+  saveFilters,
   loadOnboarded,
   saveOnboarded,
   resetAll,
 } from '#storage';
+import { DEFAULT_FILTERS } from '#filters';
 
 const fakeStorage = (initial = {}) => {
   const data = new Map(Object.entries(initial));
@@ -285,4 +289,24 @@ test('resetAll removes every key of the app, the corrupt copies too, and keeps t
 test('resetAll reports a storage that refuses the removal (SET-2)', () => {
   const storage = { length: 1, key: () => keyOf('lang'), removeItem: () => { throw new Error('denied'); } };
   assert.equal(resetAll(storage), false);
+});
+
+test('loadFilters of nothing or a junk value gives the defaults', () => {
+  assert.deepEqual(loadFilters(fakeStorage()), DEFAULT_FILTERS);
+  assert.deepEqual(loadFilters(fakeStorage({ [FILTERS_KEY]: '{' })), DEFAULT_FILTERS);
+  assert.deepEqual(loadFilters(fakeStorage({ [FILTERS_KEY]: '{"tiers":[9,9],"km":3}' })), DEFAULT_FILTERS);
+});
+
+test('saveFilters stores a choice and removes the key for the defaults', () => {
+  const storage = fakeStorage();
+  const filters = { ...DEFAULT_FILTERS, km: 2, favorites: true };
+  assert.equal(saveFilters(storage, filters), true);
+  assert.deepEqual(loadFilters(storage), filters);
+  assert.equal(saveFilters(storage, DEFAULT_FILTERS), true);
+  assert.equal(storage.getItem(FILTERS_KEY), null);
+});
+
+test('saveFilters returns false when the storage throws', () => {
+  const storage = { setItem() { throw new Error('full'); }, removeItem() { throw new Error('full'); } };
+  assert.equal(saveFilters(storage, { ...DEFAULT_FILTERS, km: 1 }), false);
 });

@@ -12,11 +12,12 @@
 | `src/i18n.js` | The language choice and the translator | `locales/*` |
 | `src/sections.js` | The order of the sections and the rule of the slide between them | nothing |
 | `src/modules.js` | The modules that Settings turns off, and the visible sections | `sections` |
-| `src/storage.js` | Load, save, validation hook, export, import, device preferences | `config`, `modules` |
+| `src/storage.js` | Load, save, validation hook, export, import, device preferences | `config`, `modules`, `filters` |
 | `src/install.js` | The install offer state machine | nothing |
 | `src/notes.js` | Pure note operations, the doc and its validation (demo) | `config` |
 | `src/cuisines.js` | The kinds of food of a place and their emoji (PLC-6) | nothing |
 | `src/dishes.js` | Pure dish operations and the price parse (PLC-11 to PLC-14) | `places` |
+| `src/filters.js` | The filters of places and dishes, the search and the order (PLC-15 to PLC-19) | `cuisines`, `geo`, `dishes` |
 | `src/geo.js` | The location check, the read of a map link, distances and the route link (LOC-1 to LOC-6) | nothing |
 | `src/places.js` | Pure place operations, the places doc and its validation (PLC-1 to PLC-10) | `config`, `cuisines`, `geo` |
 | `src/swipe.js` | The rule that settles the slide of a row (optional) | nothing |
@@ -70,7 +71,7 @@
 ## Storage keys
 
 The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-foodie.lang`,
-`pwa-foodie.hand`, `pwa-foodie.theme`, `pwa-foodie.modules` and `pwa-foodie.onboarded`. The account keeps `pwa-foodie.session` (ACC-5) and
+`pwa-foodie.hand`, `pwa-foodie.theme`, `pwa-foodie.modules`, `pwa-foodie.filters` and `pwa-foodie.onboarded`. The account keeps `pwa-foodie.session` (ACC-5) and
 `pwa-foodie.offline` (ACC-10), and `pwa-foodie.oauth` in `sessionStorage` for the time of a Google redirect (ACC-4).
 
 ## Change guide
@@ -95,6 +96,7 @@ The doc keys are in [07-notes.md](07-notes.md). The device preferences are `pwa-
 | `tests/notes.test.js` | The note operations and the validation of the doc (demo) |
 | `tests/cuisines.test.js` | The cuisine list and its texts (PLC-6) |
 | `tests/dishes.test.js` | The dish operations and the price parse (PLC-11 to PLC-14) |
+| `tests/filters.test.js` | The filters, the search and the order (PLC-15 to PLC-19) |
 | `tests/geo.test.js` | The location check, the map link read, distances and fixes (LOC-1 to LOC-6) |
 | `tests/places.test.js` | The place operations and the validation of the doc (PLC-1 to PLC-10) |
 | `tests/pocketbase.test.js` | The client of the account server and its URL (ACC-3, ACC-4, ACC-6) |
