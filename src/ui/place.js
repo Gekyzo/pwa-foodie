@@ -1,5 +1,5 @@
 import { CUISINES, cuisineOf } from '#cuisines';
-import { addPlace, editPlace, deletePlace, findPlace, toggleFavorite } from '#places';
+import { addPlace, editPlace, deletePlace, findPlace, toggleFavorite, DEFAULT_TIER } from '#places';
 import { addDish, editDish, deleteDish, sortDishes, parsePrice } from '#dishes';
 import { parseLocation, routeUrl, distanceKm, distanceLabel } from '#geo';
 import { bindSheetDrag } from '#ds/sheet';
@@ -9,7 +9,6 @@ import { collapse } from '#ui/motion';
 import { setView } from '#ui/nav';
 import { readPosition, currentFix } from '#ui/position';
 
-const DEFAULT_TIER = 2;
 // The decimals of a location as the sheet shows it: about 1 m.
 const PAIR_DIGITS = 5;
 
@@ -185,6 +184,10 @@ const removeDish = () => {
   closeDishSheet();
   if (!dish) return;
   collapse(shownRow('place-dishes', dishId), () => {
+    if (!findPlace(state, placeId)?.dishes.some((other) => other.id === dishId)) {
+      render();
+      return;
+    }
     apply(deleteDish(state, placeId, dishId), { undoText: t('toast.dishDeleted', { name: dish.name }) });
   });
 };

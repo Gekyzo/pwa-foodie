@@ -15,18 +15,3 @@ export const collapse = (nodes, done) => {
   });
   setTimeout(done, LEAVE_MS);
 };
-
-// Opens rows that a render has just built. It is the opposite of `collapse`.
-export const expand = (nodes) => {
-  if (matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  nodes.forEach((node) => {
-    const still = { minHeight: 0, overflow: 'hidden' };
-    node.animate(
-      [
-        { height: '0px', opacity: 0, ...still },
-        { height: `${node.offsetHeight}px`, opacity: 1, ...still },
-      ],
-      { duration: LEAVE_MS, easing: 'ease-out' },
-    );
-  });
-};

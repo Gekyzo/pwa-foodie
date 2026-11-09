@@ -5,7 +5,7 @@ import { isLocation } from '#geo';
 // The places doc: restaurants and their dishes, newest place first.
 export const PLACES_KEY = `${APP_SLUG}.places`;
 export const LIMITS = { name: 80, area: 60, note: 280 };
-const DEFAULT_TIER = 2;
+export const DEFAULT_TIER = 2;
 
 export const emptyPlaces = () => ({ version: 1, places: [] });
 

@@ -1,7 +1,7 @@
 {
   "name": "pwa-foodie",
   "version": "0.1.1",
-  "description": "Offline Android PWA template: plain HTML, CSS and ES modules, no build step",
+  "description": "Spinach: track restaurants and dishes, filter them and spin a roulette to choose what to eat. Offline Android PWA",
   "private": true,
   "type": "module",
   "engines": {

@@ -25,7 +25,7 @@
 | `src/onboarding.js` | The show rule and the page steps of the walkthrough (optional) | nothing |
 | `src/ui/context.js` | The values that the views share, the filters, the toast, `render`, `commit` and `apply` | `places`, `filters`, `storage`, `i18n`, `onboarding` |
 | `src/ui/controls.js` | The icon builder and the side-action button | `ui/context` |
-| `src/ui/motion.js` | Row collapse and expand animations: a deleted card or dish closes before it leaves | `ui/context` |
+| `src/ui/motion.js` | Row collapse animation: a deleted card or dish closes before it leaves | `ui/context` |
 | `src/ui/update.js` | The version line, the check, the refresh and the update toast | `version`, `i18n`, `ui/context` |
 | `src/ui/install.js` | The Install button | `install`, `ui/context` |
 | `src/ui/nav.js` | The navigation, the change and the slide of a section | `sections`, `modules`, `ui/context`, `ui/update`, `ui/dust` |
