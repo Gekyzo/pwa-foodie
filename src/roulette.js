@@ -44,6 +44,10 @@ export const drawWheel = (items, { random = Math.random, exclude = null } = {}) 
   return { segments, total: pool.length, winner: Math.floor(random() * segments.length) };
 };
 
+// The colour of segment `i` of `count`, 1 to 4: the four wheel colours in turn. The last segment of
+// a count of 4k + 1 is 2 (basil), so that it does not touch the first one in the same colour (RUL-11).
+export const colourOf = (i, count) => (count > 4 && count % 4 === 1 && i === count - 1 ? 2 : (i % 4) + 1);
+
 // The turn in degrees that stops the pointer, at the top, inside segment `winner`.
 export const landingAngle = (winner, count, { turns = 4, random = Math.random } = {}) => {
   const size = 360 / count;

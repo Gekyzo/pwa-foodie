@@ -42,18 +42,19 @@ The wheel that picks a place or a dish from the ones that pass the filters. Its 
   while a result shows, the wheel and the result card stand side by side. At the open of the
   section the position is read with no prompt (LOC-8).
 - **RUL-11** The wheel draws the `segments` of `drawWheel` clockwise from the pointer at the top,
-  in the colours `--wheel-1` to `--wheel-4` in turn. The last segment of a count of 4k + 1 takes
+  in the colours `--wheel-1` to `--wheel-4` in turn (`colourOf`). The last segment of a count of 4k + 1 takes
   `--wheel-2`, so that two neighbours never share a colour. Each segment shows its label, cut with
   an ellipsis, and its emoji at the rim. The text of a segment is in `--on-wheel-1` to
   `--on-wheel-4`, at 4.5:1 or more on its colour in both themes. The wheel is at most
   `--wheel-size` (400px) wide and never wider than the section. Above it, `roulette.count` says
-  "12 of N" when `total` is more than `MAX_SEGMENTS`.
+  "12 of N" when `total` is more than `MAX_SEGMENTS`. The disc is an image (`role="img"`) labelled
+  `roulette.wheel`; the centre button stands out of it, so that a screen reader reaches it.
 - **RUL-12** **Spin** is the centre button. The first spin turns to the winner of the wheel in
   view; a later spin draws again with `exclude` set to `ui.lastWinner` (RUL-5). The disc turns
   forward by `landingAngle` over `SPIN_MS` with an ease-out. While it turns, `ui.spinning` is true
   and the switch, the chips and Spin are disabled. At the end the winner shows in the result card,
-  it becomes `ui.lastWinner`, and the focus goes to the name of the result. With reduced motion
-  the result shows at once (RUL-9).
+  it becomes `ui.lastWinner`, the focus goes to the name of the result, and the whole card
+  scrolls into view. With reduced motion the result shows at once (RUL-9).
 - **RUL-13** With no candidate the wheel and the result hide, and the empty state
   `roulette.emptyTitle` shows `roulette.noPlaces` with no place, else `roulette.emptyPlaces` or
   `roulette.emptyDishes` by the mode, with

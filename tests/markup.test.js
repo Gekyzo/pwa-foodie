@@ -148,7 +148,7 @@ test('the Roulette section has the wheel with its pointer, its disc and the cent
   const [board = ''] = roulette().match(/<div id="roulette-board" class="roulette-board">[\s\S]*?<p class="roulette-hint"/) ?? [];
   assert.match(board, /<h2 id="roulette-title" class="roulette-title"><\/h2>/);
   assert.match(board, /<p id="roulette-count" class="roulette-count" hidden><\/p>/);
-  assert.match(board, /<div id="wheel" class="wheel" role="img">\s*<span class="wheel-pointer"><\/span>\s*<div id="wheel-disc" class="wheel-disc"><\/div>\s*<button id="roulette-spin" class="button wheel-hub" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"\/><\/svg><span data-i18n="roulette.spin"><\/span><\/button>\s*<\/div>/);
+  assert.match(board, /<div id="wheel" class="wheel">\s*<span class="wheel-pointer"><\/span>\s*<div id="wheel-disc" class="wheel-disc" role="img"><\/div>\s*<button id="roulette-spin" class="button wheel-hub" type="button"><svg class="icon" aria-hidden="true"><use href="icons.svg#wheel"\/><\/svg><span data-i18n="roulette.spin"><\/span><\/button>\s*<\/div>/);
 });
 
 test('the result card has the tile, the texts, and Let\'s go, Open and Spin again (RUL-14)', () => {

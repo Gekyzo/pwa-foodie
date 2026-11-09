@@ -1,6 +1,6 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
-import { MAX_SEGMENTS, SPIN_MS, MODES, candidates, drawWheel, landingAngle } from '#roulette';
+import { MAX_SEGMENTS, SPIN_MS, MODES, candidates, drawWheel, landingAngle, colourOf } from '#roulette';
 import { DEFAULT_FILTERS } from '#filters';
 
 const seq = (...values) => { let i = 0; return () => values[i++ % values.length]; };
@@ -96,4 +96,18 @@ test('candidates in dishes mode use the place emoji and label "dish · place"', 
 
 test('candidates is empty with no places', () => {
   assert.deepEqual(candidates({ version: 1, places: [] }, DEFAULT_FILTERS, 'dishes'), []);
+});
+
+test('colourOf gives the four colours in turn, and basil to the last of a count of 4k + 1 (RUL-11)', () => {
+  const colours = (n) => Array.from({ length: n }, (_, i) => colourOf(i, n));
+  assert.deepEqual(colours(2), [1, 2]);
+  assert.deepEqual(colours(4), [1, 2, 3, 4]);
+  assert.deepEqual(colours(5), [1, 2, 3, 4, 2]);
+  assert.deepEqual(colours(9), [1, 2, 3, 4, 1, 2, 3, 4, 2]);
+  assert.deepEqual(colours(12), [1, 2, 3, 4, 1, 2, 3, 4, 1, 2, 3, 4]);
+  // No two neighbours share a colour, the last and the first included.
+  for (let n = 2; n <= 12; n += 1) {
+    const list = colours(n);
+    list.forEach((colour, i) => assert.notEqual(colour, list[(i + 1) % n], `${n}:${i}`));
+  }
 });

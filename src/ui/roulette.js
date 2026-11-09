@@ -1,4 +1,4 @@
-import { MAX_SEGMENTS, SPIN_MS, MODES, candidates, drawWheel, landingAngle } from '#roulette';
+import { MAX_SEGMENTS, SPIN_MS, MODES, candidates, drawWheel, landingAngle, colourOf } from '#roulette';
 import { findPlace } from '#places';
 import { routeUrl, distanceKm } from '#geo';
 import { $, el, ui, state, filters, t, render } from '#ui/context';
@@ -18,6 +18,8 @@ let turn = 0;
 let result = null;
 // The filters and the mode of the last render: a change of either starts the wheel again.
 let seen = { filters: null, mode: null };
+// The wheel whose segments the disc shows, so that a render draws it only when it is new.
+let drawn = null;
 // True while the Roulette is in view, so that its open reads the position once (LOC-8).
 let shown = false;
 
@@ -32,11 +34,10 @@ const keyOf = (items) => items.map(({ id, label, emoji }) => `${id}\n${label}\n$
 
 const prepare = (items) => ({ key: keyOf(items), ...drawWheel(items, { exclude: ui.lastWinner }), spun: false });
 
-// The colour of segment `i` of `count`: the four wheel colours in turn. The last segment of a
-// count of 4k + 1 is basil, so that it does not touch the first one in the same paprika (RUL-11).
-const colourOf = (i, count) => (count > 4 && count % 4 === 1 && i === count - 1 ? 2 : (i % 4) + 1);
-
 const drawDisc = () => {
+  // The labels are the names of the items, in no language: only a new wheel draws them again.
+  if (drawn === wheel) return;
+  drawn = wheel;
   const { segments } = wheel;
   const size = 360 / segments.length;
   // A thin line of --surface starts each segment, so that two warm neighbours stay apart.
@@ -132,7 +133,7 @@ export const renderRoulette = () => {
   $('roulette-count').hidden = wheel.total <= MAX_SEGMENTS;
   $('roulette-count').textContent = t('roulette.count', { shown: wheel.segments.length, total: wheel.total });
   if (!empty && !single) {
-    $('wheel').setAttribute('aria-label', t('roulette.wheel', { count: wheel.segments.length }));
+    $('wheel-disc').setAttribute('aria-label', t('roulette.wheel', { count: wheel.segments.length }));
     drawDisc();
   }
   const disc = $('wheel-disc');
@@ -155,7 +156,9 @@ const land = () => {
   render();
   // The focus that was on a control of the roulette goes to the name of the result.
   const focus = document.activeElement;
-  if (ui.view === 'roulette' && (!focus || focus === document.body || $('roulette').contains(focus))) $('roulette-result-name').focus();
+  if (ui.view === 'roulette' && (!focus || focus === document.body || $('roulette').contains(focus))) $('roulette-result-name').focus({ preventScroll: true });
+  // The whole card comes into view, with its buttons.
+  if (ui.view === 'roulette') $('roulette-result').scrollIntoView({ block: 'nearest', behavior: stillMotion() ? 'auto' : 'smooth' });
 };
 
 // A spin: the pure module draws the winner first, then the disc turns to it (RUL-8, RUL-9).

@@ -24,7 +24,7 @@
     --control: light-dark(#d7ccc8, #4a4039);
     --primary: light-dark(#b33f00, #ff8f59); /* paprika, dark enough for white text: 5.8:1 */
     --on-primary: light-dark(#ffffff, #2a0e00); /* 5.8:1 light, 8.0:1 dark */
-    --paprika: light-dark(#e65100, #ff7a2f); /* the brand hue for art and the wheel, never under text */
+    --paprika: light-dark(#e65100, #ff7a2f); /* the brand hue for art and the wheel; text on it is --on-wheel-1, never white */
     --done: light-dark(#2e7d32, #7cc57f); /* basil */
     --on-done: light-dark(#ffffff, #0b1f0c); /* 5.1:1 light, 8.4:1 dark */
     --done-soft: light-dark(#e8f5e9, #1e3320);
