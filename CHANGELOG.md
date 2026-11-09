@@ -4,6 +4,10 @@ User-visible changes, newest first.
 
 ## Unreleased
 
+No change.
+
+## 0.2.0 - 2026-11-09
+
 - Spinach replaces the notes demo with places, dishes, filters and the roulette. Pure modules `src/places.js`, `src/dishes.js`, `src/geo.js`, `src/filters.js`, `src/roulette.js` and `src/cuisines.js`; the spec documents `07-places.md` (PLC, LOC) and `09-roulette.md` (RUL) replace `07-notes.md`. The doc is `pwa-foodie.places`; Export and Import carry it. Sections are `explore`, `roulette` and `settings`; `roulette` is the one module (NAV-1, MOD-1). The drag module (`src/ui/drag.js`, `src/reorder.js`) is gone.
 - Explore (PLC-20 to PLC-27): `src/ui/explore.js` (cards, search through `visiblePlaces`, empty state, swipe to delete) and `src/ui/place.js` (detail in the `pane`, the place sheet, favourite, delete with Undo, `openPlace`). New icons `compass`, `wheel`, `heart`, `star`; tile tokens `--tile-1` to `--tile-4`.
 - Dishes and the location of a place (PLC-24, PLC-28 to PLC-31, LOC-7, LOC-8): the detail lists the dishes with rating and note and edits them in `#dish-sheet` (`addDish`, `editDish`, `deleteDish` with Undo, the price read by `parsePrice`); the place sheet has a location field (Use my position, a pasted map link read by `parseLocation`, Clear) and the detail a **Route** link (`routeUrl`, new tab) and the distance from a fresh fix. New `src/ui/position.js` (`readPosition`, `currentFix`, `silentFix`; the fix lives in `ui/context.js`, `setFix`). `ui.sheet` names the open sheet (`place`, `dish`, `filter` or null), so Escape closes it. `src/ui/motion.js` `collapse` closes a deleted card or dish row. New icons `route` and `pin`.

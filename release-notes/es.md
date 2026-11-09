@@ -4,6 +4,10 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
+No change.
+
+## 0.2.0 - 2026-11-09
+
 - Spinach ya guarda tus restaurantes. En **Explorar** añades cada sitio con su cocina, zona, precio (€ a €€€€), tu valoración, una nota y dónde está: **Usar mi posición**, o pega un enlace de Google Maps o «lat, lng». Cada sitio es una tarjeta con sus platos estrella y un corazón para tus favoritos. Busca por nombre, zona, cocina o plato, con o sin acentos. Desliza una tarjeta a la izquierda para borrarla, con **Deshacer**.
 - Abre un sitio para ver sus platos y añade más con **Añadir plato**: su precio, tu valoración, una nota y si es un plato estrella. Los platos estrella van primero. **Cómo llegar** abre la ruta en Google Maps.
 - Filtra los sitios con los botones bajo la búsqueda: **Precio**, **Distancia** (menos de 1, 2, 5 o 10 km de donde estás), **Favoritos** y **Cocina**. Con tu posición, cada tarjeta muestra a qué distancia está y los sitios más cerca van primero. Tus filtros se guardan en el móvil.

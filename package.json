@@ -1,6 +1,6 @@
 {
   "name": "pwa-foodie",
-  "version": "0.1.1",
+  "version": "0.2.0",
   "description": "Spinach: track restaurants and dishes, filter them and spin a roulette to choose what to eat. Offline Android PWA",
   "private": true,
   "type": "module",

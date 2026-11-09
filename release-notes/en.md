@@ -4,6 +4,10 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
+No change.
+
+## 0.2.0 - 2026-11-09
+
 - Spinach now keeps your restaurants. In **Explore** you add each place with its cuisine, area, price (€ to €€€€), your rating, a note and where it is: **Use my position**, or paste a Google Maps link or "lat, lng". Each place is a card with its star dishes and a heart for your favourites. Search by name, area, cuisine or dish, with or without accents. Slide a card to the left to delete it, with **Undo**.
 - Open a place to see its dishes and add more with **Add dish**: their price, your rating, a note and whether it is a star dish. Star dishes come first. **Route** opens the directions in Google Maps.
 - Filter the places with the buttons under the search: **Price**, **Distance** (less than 1, 2, 5 or 10 km from you), **Favourites** and **Cuisine**. With your position, each card shows how far it is and the nearest places come first. Your filters stay on the phone.
