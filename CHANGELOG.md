@@ -4,7 +4,10 @@ User-visible changes, newest first.
 
 ## Unreleased
 
-No change.
+- The app moves to `https://spinach.polarisworks.duckdns.org/` and calls the API at
+  `https://api.polarisworks.duckdns.org` (`PRODUCTION_API`, ACC-3). pwa-server serves the legacy
+  `spinach.artisandevs.duckdns.org` in parallel, with no redirect, and its migration 18 moves
+  `apps.url`.
 
 ## 0.2.0 - 2026-11-09
 

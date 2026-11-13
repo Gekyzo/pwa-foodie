@@ -4,7 +4,7 @@ Lo que cambia para ti en cada versión de la app. La versión más nueva va prim
 
 ## Unreleased
 
-No change.
+- Spinach tiene una dirección nueva: `spinach.polarisworks.duckdns.org`. Instala la app desde allí y quita el icono antiguo. Tus sitios solo están en este teléfono: pásalos con **Exportar** en la dirección antigua e **Importar** en la nueva, las dos en **Ajustes**.
 
 ## 0.2.0 - 2026-11-09
 
