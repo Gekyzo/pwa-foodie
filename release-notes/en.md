@@ -4,6 +4,10 @@ What changes for you in each version of the app. The newest version is first.
 
 ## Unreleased
 
+No change.
+
+## 0.2.2 - 2026-11-13
+
 - Spinach has a new address: `spinach.polarisworks.duckdns.org`. Install the app from there and remove the old icon. Your places stay on this phone only, so move them with **Export** on the old address and **Import** on the new one, both in **Settings**.
 
 ## 0.2.0 - 2026-11-09
