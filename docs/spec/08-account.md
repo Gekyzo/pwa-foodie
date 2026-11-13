@@ -46,8 +46,8 @@ two ways in: **Continue with Google**, or **Use offline** with no account.
 ## Set-up outside the app
 
 - The app runs on `https://spinach.artisandevs.duckdns.org/`: Caddy on pwa-server proxies the
-  Pages site `https://polaris-works.github.io/pwa-foodie/`, which serves the same files.
+  Pages site `https://polaris-works.github.io/foodie/`, which serves the same files.
 - The server has a row in `apps`: slug `pwa-foodie`, url `https://spinach.artisandevs.duckdns.org/`.
   `PB_ORIGINS` lists `https://spinach.artisandevs.duckdns.org`.
 - The Google OAuth client has the redirect URIs `https://spinach.artisandevs.duckdns.org/`,
-  `https://polaris-works.github.io/pwa-foodie/` and `http://localhost:8080/` (`npm run serve`).
+  `https://polaris-works.github.io/foodie/` and `http://localhost:8080/` (`npm run serve`).

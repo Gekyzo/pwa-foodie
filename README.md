@@ -37,7 +37,7 @@ The app opens with **Sign in**: **Continue with Google** (an account on the Pock
 both modes; nothing syncs. The rules are in [docs/spec/08-account.md](docs/spec/08-account.md).
 
 The app runs on `https://spinach.artisandevs.duckdns.org/`: Caddy on pwa-server proxies the Pages
-site `https://polaris-works.github.io/pwa-foodie/`. The server slug is `pwa-foodie` (`APP_SLUG`). The
+site `https://polaris-works.github.io/foodie/`. The server slug is `pwa-foodie` (`APP_SLUG`). The
 steps outside the app, which the app does not need to work offline, are in
 [docs/spec/08-account.md](docs/spec/08-account.md) ("Set-up outside the app").
 
